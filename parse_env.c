@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 18:01:40 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 18:59:11 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,6 @@ typedef struct      s_env
     char            *value;
     struct s_env    *next;
 }                   t_env;
-
-size_t		ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
-}
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t destsize)
-{
-	size_t	cnt;
-
-	if (dest == 0 || src == 0)
-		return (0);
-	cnt = 0;
-	while (cnt + 1 < destsize && src[cnt] != 0)
-	{
-		dest[cnt] = src[cnt];
-		cnt++;
-	}
-	if (destsize != 0)
-		dest[cnt] = 0;
-	while (src[cnt])
-		cnt++;
-	return (cnt);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		str_len;
-	char	*str;
-
-	str_len = ft_strlen(s1);
-	str = (char *)malloc(sizeof(char) * (str_len + 1));
-	if (str == 0)
-		return (0);
-	ft_strlcpy(str, s1, str_len + 1);
-	return (str);
-}
 
 char	*ft_strldup(const char *s1, int n)
 {
@@ -78,7 +36,7 @@ char	*ft_strldup(const char *s1, int n)
 	return (str);
 }
 
-char    *find_key(char *str)
+static char    *find_key(char *str)
 {
     char    *result;
     int     i;
@@ -90,7 +48,7 @@ char    *find_key(char *str)
     return (result);
 }
 
-char    *find_value(char *str)
+static char    *find_value(char *str)
 {
     char    *result;
 
