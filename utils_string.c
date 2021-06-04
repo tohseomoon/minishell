@@ -6,11 +6,41 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 14:32:45 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 18:56:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		ft_putchar_fd(*s++, fd);
+}
+
+int		ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if ((unsigned char)s1[i] == (unsigned char)s2[i])
+			i++;
+		else
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (0);
+}
 
 char	*ft_strjoin_free_s1(char **s1, char *s2)
 {
@@ -94,5 +124,21 @@ char	*ft_strdup(const char *s1)
 	if (str == 0)
 		return (0);
 	ft_strlcpy(str, s1, str_len + 1);
+	return (str);
+}
+
+char	*ft_strldup(const char *s1, int n)
+{
+	int		str_len;
+	char	*str;
+
+    str_len = ft_strlen(s1);
+    if (n > str_len)
+        return (0);
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	if (str == 0)
+		return (0);
+	ft_strlcpy(str, s1, n);
+    str[n] = 0;
 	return (str);
 }

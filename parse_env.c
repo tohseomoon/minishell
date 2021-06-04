@@ -6,35 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 18:59:11 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 19:04:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct      s_env
-{
-    char            *key;
-    char            *value;
-    struct s_env    *next;
-}                   t_env;
-
-char	*ft_strldup(const char *s1, int n)
-{
-	int		str_len;
-	char	*str;
-
-    str_len = ft_strlen(s1);
-    if (n > str_len)
-        return (0);
-	str = (char *)malloc(sizeof(char) * (n + 1));
-	if (str == 0)
-		return (0);
-	ft_strlcpy(str, s1, n);
-    str[n] = 0;
-	return (str);
-}
+#include "minishell.h"
 
 static char    *find_key(char *str)
 {
@@ -96,12 +72,4 @@ void    print_env(t_env *env_head)
         printf("=====================================================\n");
         curr = curr->next;
     }
-}
-int     main(int argc, char *argv[], char *env[])
-{
-    t_env   env_head;
-    
-    parse_env(&env_head, env);
-    print_env(&env_head);
-    
 }
