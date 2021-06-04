@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/04 19:12:11 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 19:13:33 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,7 @@ void	            ft_putchar_fd(char c, int fd);
 void	            ft_putstr_fd(char *s, int fd);
 int		            ft_strcmp(char *s1, char *s2);
 
+void	            ft_putchar_fd(char c, int fd);
+void	            ft_putstr_fd(char *s, int fd);
+int		            ft_strcmp(char *s1, char *s2);
 #endif
