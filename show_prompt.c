@@ -43,31 +43,27 @@ void	show_prompt(void)
 	ft_putstr_fd("minishell$ ", STDOUT);
 }
 
-int	get_input(char **input)
+void	get_input(char **input)
 {
-	int	result;
 
-	result = get_next_line(STDIN, input);
+	get_next_line(STDIN, input);
 	if (ft_strcmp(*input, "exit") == 0)
 	{
 		free(*input);
 		printf("exit\n");
 		exit_minishell();
-		return (0);
+		return ;
 	}
 	free(*input);
-	return (1);
 }
 
 int		main(int argc, char **argv, char **envp)
 {
 	char 	*input;
-	int	result;
 
-	result = 1;
-	while (result)
+	while (1)
 	{
 		show_prompt();
-		result = get_input(&input);
+		get_input(&input);
 	}
 }
