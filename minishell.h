@@ -6,16 +6,15 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/04 18:59:43 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 19:12:11 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef "MINISHELL_H"
-# define "MINISHELL_H"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 
 # define BUFFER_SIZE 1024
 # define STDIN 0
@@ -41,6 +40,10 @@ size_t	            ft_strlen(const char *s);
 size_t	            ft_strlcpy(char *dest, const char *src, size_t destsize);
 char	            *ft_strdup(const char *s1);
 
-int			        get_next_line(int fd, char **line)
+int			        get_next_line(int fd, char **line);
+
+void	            ft_putchar_fd(char c, int fd);
+void	            ft_putstr_fd(char *s, int fd);
+int		            ft_strcmp(char *s1, char *s2);
 
 #endif
