@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 17:54:46 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 18:01:40 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,11 @@ int   parse_env(t_env *env_head, char **env)
     return (1);
 }
 
-int     main(int argc, char *argv[], char *env[])
+void    print_env(t_env *env_head)
 {
-    t_env   env_head;
     t_env   *curr;
 
-    parse_env(&env_head, env);
-    curr = env_head.next;
+    curr = env_head->next;
     while (curr)
     {
         printf("=====================================================\n");
@@ -140,5 +138,12 @@ int     main(int argc, char *argv[], char *env[])
         printf("=====================================================\n");
         curr = curr->next;
     }
-    printf("%s\n", argv[0]);
+}
+int     main(int argc, char *argv[], char *env[])
+{
+    t_env   env_head;
+    
+    parse_env(&env_head, env);
+    print_env(&env_head);
+    
 }
