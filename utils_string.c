@@ -6,11 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 18:56:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/04 19:19:58 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "minishell.h"
 
 void	ft_putchar_fd(char c, int fd)
 {

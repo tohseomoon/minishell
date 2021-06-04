@@ -6,11 +6,12 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 19:04:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/04 19:17:35 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include<stdio.h>
 
 static char    *find_key(char *str)
 {

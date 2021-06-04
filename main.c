@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:58:30 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/04 18:58:44 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/04 19:19:44 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	show_prompt(void)
 	ft_putstr_fd("minishell$ ", STDOUT);
 }
 
-void	get_input(char **input)
+void	get_input(char **input, t_env *env_head)
 {
 
 	get_next_line(STDIN, input);
@@ -35,7 +35,7 @@ void	get_input(char **input)
 		return ;
 	}
 	if (ft_strcmp(*input, "env") == 0)
-    		print_env(&env_head);
+    		print_env(env_head);
 	free(*input);
 }
 
@@ -44,10 +44,10 @@ int		main(int argc, char **argv, char **envp)
 	char 	*input;
 	t_env   env_head;
     
-    	parse_env(&env_head, env);
+    	parse_env(&env_head, envp);
 	while (1)
 	{
 		show_prompt();
-		get_input(&input);
+		get_input(&input, &env_head);
 	}
 }

@@ -6,11 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 11:08:13 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 14:33:09 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/04 19:17:19 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "minishell.h"
 
 static int	first_read_buf(int fd, char *buf, char *backup)
 {
