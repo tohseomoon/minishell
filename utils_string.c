@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/04 19:19:58 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/06 14:18:48 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	*ft_strldup(const char *s1, int n)
 	char	*str;
 
     str_len = ft_strlen(s1);
-    if (n > str_len)
+    if (n > str_len + 1)
         return (0);
 	str = (char *)malloc(sizeof(char) * (n + 1));
 	if (str == 0)
