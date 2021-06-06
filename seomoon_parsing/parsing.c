@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/06 14:41:39 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/06 14:46:37 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char		**ft_split(char *str, char sep)
 			quater = *str;
 			str++;
 			j = push_str(split_strs, str, quater, i);
-			str += j;
+			str += (j + 1);
 			i++;
 		}
 		else if (is_seperator(*str, sep)) //seperator
