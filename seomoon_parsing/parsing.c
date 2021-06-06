@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/06 14:09:11 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/06 14:10:41 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ int		is_seperator(char c, char sep)
 	return (0);
 }
 
-char		is_quater(char c)
+int		is_quater(char c)
 {
-	if (c == '\"')
-		return (DOUBLE_QUATER);
-	else if (c == '\'')
-		return (SINGLE_QUATER);
+	if (c == '\"' || c == '\'')
+		return (1);
 	return (0);
 }
 
@@ -50,7 +48,7 @@ int		count_words(char *str, char sep)
 		}
 		if (!is_seperator(str[i], sep) &&
 				(is_seperator(str[i + 1], sep) || str[i + 1] == '\0'))
-			count += 1;
+			count++;
 		i++;
 	}
 	return (count);
