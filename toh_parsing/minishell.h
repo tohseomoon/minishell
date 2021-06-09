@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/08 13:11:02 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/09 13:45:53 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct      s_cmd
     int             fd_out;
     int             flag;
     struct s_cmd    *next;
+    struct s_cmd    *prev;
 }                   t_cmd;
 
 typedef struct      s_data

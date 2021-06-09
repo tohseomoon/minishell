@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <dirent.h>
@@ -164,8 +164,11 @@ void	print_cmd(t_data *data) // cmd변화를 확인하기 위한 print함수
 			printf("[%d] %s\n", i, curr->argv[i]);
 			i++;
 		}
+		printf("pipe[0] : %d\n", curr->pipe[0]);
+		printf("pipe[1] : %d\n", curr->pipe[1]);
 		printf("fd_in : %d\n", curr->fd_in);
 		printf("fd_out : %d\n", curr->fd_out);
+		printf("flag : %d\n", curr->flag);
 		printf("=========================\n");
 		curr = curr->next;
 	}
@@ -174,21 +177,62 @@ void	print_cmd(t_data *data) // cmd변화를 확인하기 위한 print함수
 
 void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조체 셋팅
 {
+	t_cmd	*curr;
+	t_cmd	*tmp;
+	
 	data->cmd_head = (t_cmd *)malloc(sizeof(t_cmd));
-	data->cmd_head->next = (t_cmd *)malloc(sizeof(t_cmd));
-	data->cmd_head->next->argc = 4;
-	data->cmd_head->next->argv = (char **)malloc(sizeof(char *) * 7);
-	data->cmd_head->next->argv[0] = ft_strdup("ls");
-	data->cmd_head->next->argv[1] = ft_strdup("-la");
-	data->cmd_head->next->argv[2] = ft_strdup(">");
-	data->cmd_head->next->argv[3] = ft_strdup("a");
-	data->cmd_head->next->argv[4] = 0;
-	data->cmd_head->next->argv[5] = 0;
-	data->cmd_head->next->argv[6] = 0;
-	data->cmd_head->next->fd_in = 0;
-	data->cmd_head->next->fd_out = 1;
-	data->cmd_head->next->flag = 0;
-	data->cmd_head->next->next = 0;
+	
+	tmp = (t_cmd *)malloc(sizeof(t_cmd));
+	tmp->argc = 2;
+	tmp->argv = (char **)malloc(sizeof(char *) * 7);
+	tmp->argv[0] = ft_strdup("ls");
+	tmp->argv[1] = ft_strdup("-la");
+	tmp->argv[2] = 0;
+	tmp->argv[3] = 0;
+	tmp->argv[4] = 0;
+	tmp->argv[5] = 0;
+	tmp->argv[6] = 0;
+	tmp->fd_in = 0;
+	tmp->fd_out = 1;
+	tmp->flag = 0;
+	tmp->next = 0;
+	tmp->prev = 0;
+	data->cmd_head->next = tmp;
+
+	tmp = (t_cmd *)malloc(sizeof(t_cmd));
+	tmp->argc = 1;
+	tmp->argv = (char **)malloc(sizeof(char *) * 7);
+	tmp->argv[0] = ft_strdup("env");
+	tmp->argv[1] = 0;
+	tmp->argv[2] = 0;
+	tmp->argv[3] = 0;
+	tmp->argv[4] = 0;
+	tmp->argv[5] = 0;
+	tmp->argv[6] = 0;
+	tmp->fd_in = 0;
+	tmp->fd_out = 1;
+	tmp->flag = 1;
+	tmp->next = 0;
+	tmp->prev = data->cmd_head->next;
+	data->cmd_head->next->next = tmp;
+
+	tmp = (t_cmd *)malloc(sizeof(t_cmd));
+	tmp->argc = 4;
+	tmp->argv = (char **)malloc(sizeof(char *) * 7);
+	tmp->argv[0] = ft_strdup("grep");
+	tmp->argv[1] = ft_strdup("HOME");
+	tmp->argv[2] = ft_strdup(">");
+	tmp->argv[3] = ft_strdup("a");
+	tmp->argv[4] = 0;
+	tmp->argv[5] = 0;
+	tmp->argv[6] = 0;
+	tmp->fd_in = 0;
+	tmp->fd_out = 1;
+	tmp->flag = 0;
+	tmp->next = 0;
+	tmp->prev = data->cmd_head->next->next;
+	data->cmd_head->next->next->next = tmp;
+
 }
 
 int		cnt_redirections(t_cmd *curr) // argc수정을 위한 '>' 체크
@@ -219,28 +263,23 @@ void	free_old_cmd_argv(t_cmd *curr) // 기존 argv free
 	while (curr->argv[i])
 	{
 		free(curr->argv[i]);
+		curr->argv[i] = 0;
 		i++;
 	}
 	free(curr->argv);
+	curr->argv = 0;
 }
 
-void	del_redirections(t_cmd *curr) // argv에서 리다이렉션 부분 삭제
+char	**creat_new_argv(t_cmd *curr) // 새로운 argv생성(리다이렉션 제거)
 {
-	// 리다이렉션 이후에는 무조건 파일이름이 온다는 가정(파싱 부분에서 예외처리)
 	char	**new_argv;
-	char	*tmp;
-	int		cnt;
 	int		i;
 	int		j;
-
-	cnt = cnt_redirections(curr);
-	if (cnt == -1)
-		exit(0);
-	curr->argc -= (cnt * 2);
+	
 	new_argv = (char **)malloc(sizeof(char *) * curr->argc + 1);
-	new_argv[curr->argc] = 0;
 	if (new_argv == 0)
-		exit(0);
+		printf("error_allocate\n");
+	new_argv[curr->argc] = 0;
 	i = 0;
 	j = 0;
 	while (curr->argv[i])
@@ -254,6 +293,23 @@ void	del_redirections(t_cmd *curr) // argv에서 리다이렉션 부분 삭제
 			i++;
 		i++;
 	}
+	return (new_argv);
+}
+
+void	del_redirections(t_cmd *curr) // argv에서 리다이렉션 부분 삭제
+{
+	// 리다이렉션 이후에는 무조건 파일이름이 온다는 가정(파싱 부분에서 예외처리)
+	char	**new_argv;
+	char	*tmp;
+	int		cnt;
+	int		i;
+	int		j;
+
+	cnt = cnt_redirections(curr);
+	if (cnt == -1)
+		printf("error_redirection\n");
+	curr->argc -= (cnt * 2);
+	new_argv = creat_new_argv(curr);	
 	free_old_cmd_argv(curr);
 	curr->argv = new_argv;
 }
@@ -282,7 +338,7 @@ int		open_file(t_cmd *curr) // 리다이렉션이 있다면 파일 오픈
 	return (0);
 }
 
-int		find_cmd_path(t_data *data, t_cmd *curr) // 명령어 경로 검색 및 수정
+char	*find_directory(t_data *data, t_cmd *curr) // 명령어 경로 디렉토리 찾아서 문자열 저장
 {
 	DIR				*dp;
 	struct dirent	*entry;
@@ -304,6 +360,14 @@ int		find_cmd_path(t_data *data, t_cmd *curr) // 명령어 경로 검색 및 수
 		closedir(dp);
 		i++;
 	}
+	return (directory);
+}
+
+int		find_cmd_path(t_data *data, t_cmd *curr) // 명령어 경로 검색 및 수정
+{
+	char	*directory;
+
+	directory = find_directory(data, curr);
 	if (directory == 0)
 		return (0);
 	directory = ft_strjoin_free_s1(&directory, "/");
@@ -322,20 +386,46 @@ int		find_absolute_path(t_data *data, t_cmd *curr) //절대경로에 프로그�
 	if (ret == -1)
 		return (0);
 	return (1);
+	// 없을때 에러문구를 메크로로 해야 할 수 있음
 	// 해당 파일이 있다면 리턴 0
 	// 없다면 리턴 -1
+}
+void	check_pipe(t_cmd *curr) // 현재 노드와 전, 후 노드를 확인하여 파이프 처리
+{
+	if (curr->next != 0 && curr->prev == 0)
+	{
+		if (curr->flag == 1)
+			dup2(curr->pipe[1], 1);
+	}
+	else if (curr->next != 0 && curr->prev != 0)
+	{
+		if (curr->flag == 1 && curr->prev->flag == 0)
+			dup2(curr->pipe[1], 1);
+		else if(curr->prev->flag == 1 && curr->flag == 1)
+		{
+			dup2(curr->prev->pipe[0], 0);
+			dup2(curr->pipe[1], 1);
+		}
+	}
+	if (curr->prev != 0)
+	{
+		if (curr->prev->flag == 1 && curr->flag == 0)
+			dup2(curr->prev->pipe[0], 0);
+	}
 }
 
 void	execute_cmd_path(t_cmd *curr, char **envp) // 찾은 경로로 실행
 {
 	pid_t	pid;
 	int		status;
-
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(curr->fd_in, 0);
-		dup2(curr->fd_out, 1);
+		check_pipe(curr);
+		if (curr->fd_in != 0)
+			dup2(curr->fd_in, 0);
+		if (curr->fd_out != 1)
+			dup2(curr->fd_out, 1);
 		if (execve(curr->argv[0], curr->argv, envp) == -1)
 		{
 			printf("error\n");
@@ -344,8 +434,10 @@ void	execute_cmd_path(t_cmd *curr, char **envp) // 찾은 경로로 실행
 	}
 	else
 	{
+		close(curr->pipe[1]); // 파이프를 닫아야 같은 번호로 프로세스끼리 연결 됨
 		waitpid(pid, &status, 0);
-		printf("status : %d\n", status);
+		// printf("status : %d\n", status); status값으로 자식 프로세스의 상태를 받는 것 같음
+		// 에러 처리 할때 사용해야 할 수 있음
 	}
 }
 
@@ -358,10 +450,10 @@ void	execute(t_data *data, char **envp) //실행부분 메인 함수
 	curr = data->cmd_head->next;
 	while (curr)
 	{
+		pipe(curr->pipe);
 		if ((i = open_file(curr)) > 0)
 			printf("bash: %s: No such file or directory\n", curr->argv[i + 1]);
 			  //리다이렉션 체크 후 파일 열기
-			
 		/*
 		else if (billitin_cmd())
 			// if 쉘 빌트인인지 확인
@@ -378,10 +470,9 @@ void	execute(t_data *data, char **envp) //실행부분 메인 함수
 		else
 			printf("bash : %s: command not found\n", curr->argv[0]);
 		curr = curr->next;
-		// 어딘가에 pipe를 넣어야 함
 	}
-
 }
+
 char	*find_path(t_data *data) // env list에서 path 찾아오기
 {
 	t_env	*curr;
@@ -416,9 +507,9 @@ int		main(int argc, char **argv, char **envp) // 일단 돌리기 위해
 	data.env_head = (t_env *)malloc(sizeof(t_env));
 	parse_env(data.env_head, envp);
 	setting_cmd(&data);
-	print_cmd(&data);
+	//print_cmd(&data);
 	data.path = parse_path(&data);
 	execute(&data, envp);
-	print_cmd(&data);
+	//print_cmd(&data);
 	free_data(&data);
 }
