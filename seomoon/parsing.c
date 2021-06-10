@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 21:14:17 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/10 21:31:21 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,21 @@ char		**ft_split(char *str, char sep)
 	return (split_strs);
 }
 
-void		parse_input(t_cmd *cmd_head, char *input)
+char		*replace_env(char *str, t_env *env_head)
+{
+	t_env	*curr;
+
+	curr = env_head->next;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, str + 1) == 0)
+			return (curr->value);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+void		parse_input(t_cmd *cmd_head, t_env *env_head, char *input)
 {
 	int		i;
 	char	**split_strs;
@@ -186,6 +200,12 @@ void		parse_input(t_cmd *cmd_head, char *input)
 	i = 0;
 	while (split_strs[i])
 	{
+		if (split_strs[i][0] == '$')
+		{
+			split_strs[i] = replace_env(split_strs[i], env_head);
+			if (split_strs[i] == NULL)
+				exit(1); //에러 처리 추가하기
+		}
 		printf("%s\n", split_strs[i]);
 		i++;
 	}
