@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:58:30 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/04 20:09:05 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/10 15:06:49 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		main(int argc, char **argv, char **envp)
 	t_env   env_head;
 	t_cmd	cmd_head;
     
-    	parse_env(&env_head, envp);
+    parse_env(&env_head, envp);
 	while (1)
 	{
 		show_prompt();
