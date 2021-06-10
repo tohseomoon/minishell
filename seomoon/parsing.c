@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 20:30:48 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/10 21:14:17 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,44 +117,6 @@ int		push_str(char **split_strs, char *str, char sep, int i)
 	return (j);
 }
 
-int			push_str_double_quote(char **split_strs, char *str, char sep, int i)
-{
-	int	j;
-	int	len;
-
-	len = 0;
-	j = 0;
-	while (str[j] && str[j] != '\"')
-	{
-		if (str[j] == '\\')
-		{
-			printf("here\n");
-			j += 2;
-			len += 1;
-			continue ;
-		}
-		j++;
-		len++;
-	}
-	split_strs[i] = malloc((len + 1) * sizeof(char));
-	if (split_strs[i] == 0)
-		return (0);
-	j = 0;
-	while (*str && *str != '\"')
-	{
-		if (*str == '\\')
-		{
-			printf("here2\n");
-			str++;
-		}
-		split_strs[i][j] = *str;
-		j++;
-		str++;
-	}
-	split_strs[i][j] = '\0';
-	return (j);
-}
-
 char		**ft_split(char *str, char sep)
 {
 	char	**split_strs;
@@ -183,7 +145,7 @@ char		**ft_split(char *str, char sep)
 		else if (*str == '\"')
 		{
 			str++;
-			j = push_str_double_quote(split_strs, str, '\"', i);
+			j = push_str(split_strs, str, '\"', i);
 			str += j;
 			if (*str == '\"')
 				str++;
