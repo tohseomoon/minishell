@@ -6,15 +6,12 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/06 14:46:37 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/10 16:42:44 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include<stdio.h>
-
-# define DOUBLE_QUATER 2
-# define SINGLE_QUATER 1
 
 int		is_seperator(char c, char sep)
 {
@@ -23,7 +20,7 @@ int		is_seperator(char c, char sep)
 	return (0);
 }
 
-int		is_quater(char c)
+int		is_quote(char c)
 {
 	if (c == '\"' || c == '\'')
 		return (1);
@@ -34,7 +31,7 @@ int		count_words(char *str, char sep)
 {
 	int	i;
 	int	count;
-	char	quater;
+	char	quote;
 	int	len;
 
 	i = 0;
@@ -42,10 +39,10 @@ int		count_words(char *str, char sep)
 	len = 0;
 	while (str[i])
 	{
-		if (is_quater(str[i]))
+		if (is_quote(str[i]))
 		{
-			quater = str[i++];
-			while (str[i] && str[i] != quater)
+			quote = str[i++];
+			while (str[i] && str[i] != quote)
 			{
 				len++;
 				i++;
@@ -87,7 +84,7 @@ char		**ft_split(char *str, char sep)
 	int	i;
 	int	j;
 	int	count;
-	char	quater;
+	char	quote;
 
 	count = count_words(str, sep);
 	split_strs = malloc(sizeof(char *) * (count + 1));
@@ -96,17 +93,17 @@ char		**ft_split(char *str, char sep)
 	i = 0;
 	while (*str)
 	{
-		if (is_quater(*str)) //quater
+		if (is_quote(*str))
 		{
-			quater = *str;
+			quote = *str;
 			str++;
-			j = push_str(split_strs, str, quater, i);
+			j = push_str(split_strs, str, quote, i);
 			str += (j + 1);
 			i++;
 		}
-		else if (is_seperator(*str, sep)) //seperator
+		else if (is_seperator(*str, sep))
 			str++;
-		else //else
+		else
 		{
 			j = push_str(split_strs, str, sep, i);
 			str += j;
@@ -117,24 +114,28 @@ char		**ft_split(char *str, char sep)
 	split_strs[i] = NULL;
 	return (split_strs);
 }
-/*
-int		parse_input(t_cmd *cmd_head, char *input)
-{
-	
-	1. input(입력된 커맨드라인)을 스페이스 기준으로 쪼개기
-	2. 이 때, 따옴표 안의 스페이스는 문자열로 처리함
-	3. 쪼갠 인자들을 2차원 배열(문자열 포인터 배열)에 저장하기
-	
-	int	i;
 
-	i = 0;
-	while (input[i])
+void		parse_input(t_cmd *cmd_head, char *input)
+{
+	int		i;
+	char	**split_strs;
+
+	split_strs = ft_split(input, ' ');
+	//각 문자열이 싱글쿼트로 감싸진 문자열인지 더블쿼트로 감싸진 문자열인지 구분이 필요함
+	//싱글쿼터인 경우 전부 문자열로 인식
+	//더블쿼터인 경우 $, \, `를 메타문자로 인식해 따로 처리해줘야 함
+	//빈 문자열은 토큰이 만들어질 수 없음 ("", '' -> 무시하고 넘어가야함)
+	while (split_strs[i])
 	{
-		
+		//escape 문자 처리 (escape 뒤의 quote, escape 등은 문자로 인식)
+		//$환경변수 문자열로 치환하기
+		//백쿼터(`)로 감싸진 문자열은 명령어로 처리
+		//파이프/ NULL 단위로 잘라서 cmd 구조체->argv 배열에 저장
+		//NULL인 경우 next = NULL, NULL이 아닌 경우 next = 다음 cmd구조체 포인터
 	}
 }
-*/
 
+/*
 int		main()
 {
 	//t_cmd	cmd_head;
@@ -154,3 +155,4 @@ int		main()
 	printf("%s\n", input);
 	printf("%d\n", i);
 }
+*/
