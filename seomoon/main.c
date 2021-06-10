@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:58:30 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 15:06:49 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/10 20:26:06 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int		main(int argc, char **argv, char **envp)
 		get_input(&input, &env_head);
 		parse_input(&cmd_head, input);
 		free(input);
-		print_command(cmd_head);
+		//print_command(cmd_head);
 	}
 }

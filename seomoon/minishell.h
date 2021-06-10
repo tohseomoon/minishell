@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/07 21:47:22 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/10 20:29:16 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ int                 ft_strcmp(char *s1, char *s2);
 void                ft_putchar_fd(char c, int fd);
 void                ft_putstr_fd(char *s, int fd);
 int                 ft_strcmp(char *s1, char *s2);
+
+void		parse_input(t_cmd *cmd_head, char *input);
 
 #endif
