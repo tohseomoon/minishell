@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/07 22:01:24 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/10 17:41:14 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,28 @@ int   parse_env(t_env *env_head, char **envp)
     return (1);
 }
 
-void    print_env(t_env *env_head)
+static char     *find_path(t_data *data) // env list에서 path 찾아오기
 {
-    t_env   *curr;
+	t_env	*curr;
+	char	*path;
+	
+	curr = data->env_head->next;
+	while(curr)
+	{
+		if (!ft_strcmp(curr->key, "PATH"))
+			path = ft_strdup(curr->value);
+		curr = curr->next;
+	}
+	return (path);
+}
 
-    curr = env_head->next;
-    while (curr)
-    {
-        printf("=====================================================\n");
-        printf("%s\n", curr->key);
-        printf("%s\n", curr->value);
-        printf("=====================================================\n");
-        curr = curr->next;
-    }
+char	**parse_path(t_data *data) // 찾은 path로 스플릿
+{
+	char	*path;
+	char	**split_path;
+
+	path = find_path(data);
+	split_path = ft_split(path, ':');
+	free(path);
+	return (split_path);
 }
