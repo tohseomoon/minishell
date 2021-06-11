@@ -43,7 +43,7 @@ static char		**creat_new_argv(t_cmd *curr) // 새로운 argv생성(리다이렉�
 	
 	new_argv = (char **)malloc(sizeof(char *) * curr->argc + 1);
 	if (new_argv == 0)
-		printf("error_allocate\n");
+		return (0);
 	new_argv[curr->argc] = 0;
 	i = 0;
 	j = 0;
@@ -53,10 +53,10 @@ static char		**creat_new_argv(t_cmd *curr) // 새로운 argv생성(리다이렉�
 		{
 			new_argv[j] = ft_strdup(curr->argv[i]);
 			j++;
+			i++;
 		}
 		else
-			i++;
-		i++;
+			i += 2;
 	}
 	return (new_argv);
 }
@@ -75,11 +75,12 @@ static void		del_redirections(t_cmd *curr) // argv에서 리다이렉션 부분 
 		printf("error_redirection\n");
 	curr->argc -= (cnt * 2);
 	new_argv = creat_new_argv(curr);	
+
 	free_old_cmd_argv(curr);
 	curr->argv = new_argv;
 }
 
-int		redirection_open_file(t_cmd *curr) // 리다이렉션이 있다면 파일 오픈
+int		redirection_open_file(t_data *data, t_cmd *curr) // 리다이렉션이 있다면 파일 오픈
 {
 	int		i;
 
@@ -87,7 +88,15 @@ int		redirection_open_file(t_cmd *curr) // 리다이렉션이 있다면 파일 �
 	while (curr->argv[i])
 	{
 		if (curr->argv[i][0] == '<')
-			curr->fd_in = open(curr->argv[i + 1], O_RDONLY);
+		{
+			if (curr->argv[i][1] == 0)
+			{
+				curr->fd_in = open(curr->argv[i + 1], O_RDONLY);
+				curr->heredoc = 0;
+			}
+			else if (curr->argv[i][1] == '<')
+				heredoc_cmd(data, curr, i);
+		}
 		else if (curr->argv[i][0] == '>')
 		{
 			if (curr->argv[i][1] == 0)

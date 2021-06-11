@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 17:55:17 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/11 12:54:01 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct      s_cmd
     char            **argv;
     int             argc;
     int             pipe[2];
+    int             heredoc_pipe[2];//임시
+    int             heredoc; //임시
     int             fd_in;
     int             fd_out;
     struct s_cmd    *next;
@@ -78,7 +80,7 @@ char	            **parse_path(t_data *data);
 void	            check_pipe(t_cmd *curr);
 
 //redirection.c
-int		            redirection_open_file(t_cmd *curr);
+int		            redirection_open_file(t_data *data, t_cmd *curr);
 
 //shell_builtin_fun.c
 int		check_shell_builtin(t_cmd *curr);
@@ -96,5 +98,8 @@ void    print_env(t_env *env_head);
 void	free_data(t_data *data);
 void	print_cmd(t_data *data);
 void	setting_cmd(t_data *data);
+
+void	heredoc(t_data *data, t_cmd *curr, int i, int fd);
+void			heredoc_cmd(t_data *data, t_cmd *curr, int i);
 
 #endif
