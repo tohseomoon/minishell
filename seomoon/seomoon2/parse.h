@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 20:58:09 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 21:36:25 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define STDIN	0
 # define STDOUT	1
+# define BUFFER_SIZE 1024
 
 # define S_QUOTE '\''
 # define D_QUOTE '\"'
@@ -45,6 +46,10 @@ typedef struct		s_data
 }					t_data;
 
 
+int			ft_strlen(char *str);
+int		ft_strlcpy(char *dest, char *src, int destsize);
+char		*ft_strdup(char *s1);
+char	*ft_strldup(char *s1, int n);
 int					get_next_line(int fd, char **line);
 
 #endif

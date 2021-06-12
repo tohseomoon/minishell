@@ -6,13 +6,114 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 11:08:13 by toh               #+#    #+#             */
-/*   Updated: 2021/06/12 20:58:24 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 21:35:35 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static int	first_read_buf(int fd, char *buf, char *backup)
+int	ft_strlen( char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
+}
+
+int	ft_strlcpy(char *dest,  char *src, int destsize)
+{
+	int	cnt;
+
+	if (dest == 0 || src == 0)
+		return (0);
+	cnt = 0;
+	while (cnt + 1 < destsize && src[cnt] != 0)
+	{
+		dest[cnt] = src[cnt];
+		cnt++;
+	}
+	if (destsize != 0)
+		dest[cnt] = 0;
+	while (src[cnt])
+		cnt++;
+	return (cnt);
+}
+
+int		ft_strchr_index( char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] != (unsigned char)c)
+	{
+		if (s[i] == 0)
+			return (0);
+		i++;
+	}
+	i++;
+	return (i);
+}
+
+char	*ft_strdup( char *s1)
+{
+	int		str_len;
+	char	*str;
+
+	str_len = ft_strlen(s1);
+	str = (char *)malloc(sizeof(char) * (str_len + 1));
+	if (str == 0)
+		return (0);
+	ft_strlcpy(str, s1, str_len + 1);
+	return (str);
+}
+
+char	*ft_strldup( char *s1, int n)
+{
+	int		str_len;
+	char	*str;
+
+    str_len = ft_strlen(s1);
+    if (n > str_len + 1)
+        return (0);
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	if (str == 0)
+		return (0);
+	ft_strlcpy(str, s1, n);
+    str[n] = 0;
+	return (str);
+}
+
+char	*ft_strjoin_free_s1(char **s1, char *s2)
+{
+	int		s1_len;
+	int		s2_len;
+	char	*result;
+
+	if (*s1 == 0 || s2 == 0)
+	{
+		free(*s1);
+		*s1 = 0;
+		return (0);
+	}
+	s1_len = ft_strlen(*s1);
+	s2_len = ft_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (result == 0)
+	{
+		free(*s1);
+		*s1 = 0;
+		return (0);
+	}
+	ft_strlcpy(result, *s1, s1_len + 1);
+	ft_strlcpy(result + s1_len, s2, s2_len + 1);
+	free(*s1);
+	*s1 = 0;
+	return (result);
+}
+
+ int	first_read_buf(int fd, char *buf, char *backup)
 {
 	int			byte;
 
@@ -26,7 +127,7 @@ static int	first_read_buf(int fd, char *buf, char *backup)
 	return (byte);
 }
 
-static int	read_buf(int fd, char *buf, char **tmp)
+ int	read_buf(int fd, char *buf, char **tmp)
 {
 	int			byte;
 
@@ -40,7 +141,7 @@ static int	read_buf(int fd, char *buf, char **tmp)
 	return (byte);
 }
 
-static int	get_str_line(int fd, char *buf, char **tmp, char **line)
+ int	get_str_line(int fd, char *buf, char **tmp, char **line)
 {
 	int			i;
 	int			byte;
@@ -70,7 +171,7 @@ static int	get_str_line(int fd, char *buf, char **tmp, char **line)
 
 int			get_next_line(int fd, char **line)
 {
-	static char	*backup[20];
+	 char	*backup[20];
 	char		buf[BUFFER_SIZE + 1];
 	char		*tmp;
 	int			result;

@@ -6,17 +6,62 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 20:59:13 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 21:36:00 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include<stdio.h>
 
+char    	*find_key(char *str)
+{
+    char    *result;
+    int     i;
+
+    i = 0;
+    while (str[i] != '=')
+        i++;
+    result = ft_strldup(str, i + 1);
+    return (result);
+}
+
+char    	*find_value(char *str)
+{
+    char    *result;
+
+    while (*str != '=')
+        str++;
+    str++;
+    result = ft_strdup(str);
+    return (result);
+}
+
+int   		parse_env(t_env *env_head, char **env)
+{
+    int     i;
+    t_env   *curr;
+    t_env   *tmp;
+
+    i = 0;
+    curr = env_head;
+    while (env[i])
+    {
+        tmp = (t_env *)malloc(sizeof(t_env));
+        if (tmp == 0)
+            return (0);
+        tmp->key = find_key(env[i]);
+        tmp->value = find_value(env[i]);
+        tmp->next = 0;
+        curr->next = tmp;
+        curr = curr->next;
+        i++;
+    }
+    return (1);
+}
+
 void		exit_shell(char *message) //temporary
 {
-	printf(message);
-	printf("\n");
+	printf("%s\n", message);
 	exit(1);
 }
 
@@ -45,14 +90,19 @@ int			is_command_end(char c)
 	return (0);
 }
 
-int			ft_strlen(char *str)
+void	ft_putchar_fd(char c, int fd)
 {
-	int		len;
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
+}
 
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		ft_putchar_fd(*s++, fd);
 }
 
 int		ft_strcmp(char *s1, char *s2)
@@ -68,25 +118,6 @@ int		ft_strcmp(char *s1, char *s2)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
 	return (0);
-}
-
-int			ft_strlcpy(char *dest, char *src, int destsize)
-{
-	int		cnt;
-
-	if (dest == 0 || src == 0)
-		return (0);
-	cnt = 0;
-	while (cnt + 1 < destsize && src[cnt] != 0)
-	{
-		dest[cnt] = src[cnt];
-		cnt++;
-	}
-	if (destsize != 0)
-		dest[cnt] = 0;
-	while (src[cnt])
-		cnt++;
-	return (cnt);
 }
 
 char		*ft_strtrim(char *str)
@@ -113,8 +144,10 @@ char		*ft_strtrim(char *str)
 int			count_words(char *str)
 {
 	int		i;
+	int		count;
 
 	i = 0;
+	count = 0;
 	while (str[i])
 	{
 		if (!is_seperator(str[i]) &&
@@ -137,7 +170,7 @@ char		*find_env_value(t_env *env_head, char *key)
 			return (curr->value);
 		curr = curr->next;
 	}
-	exit_shell();
+	exit_shell("find_env_value(): cannot find matching value. ");
 	return (NULL);
 }
 
@@ -154,7 +187,7 @@ int			replace_env(t_cmd *curr, char *command, t_env *env_head)
 		len++;
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
-		exit_shell();
+		exit_shell("replace_env(): fail to allocate. ");
 	i = 0;
 	while (i < len)
 		key[i++] = *(command++);
@@ -174,15 +207,15 @@ int			replace_back_quote(t_cmd *curr, char *command)
 	while (command[len] && command[len] != '`')
 		len++;
 	if (command[len] != '`')
-		exit_shell();
+		exit_shell("Back quote not closed. ");
 	cmd = malloc(sizeof(char) * (len + 1));
 	if (!cmd)
-		exit_shell();
+		exit_shell("replace_back_quote(): fail to allocate. ");
 	i = 0;
 	while (i < len)
 		cmd[i++] = *(command++);
 	cmd[i] = '\0';
-	curr->argv[curr->index] = execute_cmd(cmd); //check
+	curr->argv[curr->index] = cmd; // execute_cmd(cmd);
 	return (len);
 }
 
@@ -207,7 +240,7 @@ int			handle_symbol(t_cmd *curr, char *command, t_env *env_head)
 	if (command[i] == '$')
 		i += replace_env(curr, command, env_head);
 	else if (command[i] == '`')
-		i += replace_cmd_out(curr, command);
+		i += replace_back_quote(curr, command);
 	else if (command[i] == '~')
 		i += replace_path_home(curr, env_head);
 	return (i);
@@ -234,13 +267,13 @@ int			handle_single_quote(t_cmd *curr, char *command)
 		command++;
 	}
 	if (*command != S_QUOTE)
-		exit_shell();
+		exit_shell("Single quote not closed. ");
 	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (j);
 }
 
-int			handle_doulbe_quote(t_cmd *curr, char *command, t_env *env_head)
+int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 {
 	int		j;
 	int		len;
@@ -264,7 +297,7 @@ int			handle_doulbe_quote(t_cmd *curr, char *command, t_env *env_head)
 		command++;
 	}
 	if (*command != D_QUOTE)
-		exit_shell();
+		exit_shell("Double quote not closed. ");
 	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (j);
@@ -280,7 +313,7 @@ int			push_arg(t_cmd *curr, char *command)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell();
+		exit_shell("push_arg(): Fail to allocate. ");
 	i = 0;
 	while (i < len)
 	{
@@ -293,25 +326,37 @@ int			push_arg(t_cmd *curr, char *command)
 	return (len);
 }
 
-
 int			split_command(t_cmd *curr, char *command, t_env *env_head)
 {
+	int		i;
+
+	i = 0;
 	curr->index = 0;
 	while (!is_command_end(*command))
 	{
-		if (is_single_quote(*command))
-			command += handle_single_quote(curr, command);
-		else if (is_double_quote(*command))
-			command += handle_double_quote(curr, command, env_head);
+		if (*command == S_QUOTE)
+		{
+			i += handle_single_quote(curr, command);
+			command += i;
+		}
+		else if (*command == D_QUOTE)
+		{
+			i += handle_double_quote(curr, command, env_head);
+			command += i;
+		}
 		else
 		{
 			if (is_symbol(*command))
 			{
-				command += handle_symbol(curr, command, env_head);
+				i += handle_symbol(curr, command, env_head);
+				command += i;
 				curr->index++;
 			}
 			else
-				command += push_arg(curr, command); 
+			{
+				i += push_arg(curr, command);
+				command += i;
+			}
 		}
 	}
 	curr->argv[curr->index] = NULL;
@@ -351,7 +396,7 @@ int			read_command(char **command, t_env *env_head)
 
 void		show_prompt(void)
 {
-	printf("[minishell]$ ", STDOUT);
+	ft_putstr_fd("[minishell]$ ", STDOUT);
 }
 
 int			main(int argc, char **argv, char **envp)
@@ -366,7 +411,7 @@ int			main(int argc, char **argv, char **envp)
 		show_prompt();
 		if (read_command(&command, &env_head) == -1)
 			exit_shell("Fail to read command line. ");
-		parse_command(&cmd_head, &env_head, command);
+		parse_command(&cmd_head, command, &env_head);
 		free(command);
 		//print_command(&cmd_head);
 	}
