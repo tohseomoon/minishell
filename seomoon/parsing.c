@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 18:25:09 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 21:31:21 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 12:12:01 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,7 @@ char		**ft_split(char *str, char sep)
 		if (*str == '\'')
 		{
 			str++;
-			j = push_str(split_strs, str, '\'', i);
-			str += j;
+			str += push_str(split_strs, str, '\'', i);
 			if (*str == '\'')
 				str++;
 			else //에러처리해주기
@@ -145,8 +144,7 @@ char		**ft_split(char *str, char sep)
 		else if (*str == '\"')
 		{
 			str++;
-			j = push_str(split_strs, str, '\"', i);
-			str += j;
+			str += push_str(split_strs, str, '\"', i);
 			if (*str == '\"')
 				str++;
 			else
