@@ -6,9 +6,19 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 20:13:45 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 20:59:13 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "parse.h"
+#include<stdio.h>
+
+void		exit_shell(char *message) //temporary
+{
+	printf(message);
+	printf("\n");
+	exit(1);
+}
 
 //parse_utils.c
 
@@ -26,6 +36,57 @@ int			is_seperator(char c)
 	else if (is_space(c))
 		return (1);
 	return (0);
+}
+
+int			is_command_end(char c)
+{
+	if (c == '\0' || c == '|')
+		return (1);
+	return (0);
+}
+
+int			ft_strlen(char *str)
+{
+	int		len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
+int		ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if ((unsigned char)s1[i] == (unsigned char)s2[i])
+			i++;
+		else
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (0);
+}
+
+int			ft_strlcpy(char *dest, char *src, int destsize)
+{
+	int		cnt;
+
+	if (dest == 0 || src == 0)
+		return (0);
+	cnt = 0;
+	while (cnt + 1 < destsize && src[cnt] != 0)
+	{
+		dest[cnt] = src[cnt];
+		cnt++;
+	}
+	if (destsize != 0)
+		dest[cnt] = 0;
+	while (src[cnt])
+		cnt++;
+	return (cnt);
 }
 
 char		*ft_strtrim(char *str)
@@ -65,6 +126,21 @@ int			count_words(char *str)
 }
 
 //parse_symbol.c
+char		*find_env_value(t_env *env_head, char *key)
+{
+	t_env	*curr;
+
+	curr = env_head->next;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, key) == 0)
+			return (curr->value);
+		curr = curr->next;
+	}
+	exit_shell();
+	return (NULL);
+}
+
 int			replace_env(t_cmd *curr, char *command, t_env *env_head)
 {
 	int		i;
@@ -106,7 +182,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 	while (i < len)
 		cmd[i++] = *(command++);
 	cmd[i] = '\0';
-	curr->argv[curr->index] = execute_cmd(cmd);
+	curr->argv[curr->index] = execute_cmd(cmd); //check
 	return (len);
 }
 
@@ -194,6 +270,30 @@ int			handle_doulbe_quote(t_cmd *curr, char *command, t_env *env_head)
 	return (j);
 }
 
+int			push_arg(t_cmd *curr, char *command)
+{
+	int		i;
+	int		len;
+
+	len = 0;
+	while (command[len] && !is_seperator(command[len]))
+		len++;
+	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
+	if (!curr->argv[curr->index])
+		exit_shell();
+	i = 0;
+	while (i < len)
+	{
+		curr->argv[curr->index][i] = *command;
+		i++;
+		command++;
+	}
+	curr->argv[curr->index][i] = '\0';
+	curr->index++;
+	return (len);
+}
+
+
 int			split_command(t_cmd *curr, char *command, t_env *env_head)
 {
 	curr->index = 0;
@@ -211,7 +311,7 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 				curr->index++;
 			}
 			else
-				command += push_arg(curr, command); //curr->index++;
+				command += push_arg(curr, command); 
 		}
 	}
 	curr->argv[curr->index] = NULL;
@@ -240,4 +340,35 @@ void		parse_command(t_cmd *cmd_head, char *command, t_env *env_head)
 		else if (command[i] == '\0')
 			curr->next = NULL;
 	}
+}
+
+int			read_command(char **command, t_env *env_head)
+{
+	if (get_next_line(STDIN, command) == -1)
+		return (-1);
+	return (0);
+}
+
+void		show_prompt(void)
+{
+	printf("[minishell]$ ", STDOUT);
+}
+
+int			main(int argc, char **argv, char **envp)
+{
+	char	*command;
+	t_env	env_head;
+	t_cmd	cmd_head;
+
+	parse_env(&env_head, envp);
+	while (1)
+	{
+		show_prompt();
+		if (read_command(&command, &env_head) == -1)
+			exit_shell("Fail to read command line. ");
+		parse_command(&cmd_head, &env_head, command);
+		free(command);
+		//print_command(&cmd_head);
+	}
+	return (0);
 }
