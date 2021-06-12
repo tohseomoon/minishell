@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 18:24:21 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/12 20:13:45 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,76 @@ int			count_words(char *str)
 }
 
 //parse_symbol.c
-int			is_symbol()
+int			replace_env(t_cmd *curr, char *command, t_env *env_head)
 {
+	int		i;
+	int		len;
+	char	*key;
 
+	command++;
+	len = 0;
+	while (command[len] && !is_space(command[len]) &&
+			command[len] != D_QUOTE)
+		len++;
+	key = malloc(sizeof(char) * (len + 1));
+	if (!key)
+		exit_shell();
+	i = 0;
+	while (i < len)
+		key[i++] = *(command++);
+	key[i] = '\0';
+	curr->argv[curr->index] = find_env_value(env_head, key);
+	return (len);
 }
 
-int			handle_symbol()
+int			replace_back_quote(t_cmd *curr, char *command)
 {
+	int		i;
+	int		len;
+	char	*cmd;
 
+	command++;
+	len = 0;
+	while (command[len] && command[len] != '`')
+		len++;
+	if (command[len] != '`')
+		exit_shell();
+	cmd = malloc(sizeof(char) * (len + 1));
+	if (!cmd)
+		exit_shell();
+	i = 0;
+	while (i < len)
+		cmd[i++] = *(command++);
+	cmd[i] = '\0';
+	curr->argv[curr->index] = execute_cmd(cmd);
+	return (len);
+}
+
+int			replace_path_home(t_cmd *curr, t_env *env_head)
+{
+	curr->argv[curr->index] = find_env_value(env_head, "HOME");
+	return (ft_strlen(curr->argv[curr->index]));
+}
+
+int			is_symbol(char c)
+{
+	if (c == '$' || c == '`' || c == '~')
+		return (1);
+	return (0);
+}
+
+int			handle_symbol(t_cmd *curr, char *command, t_env *env_head)
+{
+	int		i;
+
+	i = 0;
+	if (command[i] == '$')
+		i += replace_env(curr, command, env_head);
+	else if (command[i] == '`')
+		i += replace_cmd_out(curr, command);
+	else if (command[i] == '~')
+		i += replace_path_home(curr, env_head);
+	return (i);
 }
 
 //parse_quote.c
@@ -102,7 +164,7 @@ int			handle_single_quote(t_cmd *curr, char *command)
 	return (j);
 }
 
-int			handle_doulbe_quote(t_cmd *curr, char *command)
+int			handle_doulbe_quote(t_cmd *curr, char *command, t_env *env_head)
 {
 	int		j;
 	int		len;
@@ -120,7 +182,7 @@ int			handle_doulbe_quote(t_cmd *curr, char *command)
 		if (*command == ESCAPE)
 			command++;
 		else if (is_symbol(*command))
-			handle_symbol();
+			command += handle_symbol(curr, command, env_head);
 		curr->argv[curr->index][j] = *command;
 		j++;
 		command++;
@@ -132,7 +194,7 @@ int			handle_doulbe_quote(t_cmd *curr, char *command)
 	return (j);
 }
 
-int			split_command(t_cmd *curr, char *command)
+int			split_command(t_cmd *curr, char *command, t_env *env_head)
 {
 	curr->index = 0;
 	while (!is_command_end(*command))
@@ -140,20 +202,23 @@ int			split_command(t_cmd *curr, char *command)
 		if (is_single_quote(*command))
 			command += handle_single_quote(curr, command);
 		else if (is_double_quote(*command))
-			command += handle_double_quote(curr, command);
+			command += handle_double_quote(curr, command, env_head);
 		else
 		{
 			if (is_symbol(*command))
-				command += handle_symbol(curr, command);
+			{
+				command += handle_symbol(curr, command, env_head);
+				curr->index++;
+			}
 			else
-				command += push_arg(curr, command);
+				command += push_arg(curr, command); //curr->index++;
 		}
 	}
 	curr->argv[curr->index] = NULL;
 	return (i);
 }
 
-void		parse_command(t_cmd *cmd_head, char *command)
+void		parse_command(t_cmd *cmd_head, char *command, t_env *env_head)
 {
 	int		i;
 	t_cmd	*curr;
@@ -166,7 +231,7 @@ void		parse_command(t_cmd *cmd_head, char *command)
 		command = ft_strtrim(command + i);
 		curr->argc = count_words(command);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
-		i += split_command(curr, command);
+		i += split_command(curr, command, env_head);
 		if (command[i] == '|')
 		{
 			curr->next = malloc(sizeof(t_cmd));
