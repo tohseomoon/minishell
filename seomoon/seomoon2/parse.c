@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 16:22:49 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 18:06:38 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,14 @@ int			replace_env(t_cmd *curr, char *command, t_env *env_head)
 		exit_shell("replace_env(): fail to allocate. ");
 	i = 0;
 	while (i < len)
-		key[i++] = *(command++);
+	{
+		key[i] = command[i];
+		i++;
+	}
 	key[i] = '\0';
+	// 메모리 누수 가능성 있음
 	curr->argv[curr->index] = find_env_value(env_head, key);
-	return (len);
+	return (len + 1);
 }
 
 int			replace_back_quote(t_cmd *curr, char *command)
@@ -140,7 +144,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 		cmd[i++] = *(command++);
 	cmd[i] = '\0';
 	curr->argv[curr->index] = cmd; // execute_cmd(cmd);
-	return (len);
+	return (len + 2);
 }
 
 int			replace_path_home(t_cmd *curr, t_env *env_head)
@@ -206,6 +210,7 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 	len = 0;
 	while (command[len] && command[len] != D_QUOTE)
 		len++;
+	printf("curr->index: %d\n", curr->index);
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (curr->argv[curr->index] == 0)
 		return (-1);
@@ -215,10 +220,16 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 		if (*command == ESCAPE)
 			command++;
 		else if (is_symbol(*command))
-			command += handle_symbol(curr, command, env_head);
-		curr->argv[curr->index][j] = *command;
-		j++;
-		command++;
+		{
+			j += handle_symbol(curr, command, env_head);
+			command += j;
+		}
+		else
+		{
+			curr->argv[curr->index][j] = *command;
+			j++;
+			command++;
+		}
 	}
 	if (*command != D_QUOTE)
 		exit_shell("Double quote not closed. ");
@@ -261,7 +272,10 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 		if (command[i] == S_QUOTE)
 			i += handle_single_quote(curr, command + i);
 		else if (command[i] == D_QUOTE)
+		{
 			i += handle_double_quote(curr, command + i, env_head);
+			printf("after dquote: %c\n", command[i]);
+		}
 		else
 		{
 			if (is_symbol(*command))
