@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 20:23:32 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 20:29:09 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,26 +222,14 @@ int			push_arg_quote(t_cmd *curr, char *command, char quote)
 //parse_quote.c
 int			handle_single_quote(t_cmd *curr, char *command)
 {
-	int		len;
 	int		j;
 
 	command++;
-	len = 0;
-	while (command[len] && command[len] != S_QUOTE)
-		len++;
-	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
-	if (curr->argv[curr->index] == 0)
-		return (-1);
 	j = 0;
-	while (*command && *command != S_QUOTE)
-	{
-		curr->argv[curr->index][j] = *command;
-		j++;
-		command++;
-	}
-	if (*command != S_QUOTE)
+	while (command[j] && command[j] != S_QUOTE)
+		j += push_arg_quote(curr, command, S_QUOTE);
+	if (command[j] != S_QUOTE)
 		exit_shell("Single quote not closed. ");
-	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (j + 2);
 }
