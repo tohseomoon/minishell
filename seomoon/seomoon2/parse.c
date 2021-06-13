@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 15:45:14 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:22:49 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			count_words(char *str)
 
 	i = 0;
 	count = 0;
-	while (str[i])
+	while (str[i] && !is_command_end(str[i]))
 	{
 		if (!is_seperator(str[i]) &&
 				(is_seperator(str[i + 1]) || str[i + 1] == '\0'))
@@ -258,8 +258,6 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 	curr->index = 0;
 	while (command[i] && !is_command_end(command[i]))
 	{
-		while (command[i] && is_space(command[i]))
-			i++;
 		if (command[i] == S_QUOTE)
 			i += handle_single_quote(curr, command + i);
 		else if (command[i] == D_QUOTE)
@@ -274,6 +272,8 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 			else
 				i += push_arg(curr, command + i);
 		}
+		while (command[i] && is_space(command[i]))
+			i++;
 	}
 	curr->argv[curr->index] = NULL;
 	return (i);
@@ -292,11 +292,12 @@ void		parse_command(t_cmd *cmd_head, char *command, t_env *env_head)
 		command = ft_strtrim(command + i);
 		curr->argc = count_words(command);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
-		i += split_command(curr, command, env_head);
+		i = split_command(curr, command, env_head);
 		if (command[i] == '|')
 		{
 			curr->next = malloc(sizeof(t_cmd));
 			curr = curr->next;
+			i++;
 		}
 		else if (command[i] == '\0')
 			curr->next = NULL;
@@ -324,9 +325,10 @@ void		print_command(t_cmd *cmd_head)
 	curr = cmd_head->next;
 	while (curr)
 	{
+		i = 0;
 		while (i < curr->argc)
 		{
-			printf("%s\n", curr->argv[i]);
+			printf("argv[%d]: %s\n", i, curr->argv[i]);
 			i++;
 		}
 		curr = curr->next;
