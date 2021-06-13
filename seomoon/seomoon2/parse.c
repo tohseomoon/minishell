@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 20:50:45 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 21:02:30 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,17 @@ int			replace_back_quote(t_cmd *curr, char *command)
 	return (len + 2);
 }
 
+/*
 int			replace_path_home(t_cmd *curr, t_env *env_head)
 {
 	curr->argv[curr->index] = find_env_value(env_head, "HOME");
 	return (ft_strlen(curr->argv[curr->index]));
 }
+*/
 
 int			is_symbol(char c)
 {
-	if (c == '$' || c == '`' || c == '~')
+	if (c == '$' || c == '`')
 		return (1);
 	return (0);
 }
@@ -169,8 +171,6 @@ int			handle_symbol(t_cmd *curr, char *command, t_env *env_head)
 		i += replace_env(curr, command, env_head);
 	else if (command[i] == '`')
 		i += replace_back_quote(curr, command);
-	else if (command[i] == '~')
-		i += replace_path_home(curr, env_head);
 	curr->index++;
 	return (i);
 }
