@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 21:02:30 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 21:11:11 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,10 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 	while (command[i] && command[i] != D_QUOTE)
 	{
 		if (command[i] == ESCAPE)
+		{
 			i++;
+			i += push_arg_quote(curr, command + i, D_QUOTE);
+		}
 		else if (is_symbol(command[i]))
 			i += handle_symbol(curr, command + i, env_head);
 		else
