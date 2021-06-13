@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 18:06:38 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 20:14:28 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,51 @@ int			handle_symbol(t_cmd *curr, char *command, t_env *env_head)
 	return (i);
 }
 
+int			push_arg(t_cmd *curr, char *command)
+{
+	int		i;
+	int		len;
+
+	len = 0;
+	while (command[len] && !is_seperator(command[len]))
+		len++;
+	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
+	if (!curr->argv[curr->index])
+		exit_shell("push_arg(): Fail to allocate. ");
+	i = 0;
+	while (*command && !is_seperator(*command))
+	{
+		curr->argv[curr->index][i] = *command;
+		i++;
+		command++;
+	}
+	curr->argv[curr->index][i] = '\0';
+	curr->index++;
+	return (i);
+}
+
+int			push_arg_quote(t_cmd *curr, char *command, char quote)
+{
+	int		i;
+	int		len;
+
+	len = 0;
+	while (command[len] && command[len] != quote)
+		len++;
+	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
+	if (!curr->argv[curr->index])
+		exit_shell("push_arg_quote(): Fail to allocate. ");
+	i = 0;
+	while (*command && *command != quote)
+	{
+		curr->argv[curr->index][i] = *command;
+		i++;
+		command++;
+	}
+	curr->argv[curr->index][i] = '\0';
+	return (i);
+}
+
 //parse_quote.c
 int			handle_single_quote(t_cmd *curr, char *command)
 {
@@ -210,10 +255,11 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 	len = 0;
 	while (command[len] && command[len] != D_QUOTE)
 		len++;
-	printf("curr->index: %d\n", curr->index);
+	/*
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (curr->argv[curr->index] == 0)
 		return (-1);
+	*/
 	j = 0;
 	while (*command && *command != D_QUOTE)
 	{
@@ -226,39 +272,14 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 		}
 		else
 		{
-			curr->argv[curr->index][j] = *command;
-			j++;
-			command++;
+			j += push_arg_quote(curr, command, D_QUOTE);
+			command += j;
 		}
 	}
 	if (*command != D_QUOTE)
 		exit_shell("Double quote not closed. ");
-	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (j + 2);
-}
-
-int			push_arg(t_cmd *curr, char *command)
-{
-	int		i;
-	int		len;
-
-	len = 0;
-	while (command[len] && !is_seperator(command[len]))
-		len++;
-	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
-	if (!curr->argv[curr->index])
-		exit_shell("push_arg(): Fail to allocate. ");
-	i = 0;
-	while (*command && !is_seperator(*command))
-	{
-		curr->argv[curr->index][i] = *command;
-		i++;
-		command++;
-	}
-	curr->argv[curr->index][i] = '\0';
-	curr->index++;
-	return (i);
 }
 
 int			split_command(t_cmd *curr, char *command, t_env *env_head)
@@ -272,10 +293,7 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 		if (command[i] == S_QUOTE)
 			i += handle_single_quote(curr, command + i);
 		else if (command[i] == D_QUOTE)
-		{
 			i += handle_double_quote(curr, command + i, env_head);
-			printf("after dquote: %c\n", command[i]);
-		}
 		else
 		{
 			if (is_symbol(*command))
