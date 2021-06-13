@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 21:36:25 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 12:56:41 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <unistd.h>
 # include <stdlib.h>
+# include<stdio.h>
 
 # define STDIN	0
 # define STDOUT	1
@@ -46,10 +47,20 @@ typedef struct		s_data
 }					t_data;
 
 
-int			ft_strlen(char *str);
-int		ft_strlcpy(char *dest, char *src, int destsize);
-char		*ft_strdup(char *s1);
-char	*ft_strldup(char *s1, int n);
-int					get_next_line(int fd, char **line);
+// env
+int                 parse_env(t_env *env_head, char **env);
+void                print_env(t_env *env_head);
+
+// get_next_line, utils
+size_t              ft_strlen(const char *s);
+size_t              ft_strlcpy(char *dest, const char *src, size_t destsize);
+char                *ft_strdup(const char *s1);
+char                *ft_strldup(const char *s1, int n);
+void                ft_putchar_fd(char c, int fd);
+void                ft_putstr_fd(char *s, int fd);
+int                 ft_strcmp(char *s1, char *s2);
+char                *ft_strjoin_free_s1(char **s1, char *s2);
+int                 ft_strchr_index(const char *s, int c);
+int                 get_next_line(int fd, char **line);
 
 #endif

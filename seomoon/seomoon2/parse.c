@@ -6,58 +6,11 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/12 21:36:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 13:00:41 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
-#include<stdio.h>
-
-char    	*find_key(char *str)
-{
-    char    *result;
-    int     i;
-
-    i = 0;
-    while (str[i] != '=')
-        i++;
-    result = ft_strldup(str, i + 1);
-    return (result);
-}
-
-char    	*find_value(char *str)
-{
-    char    *result;
-
-    while (*str != '=')
-        str++;
-    str++;
-    result = ft_strdup(str);
-    return (result);
-}
-
-int   		parse_env(t_env *env_head, char **env)
-{
-    int     i;
-    t_env   *curr;
-    t_env   *tmp;
-
-    i = 0;
-    curr = env_head;
-    while (env[i])
-    {
-        tmp = (t_env *)malloc(sizeof(t_env));
-        if (tmp == 0)
-            return (0);
-        tmp->key = find_key(env[i]);
-        tmp->value = find_value(env[i]);
-        tmp->next = 0;
-        curr->next = tmp;
-        curr = curr->next;
-        i++;
-    }
-    return (1);
-}
+#include "minishell.h"
 
 void		exit_shell(char *message) //temporary
 {
@@ -90,36 +43,6 @@ int			is_command_end(char c)
 	return (0);
 }
 
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-		ft_putchar_fd(*s++, fd);
-}
-
-int		ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if ((unsigned char)s1[i] == (unsigned char)s2[i])
-			i++;
-		else
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-	}
-	return (0);
-}
-
 char		*ft_strtrim(char *str)
 {
 	int		begin;
@@ -128,6 +51,7 @@ char		*ft_strtrim(char *str)
 
 	if (!str)
 		return (NULL);
+	begin = 0;
 	while (str[begin] && is_space(str[begin]))
 		begin++;
 	end = ft_strlen(str + begin);
