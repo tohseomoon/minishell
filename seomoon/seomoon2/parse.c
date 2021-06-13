@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 13:00:41 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 15:25:48 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,14 +232,18 @@ int			push_arg(t_cmd *curr, char *command)
 	int		i;
 	int		len;
 
+	printf("push_arg() command: %s\n", command);
+	printf("index: %d\n", curr->index);
+	printf("argc: %d\n", curr->argc);
 	len = 0;
 	while (command[len] && !is_seperator(command[len]))
 		len++;
+	printf("len: %d\n", len);
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
 		exit_shell("push_arg(): Fail to allocate. ");
 	i = 0;
-	while (i < len)
+	while (*command && !is_seperator(*command))
 	{
 		curr->argv[curr->index][i] = *command;
 		i++;
@@ -247,7 +251,7 @@ int			push_arg(t_cmd *curr, char *command)
 	}
 	curr->argv[curr->index][i] = '\0';
 	curr->index++;
-	return (len);
+	return (i);
 }
 
 int			split_command(t_cmd *curr, char *command, t_env *env_head)
@@ -256,34 +260,27 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 
 	i = 0;
 	curr->index = 0;
-	while (!is_command_end(*command))
+	while (command[i] && !is_command_end(command[i]))
 	{
-		if (*command == S_QUOTE)
-		{
-			i += handle_single_quote(curr, command);
-			command += i;
-		}
-		else if (*command == D_QUOTE)
-		{
-			i += handle_double_quote(curr, command, env_head);
-			command += i;
-		}
+		while (command[i] && is_space(command[i]))
+			i++;
+		if (command[i] == S_QUOTE)
+			i += handle_single_quote(curr, command + i);
+		else if (command[i] == D_QUOTE)
+			i += handle_double_quote(curr, command + i, env_head);
 		else
 		{
 			if (is_symbol(*command))
 			{
-				i += handle_symbol(curr, command, env_head);
-				command += i;
+				i += handle_symbol(curr, command + i, env_head);
 				curr->index++;
 			}
 			else
-			{
-				i += push_arg(curr, command);
-				command += i;
-			}
+				i += push_arg(curr, command + i);
 		}
 	}
 	curr->argv[curr->index] = NULL;
+	printf("i: %d\n", i);
 	return (i);
 }
 
@@ -323,6 +320,24 @@ void		show_prompt(void)
 	ft_putstr_fd("[minishell]$ ", STDOUT);
 }
 
+void		print_command(t_cmd *cmd_head)
+{
+	int		i;
+	t_cmd	*curr;
+
+	i = 0;
+	curr = cmd_head->next;
+	while (curr)
+	{
+		while (i < curr->argc)
+		{
+			printf("%s\n", curr->argv[i]);
+			i++;
+		}
+		curr = curr->next;
+	}
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	char	*command;
@@ -337,7 +352,7 @@ int			main(int argc, char **argv, char **envp)
 			exit_shell("Fail to read command line. ");
 		parse_command(&cmd_head, command, &env_head);
 		free(command);
-		//print_command(&cmd_head);
+		print_command(&cmd_head);
 	}
 	return (0);
 }
