@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:58:30 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/10 21:20:50 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 14:03:47 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	show_prompt(void)
 
 void	get_input(char **input, t_env *env_head)
 {
-
 	get_next_line(STDIN, input);
 	if (ft_strcmp(*input, "exit") == 0)
 	{
