@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 20:29:09 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 20:44:27 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int			handle_symbol(t_cmd *curr, char *command, t_env *env_head)
 		i += replace_back_quote(curr, command);
 	else if (command[i] == '~')
 		i += replace_path_home(curr, env_head);
+	curr->index++;
 	return (i);
 }
 
@@ -216,6 +217,7 @@ int			push_arg_quote(t_cmd *curr, char *command, char quote)
 		command++;
 	}
 	curr->argv[curr->index][i] = '\0';
+	curr->index++;
 	return (i);
 }
 
@@ -230,7 +232,6 @@ int			handle_single_quote(t_cmd *curr, char *command)
 		j += push_arg_quote(curr, command, S_QUOTE);
 	if (command[j] != S_QUOTE)
 		exit_shell("Single quote not closed. ");
-	curr->index++;
 	return (j + 2);
 }
 
@@ -251,7 +252,6 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 	}
 	if (command[i] != D_QUOTE)
 		exit_shell("Double quote not closed. ");
-	curr->index++;
 	return (i + 2);
 }
 
@@ -267,16 +267,10 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 			i += handle_single_quote(curr, command + i);
 		else if (command[i] == D_QUOTE)
 			i += handle_double_quote(curr, command + i, env_head);
+		else if (is_symbol(command[i]))
+			i += handle_symbol(curr, command + i, env_head);
 		else
-		{
-			if (is_symbol(*command))
-			{
-				i += handle_symbol(curr, command + i, env_head);
-				curr->index++;
-			}
-			else
-				i += push_arg(curr, command + i);
-		}
+			i += push_arg(curr, command + i);
 		while (command[i] && is_space(command[i]))
 			i++;
 	}
