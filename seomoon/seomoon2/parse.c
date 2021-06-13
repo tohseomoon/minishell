@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 20:14:28 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 20:21:13 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,28 +255,17 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 	len = 0;
 	while (command[len] && command[len] != D_QUOTE)
 		len++;
-	/*
-	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
-	if (curr->argv[curr->index] == 0)
-		return (-1);
-	*/
 	j = 0;
-	while (*command && *command != D_QUOTE)
+	while (command[j] && command[j] != D_QUOTE)
 	{
-		if (*command == ESCAPE)
-			command++;
+		if (command[j] == ESCAPE)
+			j++;
 		else if (is_symbol(*command))
-		{
-			j += handle_symbol(curr, command, env_head);
-			command += j;
-		}
+			j += handle_symbol(curr, command + j, env_head);
 		else
-		{
-			j += push_arg_quote(curr, command, D_QUOTE);
-			command += j;
-		}
+			j += push_arg_quote(curr, command + j, D_QUOTE);
 	}
-	if (*command != D_QUOTE)
+	if (command[j] != D_QUOTE)
 		exit_shell("Double quote not closed. ");
 	curr->index++;
 	return (j + 2);
