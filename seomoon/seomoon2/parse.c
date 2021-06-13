@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/13 15:25:48 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/13 15:43:29 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int			handle_double_quote(t_cmd *curr, char *command, t_env *env_head)
 		exit_shell("Double quote not closed. ");
 	curr->argv[curr->index][j] = '\0';
 	curr->index++;
-	return (j);
+	return (j + 2);
 }
 
 int			push_arg(t_cmd *curr, char *command)
@@ -232,13 +232,9 @@ int			push_arg(t_cmd *curr, char *command)
 	int		i;
 	int		len;
 
-	printf("push_arg() command: %s\n", command);
-	printf("index: %d\n", curr->index);
-	printf("argc: %d\n", curr->argc);
 	len = 0;
 	while (command[len] && !is_seperator(command[len]))
 		len++;
-	printf("len: %d\n", len);
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
 		exit_shell("push_arg(): Fail to allocate. ");
@@ -280,7 +276,6 @@ int			split_command(t_cmd *curr, char *command, t_env *env_head)
 		}
 	}
 	curr->argv[curr->index] = NULL;
-	printf("i: %d\n", i);
 	return (i);
 }
 
