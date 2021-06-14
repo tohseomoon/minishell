@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 00:03:40 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 00:24:05 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,18 +307,6 @@ void		parse_command(t_cmd *cmd_head, char *command, t_env *env_head)
 	curr->next = NULL;
 }
 
-int			read_command(char **command, t_env *env_head)
-{
-	if (get_next_line(STDIN, command) == -1)
-		return (-1);
-	return (0);
-}
-
-void		show_prompt(void)
-{
-	ft_putstr_fd("[minishell]$ ", STDOUT);
-}
-
 void		print_command(t_cmd *cmd_head)
 {
 	int		i;
@@ -337,27 +325,6 @@ void		print_command(t_cmd *cmd_head)
 		curr = curr->next;
 	}
 }
-
-/*
-int			main(int argc, char **argv, char **envp)
-{
-	char	*command;
-	t_env	env_head;
-	t_cmd	cmd_head;
-
-	parse_env(&env_head, envp);
-	while (1)
-	{
-		show_prompt();
-		if (read_command(&command, &env_head) == -1)
-			exit_shell("Fail to read command line. ");
-		parse_command(&cmd_head, command, &env_head);
-		free(command);
-		print_command(&cmd_head);
-	}
-	return (0);
-}
-*/
 
 int			main(int argc, char **argv, char **envp)
 {
