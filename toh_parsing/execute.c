@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+void	is_running(int signo);
+void	handler(int signo);
+
 void	check_pipe(t_cmd *curr) // 현재 노드와 전, 후 노드를 확인하여 파이프 처리
 {	
 	if (curr->heredoc == 1)
@@ -43,16 +46,14 @@ void		execute_cmd_path(t_data *data, t_cmd *curr, char **envp) // 찾은 경로�
 	}
 	else
 	{
-		close(curr->pipe[1]); // 파이프를 닫아야 같은 번호로 프로세스끼리 연결 됨
 		waitpid(pid, &status, 0);
+		close(curr->pipe[1]); // 자동으로 EOF가 전송된다.
 		data->return_value = WEXITSTATUS(status);
 		if (curr->heredoc == 1)
 		{
 			curr->heredoc = 0;
 			close(curr->heredoc_pipe[0]);
 		}
-		printf("@@\n");
-		print_cmd(data);
 	}
 }
 
@@ -76,18 +77,19 @@ void	execute(t_data *data, char **envp) //실행부분 메인 함수
 	curr = data->cmd_head->next;
 	while (curr)
 	{
-		//if (curr->next != 0)
 		pipe(curr->pipe);
 		if ((i = redirection_open_file(data, curr)) > 0)
 			printf("bash: %s: No such file or directory\n", curr->argv[i + 1]);
 			  //리다이렉션 체크 후 파일 열기
-		//else if (check_shell_builtin(curr)) // 쉘 빌트인 확인
-		//	builtin_cmd(data, curr);
-		//else if (curr->argv[0][0] == '/')
-		//{
-		//	if (find_cmd_absolute_path(data, curr))
-		//		execute_cmd_path(data, curr, envp);// 실행하기
-		//}
+		else if (check_shell_builtin_fork(curr)) // 쉘 빌트인 확인
+			builtin_cmd_fork(data, curr);
+		else if (check_shell_builtin(curr)) // 쉘 빌트인 확인
+			builtin_cmd(data, curr);
+		else if (curr->argv[0][0] == '/')
+		{
+			if (find_cmd_absolute_path(data, curr))
+				execute_cmd_path(data, curr, envp);// 실행하기
+		}
 		else if(find_cmd_path(data, curr))
 			execute_cmd_path(data, curr, envp);	 
 		else
@@ -96,6 +98,8 @@ void	execute(t_data *data, char **envp) //실행부분 메인 함수
 		curr = curr->next;
 	}
 }
+
+char	**arr_env_string(t_data *data);
 
 int		main(int argc, char **argv, char **envp) // 일단 돌리기 위해
 {
@@ -107,7 +111,9 @@ int		main(int argc, char **argv, char **envp) // 일단 돌리기 위해
 	setting_cmd(&data);
 	print_cmd(&data);
 	data.path = parse_path(&data);
+	data.old_env = arr_env_string(&data);
 	execute(&data, envp);
 	print_cmd(&data);
-	//free_data(&data);
+	free_data(&data);
+	//while(1);
 }

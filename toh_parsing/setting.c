@@ -60,6 +60,16 @@ void	free_data(t_data *data) // 누수 체크를 위한 free 함수
 		i++;
 	}
 	free(data->path);
+
+	i = 0;
+	while (data->old_env[i])
+	{
+		free(data->old_env[i]);
+		data->old_env[i] = 0;
+		i++;
+	}
+	free(data->old_env);
+	data->old_env = 0;
 }
 
 void	print_cmd(t_data *data) // cmd변화를 확인하기 위한 print함수
@@ -99,11 +109,11 @@ void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조�
 	
 	data->cmd_head->next = (t_cmd *)malloc(sizeof(t_cmd));
 	ft_memset(data->cmd_head->next, 0, sizeof(t_cmd));
-	data->cmd_head->next->argc = 3;
+	data->cmd_head->next->argc = 1;
 	data->cmd_head->next->argv = (char **)malloc(sizeof(char *) * 7);
-	data->cmd_head->next->argv[0] = ft_strdup("cat");
-	data->cmd_head->next->argv[1] = ft_strdup("<<");
-	data->cmd_head->next->argv[2] = ft_strdup("abc");
+	data->cmd_head->next->argv[0] = ft_strdup("env");
+	data->cmd_head->next->argv[1] = 0;
+	data->cmd_head->next->argv[2] = 0;
 	data->cmd_head->next->argv[3] = 0;
 	data->cmd_head->next->argv[4] = 0;
 	data->cmd_head->next->argv[5] = 0;
@@ -114,10 +124,10 @@ void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조�
 
 	data->cmd_head->next->next = (t_cmd *)malloc(sizeof(t_cmd));
 	ft_memset(data->cmd_head->next->next, 0, sizeof(t_cmd));
-	data->cmd_head->next->next->argc = 2;
+	data->cmd_head->next->next->argc = 1;
 	data->cmd_head->next->next->argv = (char **)malloc(sizeof(char *) * 6);
-	data->cmd_head->next->next->argv[0] = ft_strdup("grep");
-	data->cmd_head->next->next->argv[1] = ft_strdup("a");
+	data->cmd_head->next->next->argv[0] = ft_strdup("sort");
+	data->cmd_head->next->next->argv[1] = 0;
 	data->cmd_head->next->next->argv[2] = 0;
 	data->cmd_head->next->next->argv[3] = 0;
 	data->cmd_head->next->next->argv[4] = 0;
@@ -128,11 +138,11 @@ void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조�
 	data->cmd_head->next->next->prev = data->cmd_head->next;
 
 	tmp = (t_cmd *)malloc(sizeof(t_cmd));
-	tmp->argc = 3;
+	tmp->argc = 2;
 	tmp->argv = (char **)malloc(sizeof(char *) * 7);
-	tmp->argv[0] = ft_strdup("sort");
-	tmp->argv[1] = ft_strdup(">");
-	tmp->argv[2] = ft_strdup("c");
+	tmp->argv[0] = ft_strdup("grep");
+	tmp->argv[1] = ft_strdup("HOME");
+	tmp->argv[2] = 0;
 	tmp->argv[3] = 0;
 	tmp->argv[4] = 0;
 	tmp->argv[5] = 0;

@@ -14,7 +14,9 @@ void	heredoc(t_data *data, t_cmd *curr, int i, int fd)
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		write(1, "> ", 2);
+		free(line);
 	}
+	free(line);
 	data->return_value = 0;
 }
 

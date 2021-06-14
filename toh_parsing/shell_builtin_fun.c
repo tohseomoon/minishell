@@ -1,8 +1,17 @@
 #include "minishell.h"
 
-int				check_shell_builtin(t_cmd *curr)
+int				check_shell_builtin_fork(t_cmd *curr)
 {
 	if (ft_strcmp("echo", curr->argv[0]) == 0)
+		return (1);
+	else if (ft_strcmp("env", curr->argv[0]) == 0)
+		return (1);
+	return (0);
+}
+
+int				check_shell_builtin(t_cmd *curr)
+{
+	if (ft_strcmp("exit", curr->argv[0]) == 0)
 		return (1);
 	return (0);
 }
@@ -11,9 +20,11 @@ static void		find_builtin_cmd(t_data *data, t_cmd *curr)
 {
 	if (ft_strcmp("echo", curr->argv[0]) == 0)
 		echo(data, curr);
+	else if (ft_strcmp("env", curr->argv[0]) == 0)
+		env(data);
 }
 
-void			builtin_cmd(t_data *data, t_cmd *curr)
+void			builtin_cmd_fork(t_data *data, t_cmd *curr)
 {
 	pid_t	pid;
 	int		status;
@@ -31,9 +42,13 @@ void			builtin_cmd(t_data *data, t_cmd *curr)
 	}
 	else
 	{
-		close(curr->pipe[1]); // 파이프를 닫아야 같은 번호로 프로세스끼리 연결 됨
 		waitpid(pid, &status, 0);
-		// printf("status : %d\n", status); status값으로 자식 프로세스의 상태를 받는 것 같음
-		// 에러 처리 할때 사용해야 할 수 있음
+		close(curr->pipe[1]); // 파이프를 닫아야 받을 수 있음 EOF가 전송된다.
 	}
+}
+
+void			builtin_cmd(t_data *data, t_cmd *curr)
+{
+	if (ft_strcmp("exit", curr->argv[0]) == 0)
+		ft_exit(data, curr);
 }

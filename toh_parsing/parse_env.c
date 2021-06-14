@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/10 17:41:14 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/14 20:54:17 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int   parse_env(t_env *env_head, char **envp)
             return (0);
         tmp->key = find_key(envp[i]);
         tmp->value = find_value(envp[i]);
+        tmp->new = 0;
+        tmp->equal = 1;
         tmp->next = 0;
         curr->next = tmp;
         curr = curr->next;

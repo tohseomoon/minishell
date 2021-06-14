@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 18:05:13 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/11 12:54:01 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/14 21:00:35 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct      s_env
 {
     char            *key;
     char            *value;
+    int             new;
+    int             equal;
     struct s_env    *next;
 }                   t_env;
 
@@ -53,7 +55,10 @@ typedef struct      s_data
     struct s_cmd    *cmd_head;
     struct s_env    *env_head;
     char            **path;
+    char            **old_env;
+    char            **new_env;
     int             return_value;
+    int             runnig;
 }                   t_data;
 
 //utils_string.c
@@ -85,6 +90,8 @@ int		            redirection_open_file(t_data *data, t_cmd *curr);
 //shell_builtin_fun.c
 int		check_shell_builtin(t_cmd *curr);
 void	builtin_cmd(t_data *data, t_cmd *curr);
+int		check_shell_builtin_fork(t_cmd *curr);
+void	builtin_cmd_fork(t_data *data, t_cmd *curr);
 
 //find_cmd_path.c
 int		find_cmd_path(t_data *data, t_cmd *curr);
@@ -92,6 +99,12 @@ int		find_cmd_absolute_path(t_data *data, t_cmd *curr);
 
 //구현 함수들
 void			    echo(t_data *data, t_cmd *curr);
+void	ft_exit(t_data *data, t_cmd *curr);
+void	env(t_data *data);
+
+//export_utils.c
+char	**arr_env_string(t_data *data);
+void	print_sort_env(t_data *data);
 
 //setting.c 일단 가동하기 위한 함수 (나중에 삭제 예정)
 void    print_env(t_env *env_head);
