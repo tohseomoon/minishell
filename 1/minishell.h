@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:37:20 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:42:15 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ void				check_pipe(t_cmd *curr);
 void				ft_echo(t_cmd *curr);
 void				ft_env(void);
 void				ft_exit(t_cmd *curr);
-
+char				**arr_new_env_string(void);
+void				print_sort_env(void);
+char				**arr_env_string(void);
+void				ft_export(t_cmd *curr);
 
 #endif

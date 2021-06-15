@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:48:18 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 16:36:59 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:42:39 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int				check_shell_builtin_fork(t_cmd *curr)
 	if (ft_strcmp("echo", curr->argv[0]) == 0)
 		return (1);
 	else if (ft_strcmp("env", curr->argv[0]) == 0)
+		return (1);
+	else if (ft_strcmp("export", curr->argv[0]) == 0)
 		return (1);
 	return (0);
 }
@@ -34,6 +36,8 @@ static void		find_builtin_cmd(t_cmd *curr)
 		ft_echo(curr);
 	else if (ft_strcmp("env", curr->argv[0]) == 0)
 		ft_env();
+	else if (ft_strcmp("export", curr->argv[0]) == 0)
+		ft_export(curr);
 }
 
 void			builtin_cmd_fork(t_cmd *curr)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:38:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:45:13 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void			init(char **envp)
 	g_data.env_head = malloc(sizeof(t_env));
 	parse_env(envp);
 	g_data.path = parse_path();
-	//g_data.old_env = arr_env_string();
-	//시그널 처리
+	//아래 부터 추가
 }
 
 int				main(int argc, char **argv, char **envp)
