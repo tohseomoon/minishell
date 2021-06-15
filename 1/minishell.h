@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 15:25:32 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:20:44 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int					find_cmd_path(t_cmd *curr);
 void				free_data();
 void				heredoc(t_cmd *curr, int i, int fd);
 void				heredoc_cmd(t_cmd *curr, int i);
+void				print_cmd();
 
 #endif
