@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 00:42:30 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 13:55:51 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,30 +326,24 @@ void		print_command(t_cmd *cmd_head)
 	}
 }
 
-t_data			*init()
+t_data			*init(t_data *data, char **envp)
 {
-	t_data		*data;
-	t_env		env_head;
-	t_cmd		cmd_head;
-
-	data = malloc(sizeof(t_data));
-	data->cmd_head = &cmd_head;
-	data->env_head = &env_head;
-	return (data);
-}
-
-void			setup(t_data *data, char **envp)
-{
+	ft_memset(data, 0, sizeof(t_data));
+	data->cmd_head = malloc(sizeof(t_cmd));
+	data->env_head = malloc(sizeof(t_env));
 	parse_env(data->env_head, envp);
+	data->path = parse_path(data);
+	data->old_env = arr_env_string(data);
+	//signal()
+	return (data);
 }
 
 int			main(int argc, char **argv, char **envp)
 {
+	t_data		data;
 	char		*command;
-	t_data		*data;
 
-	data = init();
-	setup(data, envp);
+	init(&data, envp);
 	while (1)
 	{
 		command = readline("[minishell]$ ");
@@ -362,7 +356,8 @@ int			main(int argc, char **argv, char **envp)
 		}
 		add_history(command);
 		parse_command(data->cmd_head, command, data->env_head);
+		execute_command();
 		free(command);
-		print_command(data->cmd_head);
+		//print_command(data->cmd_head);
 	}
 }
