@@ -16,7 +16,7 @@ void    print_env(t_env *env_head)
     }
 }
 
-void	free_data(t_data *data) // 누수 체크를 위한 free 함수
+void	free_data() // 누수 체크를 위한 free 함수
 {
 	t_cmd	*curr_cmd;
 	t_cmd	*cmd_tmp;
@@ -24,7 +24,7 @@ void	free_data(t_data *data) // 누수 체크를 위한 free 함수
 	t_env	*env_tmp;
 	int		i;
 
-	curr_cmd = data->cmd_head->next;
+	curr_cmd = g_data.cmd_head->next;
 	while (curr_cmd)
 	{
 		cmd_tmp = curr_cmd->next;
@@ -40,9 +40,9 @@ void	free_data(t_data *data) // 누수 체크를 위한 free 함수
 		free(curr_cmd);
 		curr_cmd = cmd_tmp;
 	}
-	free(data->cmd_head);
+	free(g_data.cmd_head);
 	
-	curr_env = data->env_head->next;
+	curr_env = g_data.env_head->next;
 	while (curr_env)
 	{
 		env_tmp = curr_env->next;
@@ -51,33 +51,33 @@ void	free_data(t_data *data) // 누수 체크를 위한 free 함수
 		free(curr_env);
 		curr_env = env_tmp;
 	}
-	free(data->env_head);
+	free(g_data.env_head);
 
 	i = 0;
-	while (data->path[i])
+	while (g_data.path[i])
 	{
-		free(data->path[i]);
+		free(g_data.path[i]);
 		i++;
 	}
-	free(data->path);
+	free(g_data.path);
 
 	i = 0;
-	while (data->old_env[i])
+	while (g_data.old_env[i])
 	{
-		free(data->old_env[i]);
-		data->old_env[i] = 0;
+		free(g_data.old_env[i]);
+		g_data.old_env[i] = 0;
 		i++;
 	}
-	free(data->old_env);
-	data->old_env = 0;
+	free(g_data.old_env);
+	g_data.old_env = 0;
 }
 
-void	print_cmd(t_data *data) // cmd변화를 확인하기 위한 print함수
+void	print_cmd() // cmd변화를 확인하기 위한 print함수
 {
 	t_cmd	*curr;
 	int		i;
 
-	curr = data->cmd_head->next;
+	curr = g_data.cmd_head->next;
 	while (curr)
 	{
 		printf("=========================\n");
@@ -100,43 +100,43 @@ void	print_cmd(t_data *data) // cmd변화를 확인하기 위한 print함수
 }
 
 
-void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조체 셋팅
+void	setting_cmd() //파싱되었다고 가정하기 위한 구조체 셋팅
 {
 	t_cmd	*curr;
 	t_cmd	*tmp;
 	
-	data->cmd_head = (t_cmd *)malloc(sizeof(t_cmd));
+	g_data.cmd_head = (t_cmd *)malloc(sizeof(t_cmd));
 	
-	data->cmd_head->next = (t_cmd *)malloc(sizeof(t_cmd));
-	ft_memset(data->cmd_head->next, 0, sizeof(t_cmd));
-	data->cmd_head->next->argc = 1;
-	data->cmd_head->next->argv = (char **)malloc(sizeof(char *) * 7);
-	data->cmd_head->next->argv[0] = ft_strdup("env");
-	data->cmd_head->next->argv[1] = 0;
-	data->cmd_head->next->argv[2] = 0;
-	data->cmd_head->next->argv[3] = 0;
-	data->cmd_head->next->argv[4] = 0;
-	data->cmd_head->next->argv[5] = 0;
-	data->cmd_head->next->fd_in = 0;
-	data->cmd_head->next->fd_out = 1;
-	data->cmd_head->next->next = 0;
-	data->cmd_head->next->prev = 0;
+	g_data.cmd_head->next = (t_cmd *)malloc(sizeof(t_cmd));
+	ft_memset(g_data.cmd_head->next, 0, sizeof(t_cmd));
+	g_data.cmd_head->next->argc = 3;
+	g_data.cmd_head->next->argv = (char **)malloc(sizeof(char *) * 7);
+	g_data.cmd_head->next->argv[0] = ft_strdup("cat");
+	g_data.cmd_head->next->argv[1] = ft_strdup("<<");
+	g_data.cmd_head->next->argv[2] = ft_strdup("abc");
+	g_data.cmd_head->next->argv[3] = 0;
+	g_data.cmd_head->next->argv[4] = 0;
+	g_data.cmd_head->next->argv[5] = 0;
+	g_data.cmd_head->next->fd_in = 0;
+	g_data.cmd_head->next->fd_out = 1;
+	g_data.cmd_head->next->next = 0;
+	g_data.cmd_head->next->prev = 0;
 
-	data->cmd_head->next->next = (t_cmd *)malloc(sizeof(t_cmd));
-	ft_memset(data->cmd_head->next->next, 0, sizeof(t_cmd));
-	data->cmd_head->next->next->argc = 1;
-	data->cmd_head->next->next->argv = (char **)malloc(sizeof(char *) * 6);
-	data->cmd_head->next->next->argv[0] = ft_strdup("sort");
-	data->cmd_head->next->next->argv[1] = 0;
-	data->cmd_head->next->next->argv[2] = 0;
-	data->cmd_head->next->next->argv[3] = 0;
-	data->cmd_head->next->next->argv[4] = 0;
-	data->cmd_head->next->next->argv[5] = 0;
-	data->cmd_head->next->next->fd_in = 0;
-	data->cmd_head->next->next->fd_out = 1;
-	data->cmd_head->next->next->next = 0;
-	data->cmd_head->next->next->prev = data->cmd_head->next;
-
+	g_data.cmd_head->next->next = (t_cmd *)malloc(sizeof(t_cmd));
+	ft_memset(g_data.cmd_head->next->next, 0, sizeof(t_cmd));
+	g_data.cmd_head->next->next->argc = 1;
+	g_data.cmd_head->next->next->argv = (char **)malloc(sizeof(char *) * 6);
+	g_data.cmd_head->next->next->argv[0] = ft_strdup("sort");
+	g_data.cmd_head->next->next->argv[1] = 0;
+	g_data.cmd_head->next->next->argv[2] = 0;
+	g_data.cmd_head->next->next->argv[3] = 0;
+	g_data.cmd_head->next->next->argv[4] = 0;
+	g_data.cmd_head->next->next->argv[5] = 0;
+	g_data.cmd_head->next->next->fd_in = 0;
+	g_data.cmd_head->next->next->fd_out = 1;
+	g_data.cmd_head->next->next->next = 0;
+	g_data.cmd_head->next->next->prev = g_data.cmd_head->next;
+/*
 	tmp = (t_cmd *)malloc(sizeof(t_cmd));
 	tmp->argc = 2;
 	tmp->argv = (char **)malloc(sizeof(char *) * 7);
@@ -150,7 +150,7 @@ void	setting_cmd(t_data *data) //파싱되었다고 가정하기 위한 구조�
 	tmp->fd_in = 0;
 	tmp->fd_out = 1;
 	tmp->next = 0;
-	tmp->prev = data->cmd_head->next->next;
-	data->cmd_head->next->next->next = tmp;
-
+	tmp->prev = g_data.cmd_head->next->next;
+	g_data.cmd_head->next->next->next = tmp;
+*/
 }

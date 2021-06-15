@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 12:54:30 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:29:05 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void		print_echo_argv(t_cmd *curr, int n_flag)
@@ -17,7 +29,7 @@ static void		print_echo_argv(t_cmd *curr, int n_flag)
 	}
 }
 
-void			echo(t_data *data, t_cmd *curr)
+void			echo(t_cmd *curr)
 {
 	int		n_flag;
 	int		i;
@@ -36,10 +48,10 @@ void			echo(t_data *data, t_cmd *curr)
 		{
 			if (curr->argv[1][i] != 'n')
 				n_flag = 0;
-		}	
+		}
 	}
 	print_echo_argv(curr, n_flag);
 	if (n_flag == 0)
 		write(1, "\n", 1);
-	data->return_value = 0;
+	g_data.return_value = 0;
 }

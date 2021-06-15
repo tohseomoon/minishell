@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 14:43:37 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:44:08 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
 int		count_env(t_env *curr)
 {
 	int		cnt;
@@ -63,20 +76,20 @@ void	sort_env_arr(char **env)
 	}
 }
 
-char	**arr_env_string(t_data *data)
+char	**arr_env_string(void)
 {
 	char	**env;
 	t_env	*curr;
 	int		cnt;
 	int		i;
 
-	cnt = count_env(data->env_head);
+	cnt = count_env(g_data.env_head);
 	env = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (env == 0)
 		return (0);
 	env[cnt] = 0;
 	i = 0;
-	curr = data->env_head->next;
+	curr = g_data.env_head->next;
 	while (i < cnt)
 	{
 		env[i] = join_env_string(curr);
@@ -87,19 +100,19 @@ char	**arr_env_string(t_data *data)
 	return (env);
 }
 
-void	print_sort_env(t_data *data)
+void	print_sort_env(void)
 {
 	int		i;
 
-	if (data->old_env == 0)
+	if (g_data.old_env == 0)
 	{
 		printf("Invalid environment variable\n");
 		return ;
 	}
 	i = 0;
-	while (data->old_env[i])
+	while (g_data.old_env[i])
 	{
-		printf("declare -x %s\n", data->old_env[i]);
+		printf("declare -x %s\n", g_data.old_env[i]);
 		i++;
 	}
 }

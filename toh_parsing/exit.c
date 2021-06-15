@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:30:21 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int		ft_is_exit_num(char *str)
+static int					ft_is_exit_num(char *str)
 {
-	int		i;
+	int					i;
 
 	i = 0;
 	if (str[0] == '+' || str[0] == '-')
@@ -16,11 +28,11 @@ static int		ft_is_exit_num(char *str)
 	return (1);
 }
 
-static unsigned long long creat_ull_number(char *str, int *minus)
+static unsigned long long	creat_ull_number(char *str, int *minus)
 {
 	unsigned long long	num;
 	int					i;
-	
+
 	i = 0;
 	num = 0;
 	*minus = 0;
@@ -39,16 +51,17 @@ static unsigned long long creat_ull_number(char *str, int *minus)
 	return (num);
 }
 
-static int creat_return_value(char *str)
+static int					creat_return_value(char *str)
 {
 	unsigned long long	num;
 	int					minus;
 	int					cnt;
 
-	cnt = -1;
-	while (str[++cnt]);
+	cnt = 0;
+	while (str[cnt])
+		cnt++;
 	if (cnt > 21)
-		return (256);	
+		return (256);
 	num = creat_ull_number(str, &minus);
 	if (num > 9223372036854775807 && minus == 0)
 		return (256);
@@ -60,9 +73,9 @@ static int creat_return_value(char *str)
 	return (num);
 }
 
-static int		exit_print_return_msg(t_cmd *curr, int *exit_flag)
+static int					exit_print_return_msg(t_cmd *curr, int *exit_flag)
 {
-	int		num;
+	int					num;
 
 	num = creat_return_value(curr->argv[1]);
 	printf("exit\n");
@@ -80,10 +93,10 @@ static int		exit_print_return_msg(t_cmd *curr, int *exit_flag)
 	return (num);
 }
 
-void	ft_exit(t_data *data, t_cmd *curr)
+void						ft_exit(t_cmd *curr)
 {
-	int		num;
-	int		exit_flag;
+	int					num;
+	int					exit_flag;
 
 	exit_flag = 1;
 	if (curr->argc == 1)
@@ -102,7 +115,8 @@ void	ft_exit(t_data *data, t_cmd *curr)
 	if (curr->prev == 0 && exit_flag == 1)
 		exit(num);
 	else
-	{	data->return_value = num;
+	{
+		g_data.return_value = num;
 		printf("%d\n", num);
 	}
 }

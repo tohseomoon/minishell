@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 12:55:20 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:42:05 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	env(t_data *data)
+void	env(void)
 {
 	t_env	*curr;
 
-	curr = data->env_head->next;
+	curr = g_data.env_head->next;
 	while (curr)
 	{
 		if (curr->equal == 1)

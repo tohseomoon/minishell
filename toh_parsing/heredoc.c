@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 14:44:26 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:45:38 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	heredoc(t_data *data, t_cmd *curr, int i, int fd)
+void	heredoc(t_cmd *curr, int i, int fd)
 {
 	char	*line;
 	int		tmp;
@@ -17,27 +29,25 @@ void	heredoc(t_data *data, t_cmd *curr, int i, int fd)
 		free(line);
 	}
 	free(line);
-	data->return_value = 0;
+	g_data.return_value = 0;
 }
 
-void			heredoc_cmd(t_data *data, t_cmd *curr, int i)
+void	heredoc_cmd(t_cmd *curr, int i)
 {
 	pid_t	pid;
 	int		status;
-	
+
 	pipe(curr->heredoc_pipe);
 	curr->heredoc = 1;
 	pid = fork();
 	if (pid == 0)
 	{
-		heredoc(data, curr, i, curr->heredoc_pipe[1]);
-		exit(data->return_value);
+		heredoc(curr, i, curr->heredoc_pipe[1]);
+		exit(g_data.return_value);
 	}
 	else
 	{
-		close(curr->heredoc_pipe[1]); // 파이프를 닫아야 같은 번호로 프로세스끼리 연결 됨
 		waitpid(pid, &status, 0);
-		// printf("status : %d\n", status); status값으로 자식 프로세스의 상태를 받는 것 같음
-		// 에러 처리 할때 사용해야 할 수 있음
+		close(curr->heredoc_pipe[1]);
 	}
 }

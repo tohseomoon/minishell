@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_cmd_path.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 14:15:53 by toh               #+#    #+#             */
+/*   Updated: 2021/06/15 14:32:08 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static char		*find_directory(t_data *data, t_cmd *curr) // 명령어 경로 디렉토리 찾아서 문자열 저장
+static char		*find_directory(t_cmd *curr)
 {
 	DIR				*dp;
 	struct dirent	*entry;
 	char			*directory;
-	int		i;
+	int				i;
 
 	i = 0;
 	directory = 0;
-	while (data->path[i])
+	while (g_data.path[i])
 	{
-		dp = opendir(data->path[i]);
+		dp = opendir(g_data.path[i]);
 		if (dp == 0)
 			return (0);
 		while ((entry = readdir(dp)) != 0)
 		{
 			if (!ft_strcmp(entry->d_name, curr->argv[0]))
-				directory = ft_strdup(data->path[i]);
+				directory = ft_strdup(g_data.path[i]);
 		}
 		closedir(dp);
 		i++;
@@ -25,11 +37,11 @@ static char		*find_directory(t_data *data, t_cmd *curr) // 명령어 경로 디�
 	return (directory);
 }
 
-int		find_cmd_path(t_data *data, t_cmd *curr) // 명령어 경로 검색 및 수정
+int				find_cmd_path(t_cmd *curr)
 {
-	char	*directory;
+	char			*directory;
 
-	directory = find_directory(data, curr);
+	directory = find_directory(curr);
 	if (directory == 0)
 		return (0);
 	directory = ft_strjoin_free_s1(&directory, "/");
@@ -39,7 +51,7 @@ int		find_cmd_path(t_data *data, t_cmd *curr) // 명령어 경로 검색 및 수
 	return (1);
 }
 
-int		find_cmd_absolute_path(t_data *data, t_cmd *curr) //절대경로에 프로그램이 있는지 확인
+int				find_cmd_absolute_path(t_cmd *curr)
 {
 	struct stat		buf;
 	int				ret;
