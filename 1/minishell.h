@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 15:13:31 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:25:32 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <errno.h>
+# include <string.h>
+# include <sys/stat.h>
 # include <stdio.h> //check
 
 # define STDIN	0
 # define STDOUT	1
+# define END 0
+# define PIPE 1
 # define BUFFER_SIZE 1024
 
 # define S_QUOTE '\''
@@ -42,6 +49,8 @@ typedef struct		s_cmd
 	int				argc;
 	int				index;
 	int				pipe[2];
+	int				heredoc_pipe[2];
+	int				heredoc;
 	int				fd_in;
 	int				fd_out;
 	struct s_cmd	*next;
@@ -86,5 +95,12 @@ void				*ft_memset(void *b, int c, size_t len);
 char				**ft_split(char const *s, char c);
 int					parse_env(char **envp);
 char				**parse_path(void);
+void				execute_command(char **envp);
+
+int		            redirection_open_file(t_cmd *curr);
+int					find_cmd_path(t_cmd *curr);
+void				free_data();
+void				heredoc(t_cmd *curr, int i, int fd);
+void				heredoc_cmd(t_cmd *curr, int i);
 
 #endif
