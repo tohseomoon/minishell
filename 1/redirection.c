@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:11:32 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 14:47:56 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/15 16:12:29 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,11 @@ static char		**creat_new_argv(t_cmd *curr)
 static void		del_redirections(t_cmd *curr)
 {
 	char	**new_argv;
-	char	*tmp;
 	int		cnt;
-	int		i;
-	int		j;
-
+	
 	cnt = cnt_redirections(curr);
-	if (cnt == -1)
-		printf("error_redirection\n");
+	if (cnt == 0)
+		return ;
 	curr->argc -= (cnt * 2);
 	new_argv = creat_new_argv(curr);
 	free_old_cmd_argv(curr);
