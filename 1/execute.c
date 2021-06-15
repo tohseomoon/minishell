@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 15:36:05 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:29:54 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ void	execute_command(char **envp)
 			builtin_cmd_fork(curr);
 		else if (check_shell_builtin(curr))
 			builtin_cmd(curr);
+		*/
 		else if (curr->argv[0][0] == '/')
 		{
 			if (find_cmd_absolute_path(curr))
 				execute_cmd_path(curr, envp);
 		}
-		*/
 		else if (find_cmd_path(curr))
 			execute_cmd_path(curr, envp);
 		else
