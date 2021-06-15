@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 15:16:30 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:36:05 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	execute_command(char **envp)
 			execute_cmd_path(curr, envp);
 		else
 			printf("bash : %s: command not found\n", curr->argv[0]);
-		close_file(curr);
+		//close_file(curr);
 		curr = curr->next;
 	}
 }
