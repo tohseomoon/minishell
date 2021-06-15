@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:11:32 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 16:12:29 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/15 16:22:06 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char		**creat_new_argv(t_cmd *curr)
 	int		i;
 	int		j;
 
-	new_argv = (char **)malloc(sizeof(char *) * curr->argc + 1);
+	new_argv = (char **)malloc(sizeof(char *) * (curr->argc + 1));
 	if (new_argv == 0)
 		return (0);
 	new_argv[curr->argc] = 0;
