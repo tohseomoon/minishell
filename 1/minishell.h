@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:30:13 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:37:20 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,14 @@ void				free_data();
 void				heredoc(t_cmd *curr, int i, int fd);
 void				heredoc_cmd(t_cmd *curr, int i);
 void				print_cmd();
+void				builtin_cmd_fork(t_cmd *curr);
+void				builtin_cmd(t_cmd *curr);
+int					check_shell_builtin_fork(t_cmd *curr);
+int					check_shell_builtin(t_cmd *curr);
+void				check_pipe(t_cmd *curr);
+void				ft_echo(t_cmd *curr);
+void				ft_env(void);
+void				ft_exit(t_cmd *curr);
+
 
 #endif

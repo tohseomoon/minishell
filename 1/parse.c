@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:26:27 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:41:37 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void		parse_command(char *command)
 
 	g_data.cmd_head->next = malloc(sizeof(t_cmd));
 	curr = g_data.cmd_head->next;
-	curr->prev = NULL;
+	ft_memset(curr, 0, sizeof(t_cmd));
+	curr->fd_out = 1;
 	i = 0;
 	while (command[i] != '\0')
 	{
@@ -108,7 +109,9 @@ void		parse_command(char *command)
 			tmp = curr;
 			curr->next = malloc(sizeof(t_cmd));
 			curr = curr->next;
+			ft_memset(curr, 0, sizeof(t_cmd));
 			curr->prev = tmp;
+			curr->fd_out = 1;
 			i++;
 		}
 	}

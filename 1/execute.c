@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 16:29:54 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:32:06 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ void	execute_command(char **envp)
 		pipe(curr->pipe);
 		if ((i = redirection_open_file(curr)) > 0)
 			printf("bash: %s: No such file or directory\n", curr->argv[i + 1]);
-		/*
 		else if (check_shell_builtin_fork(curr))
 			builtin_cmd_fork(curr);
 		else if (check_shell_builtin(curr))
 			builtin_cmd(curr);
-		*/
 		else if (curr->argv[0][0] == '/')
 		{
 			if (find_cmd_absolute_path(curr))

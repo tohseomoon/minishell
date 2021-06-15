@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:27:37 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:38:00 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,11 @@ int				main(int argc, char **argv, char **envp)
 		command = readline("[minishell]$ ");
 		if (!command)
 			break ;
-		if (ft_strcmp(command, "exit") == 0)
-		{
-			free(command);
-			break ;
-		}
 		add_history(command);
 		parse_command(command);
+		print_cmd();
 		execute_command(envp);
+		print_cmd();
 		free(command);
 		//free_data();
 		//print_command();
