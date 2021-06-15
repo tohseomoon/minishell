@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:11:32 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 16:22:06 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/15 18:10:58 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void		del_redirections(t_cmd *curr)
 	int		cnt;
 	
 	cnt = cnt_redirections(curr);
-	if (cnt == 0)
+	if (cnt == 0 || cnt == -1)
 		return ;
 	curr->argc -= (cnt * 2);
 	new_argv = creat_new_argv(curr);

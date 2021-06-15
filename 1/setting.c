@@ -10,6 +10,7 @@ void    print_env()
     {
         printf("=====================================================\n");
         printf("%s\n", curr->key);
+		printf("%d\n", curr->new_env);
         printf("%s\n", curr->value);
         printf("=====================================================\n");
         curr = curr->next;
