@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 14:16:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:13:26 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,4 +163,99 @@ char		*ft_strldup(const char *s1, int n)
 	ft_strlcpy(str, s1, n);
 	str[n] = 0;
 	return (str);
+}
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		((unsigned char *)b)[i] = (unsigned char)c;
+		i++;
+	}
+	return (b);
+}
+
+static int		count_arr(char const *s, char c)
+{
+	int		cnt;
+	int		i;
+
+	i = 0;
+	while (s[i] && s[i] == c)
+		i++;
+	cnt = 0;
+	while (s[i])
+	{
+		cnt++;
+		while (s[i] && s[i] != c)
+			i++;
+		while (s[i] && s[i] == c)
+			i++;
+	}
+	return (cnt);
+}
+
+static void		free_str(char **result, int i)
+{
+	i--;
+	while (i >= 0)
+	{
+		free(result[i]);
+		result[i] = 0;
+		i--;
+	}
+}
+
+static char		**split_str(char **result, int arrcnt, char const *s, char c)
+{
+	int		i;
+	int		word_cnt;
+	char	*begin;
+
+	i = 0;
+	while (i < arrcnt)
+	{
+		while (*s == c)
+			s++;
+		begin = (char *)s;
+		word_cnt = 0;
+		while (*s && *s != c)
+		{
+			word_cnt++;
+			s++;
+		}
+		result[i] = ft_strldup(begin, word_cnt + 1);
+		if (result[i] == 0)
+		{
+			free_str(result, i);
+			return (0);
+		}
+		i++;
+	}
+	return (result);
+}
+
+char			**ft_split(char const *s, char c)
+{
+	int		arr_cnt;
+	char	**result;
+	char	**tmp;
+
+	if (s == 0)
+		return (0);
+	arr_cnt = count_arr(s, c);
+	result = (char **)malloc(sizeof(char *) * (arr_cnt + 1));
+	if (result == 0)
+		return (0);
+	result[arr_cnt] = 0;
+	tmp = split_str(result, arr_cnt, s, c);
+	if (tmp == 0)
+	{
+		free(result);
+		result = 0;
+	}
+	return (result);
 }

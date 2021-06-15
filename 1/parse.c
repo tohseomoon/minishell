@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 14:32:01 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:11:29 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			count_words(char *str)
 	return (count);
 }
 
-int			push_arg(char *command)
+int			push_arg(t_cmd *curr, char *command)
 {
 	int		i;
 	int		len;
@@ -52,7 +52,7 @@ int			push_arg(char *command)
 	return (i);
 }
 
-int			split_command(char *command)
+int			split_command(t_cmd *curr, char *command)
 {
 	int		i;
 

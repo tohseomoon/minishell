@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 14:38:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:13:31 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_env
 {
 	char			*key;
 	char			*value;
+	int				new_env;
 	int				equal;
 	struct s_env	*next;
 }					t_env;
@@ -81,5 +82,9 @@ int					ft_strcmp(char *s1, char *s2);
 char				*ft_strjoin_free_s1(char **s1, char *s2);
 int					ft_strchr_index(const char *s, int c);
 char				*ft_strtrim(char *str);
+void				*ft_memset(void *b, int c, size_t len);
+char				**ft_split(char const *s, char c);
+int					parse_env(char **envp);
+char				**parse_path(void);
 
 #endif

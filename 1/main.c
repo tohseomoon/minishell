@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 14:56:14 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 15:12:12 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void			print_command()
 
 void			init(char **envp)
 {
-	ft_memset(g_data, 0, sizeof(t_data));
+	ft_memset(&g_data, 0, sizeof(t_data));
 	g_data.cmd_head = malloc(sizeof(t_cmd));
 	g_data.env_head = malloc(sizeof(t_env));
 	parse_env(envp);
 	g_data.path = parse_path();
-	g_data.old_env = arr_env_string();
+	//g_data.old_env = arr_env_string();
 	//시그널 처리
 }
 
