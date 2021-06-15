@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 17:42:15 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/15 20:37:47 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int					ft_strchr_index(const char *s, int c);
 char				*ft_strtrim(char *str);
 void				*ft_memset(void *b, int c, size_t len);
 char				**ft_split(char const *s, char c);
+char				*ft_itoa(int n);
 int					parse_env(char **envp);
 char				**parse_path(void);
 void				execute_command(char **envp);

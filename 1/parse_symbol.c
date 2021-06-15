@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 14:33:22 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 20:38:24 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char		*find_env_value(char *key)
 {
 	t_env	*curr;
 
+	if (ft_strcmp(key, "?") == 0)
+		return (ft_itoa(g_data.return_value));
 	curr = g_data.env_head->next;
 	while (curr)
 	{
@@ -40,7 +42,7 @@ int			replace_env(t_cmd *curr, char *command)
 		len++;
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
-		exit_shell("replace_env(): fail to allocate. ");
+		exit_shell("Cannot allocate memory");
 	i = 0;
 	while (i < len)
 	{

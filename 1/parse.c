@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 19:23:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 20:38:39 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		parse_command(char *command)
 		i = split_command(curr, command);
 		if (command[i] == '|')
 		{
-			check_command_error(curr->argv);
+			//check_command_error(curr->argv);
 			tmp = curr;
 			curr->next = malloc(sizeof(t_cmd));
 			curr = curr->next;
@@ -116,6 +116,6 @@ void		parse_command(char *command)
 			i++;
 		}
 	}
-	check_command_error(curr->argv);
+	//check_command_error(curr->argv);
 	curr->next = NULL;
 }

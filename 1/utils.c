@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 15:13:26 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 20:37:30 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,4 +258,52 @@ char			**ft_split(char const *s, char c)
 		result = 0;
 	}
 	return (result);
+}
+
+int		get_len(long n)
+{
+	int	len;
+
+	len = 0;
+	if (n == 0)
+		len = 1;
+	if (n < 0)
+	{
+		n *= -1;
+		len++;
+	}
+	while (n > 0)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa(int n)
+{
+	int		len;
+	char	*nbr;
+	long	ln;
+
+	ln = n;
+	len = get_len(ln);
+	nbr = (char *)malloc(sizeof(char) * (len + 1));
+	if (!nbr)
+		return (NULL);
+	nbr[len--] = '\0';
+	if (ln == 0)
+		nbr[len] = '0';
+	if (ln < 0)
+	{
+		nbr[0] = '-';
+		ln *= -1;
+	}
+	while (ln > 0)
+	{
+		nbr[len] = (ln % 10) + '0';
+		ln /= 10;
+		len--;
+	}
+	return (nbr);
 }
