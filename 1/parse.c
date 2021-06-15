@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:41:37 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 19:23:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			push_arg(t_cmd *curr, char *command)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell("push_arg(): Fail to allocate. ");
+		exit_shell("Cannot allocate memory");
 	i = 0;
 	while (*command && !is_seperator(*command))
 	{
@@ -106,6 +106,7 @@ void		parse_command(char *command)
 		i = split_command(curr, command);
 		if (command[i] == '|')
 		{
+			check_command_error(curr->argv);
 			tmp = curr;
 			curr->next = malloc(sizeof(t_cmd));
 			curr = curr->next;
@@ -115,5 +116,6 @@ void		parse_command(char *command)
 			i++;
 		}
 	}
+	check_command_error(curr->argv);
 	curr->next = NULL;
 }

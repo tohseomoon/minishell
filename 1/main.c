@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 16:38:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 19:14:47 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ int				main(int argc, char **argv, char **envp)
 			break ;
 		add_history(command);
 		parse_command(command);
-		print_cmd();
+		//check_command_error();
 		execute_command(envp);
-		print_cmd();
 		free(command);
 		//free_data();
 		//print_command();

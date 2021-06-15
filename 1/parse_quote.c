@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 14:32:38 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:45:59 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			push_arg_quote(t_cmd *curr, char *command, char quote)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell("push_arg_quote(): Fail to allocate. ");
+		exit_shell("Cannot allocate memory");
 	i = 0;
 	while (*command && *command != quote)
 	{
@@ -44,7 +44,7 @@ int			handle_single_quote(t_cmd *curr, char *command)
 	while (command[j] && command[j] != S_QUOTE)
 		j += push_arg_quote(curr, command, S_QUOTE);
 	if (command[j] != S_QUOTE)
-		exit_shell("Single quote not closed. ");
+		exit_shell("Single quote not closed");
 	return (j + 2);
 }
 
@@ -67,6 +67,6 @@ int			handle_double_quote(t_cmd *curr, char *command)
 			i += push_arg_quote(curr, command + i, D_QUOTE);
 	}
 	if (command[i] != D_QUOTE)
-		exit_shell("Double quote not closed. ");
+		exit_shell("Double quote not closed");
 	return (i + 2);
 }
