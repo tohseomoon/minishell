@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 22:10:20 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 02:48:11 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ char				*find_key(char *str);
 char				*find_value(char *str);
 void				ft_unset(t_cmd *curr);
 int					check_command_error(char **argv, char *command, int i);
+int					handle_parse_error(int quote);
 
 #endif

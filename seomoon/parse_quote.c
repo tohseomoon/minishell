@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 17:45:59 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 02:47:00 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			handle_single_quote(t_cmd *curr, char *command)
 	while (command[j] && command[j] != S_QUOTE)
 		j += push_arg_quote(curr, command, S_QUOTE);
 	if (command[j] != S_QUOTE)
-		exit_shell("Single quote not closed");
+		return (handle_parse_error(S_QUOTE));
 	return (j + 2);
 }
 
@@ -67,6 +67,6 @@ int			handle_double_quote(t_cmd *curr, char *command)
 			i += push_arg_quote(curr, command + i, D_QUOTE);
 	}
 	if (command[i] != D_QUOTE)
-		exit_shell("Double quote not closed");
+		return (handle_parse_error(D_QUOTE));
 	return (i + 2);
 }

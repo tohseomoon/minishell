@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 22:09:40 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 02:50:25 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			push_arg(t_cmd *curr, char *command)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell("Cannot allocate memory");
+		exit_shell("Error: Cannot allocate memory");
 	i = 0;
 	while (*command && !is_seperator(*command))
 	{
@@ -55,15 +55,26 @@ int			push_arg(t_cmd *curr, char *command)
 int			split_command(t_cmd *curr, char *command)
 {
 	int		i;
+	int		result;
 
 	i = 0;
 	curr->index = 0;
 	while (command[i] && !is_command_end(command[i]))
 	{
 		if (command[i] == S_QUOTE)
-			i += handle_single_quote(curr, command + i);
+		{
+			result = handle_single_quote(curr, command + i);
+			if (result < 0)
+				return (result);
+			i += result;
+		}
 		else if (command[i] == D_QUOTE)
-			i += handle_double_quote(curr, command + i);
+		{
+			result = handle_double_quote(curr, command + i);
+			if (result < 0)
+				return (result);
+			i += result;
+		}
 		else if (is_symbol(command[i]))
 			i += handle_symbol(curr, command + i);
 		else if (command[i] == '~')
@@ -106,6 +117,8 @@ int			parse_command(char *command)
 		curr->argc = count_words(command);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		i = split_command(curr, command);
+		if (i < 0)
+			return (0);
 		if (command[i] == '|')
 		{
 			if (check_command_error(curr->argv, command, i))
