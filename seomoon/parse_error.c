@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 22:07:59 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/16 22:32:32 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ int			check_redirection_error(char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		printf("i: %d\n", i);
 		if ((ft_strcmp(argv[i], "<") == 0 ||
 					ft_strcmp(argv[i], ">") == 0 ||
-					ft_strcmp(argv[i], ">>") == 0) 
+					ft_strcmp(argv[i], ">>") == 0 ||
+					ft_strcmp(argv[i], "<<") == 0)
 				&& argv[i + 1] == 0)
 			return (print_syntax_error("`newline'"));
+		i++;
 	}
 	return (0);
 }
