@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 20:37:47 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/16 11:39:29 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct		s_env
 {
 	char			*key;
 	char			*value;
-	int				new_env;
 	int				equal;
 	struct s_env	*next;
 }					t_env;
@@ -62,8 +61,7 @@ typedef struct		s_data
 	struct s_cmd	*cmd_head;
 	struct s_env	*env_head;
 	char			**path;
-	char			**old_env;
-	char			**new_env;
+	char			**env;
 	int				return_value;
 	int				running;
 }					t_data;
@@ -117,5 +115,10 @@ char				**arr_new_env_string(void);
 void				print_sort_env(void);
 char				**arr_env_string(void);
 void				ft_export(t_cmd *curr);
+void				ft_export_fork(t_cmd *curr);
+char				*ft_strchr(const char *s, int c);
+char				*find_key(char *str);
+char				*find_value(char *str);
+void				ft_unset(t_cmd *curr);
 
 #endif

@@ -10,7 +10,6 @@ void    print_env()
     {
         printf("=====================================================\n");
         printf("%s\n", curr->key);
-		printf("%d\n", curr->new_env);
         printf("%s\n", curr->value);
         printf("=====================================================\n");
         curr = curr->next;
@@ -61,16 +60,6 @@ void	free_data() // 누수 체크를 위한 free 함수
 		i++;
 	}
 	free(g_data.path);
-
-	i = 0;
-	while (g_data.old_env[i])
-	{
-		free(g_data.old_env[i]);
-		g_data.old_env[i] = 0;
-		i++;
-	}
-	free(g_data.old_env);
-	g_data.old_env = 0;
 }
 
 void	print_cmd() // cmd변화를 확인하기 위한 print함수

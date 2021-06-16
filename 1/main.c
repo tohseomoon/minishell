@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 20:07:02 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/16 11:41:23 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				main(int argc, char **argv, char **envp)
 		parse_command(command);
 		//check_command_error();
 		execute_command(envp);
-		free(command);
+		//free(command);
 		//free_data();
 		//print_command();
 	}

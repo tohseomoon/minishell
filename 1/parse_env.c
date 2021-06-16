@@ -6,28 +6,30 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 15:10:57 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/16 11:43:32 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char			*find_key(char *str)
+char			*find_key(char *str)
 {
 	char	*result;
 	int		i;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] != '=' && str[i])
 		i++;
 	result = ft_strldup(str, i + 1);
 	return (result);
 }
 
-static char			*find_value(char *str)
+char			*find_value(char *str)
 {
 	char	*result;
 
+	if (!ft_strchr(str, '='))
+		return (0);
 	while (*str != '=')
 		str++;
 	str++;
@@ -50,7 +52,6 @@ int					parse_env(char **envp)
 			return (0);
 		tmp->key = find_key(envp[i]);
 		tmp->value = find_value(envp[i]);
-		tmp->new_env = 0;
 		tmp->equal = 1;
 		tmp->next = 0;
 		curr->next = tmp;

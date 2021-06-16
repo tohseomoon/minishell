@@ -6,13 +6,15 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:37 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 17:37:29 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/16 11:32:36 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_env(t_env *curr, int flag)
+#include "minishell.h"
+
+int		count_env(t_env *curr)
 {
 	int		cnt;
 
@@ -20,8 +22,7 @@ int		count_env(t_env *curr, int flag)
 	cnt = 0;
 	while (curr)
 	{
-		if (curr->new_env == flag)
-			cnt++;
+		cnt++;
 		curr = curr->next;
 	}
 	return (cnt);
@@ -77,33 +78,6 @@ void	sort_env_arr(char **env)
 	}
 }
 
-char	**arr_new_env_string(void)
-{
-	char	**env;
-	t_env	*curr;
-	int		cnt;
-	int		i;
-
-	cnt = count_env(g_data.env_head, 1);
-	env = (char **)malloc(sizeof(char *) * (cnt + 1));
-	if (env == 0)
-		return (0);
-	env[cnt] = 0;
-	i = 0;
-	curr = g_data.env_head->next;
-	while (i < cnt)
-	{
-		if (curr->new_env == 1)
-		{
-			env[i] = join_env_string(curr);
-			i++;
-		}
-		curr = curr->next;
-	}
-	sort_env_arr(env);
-	return (env);
-}
-
 char	**arr_env_string(void)
 {
 	char	**env;
@@ -111,7 +85,7 @@ char	**arr_env_string(void)
 	int		cnt;
 	int		i;
 
-	cnt = count_env(g_data.env_head, 0);
+	cnt = count_env(g_data.env_head);
 	env = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (env == 0)
 		return (0);
@@ -120,7 +94,10 @@ char	**arr_env_string(void)
 	curr = g_data.env_head->next;
 	while (i < cnt)
 	{
-		env[i] = join_env_string(curr);
+		if (curr->equal == 1)
+			env[i] = join_env_string(curr);
+		else
+			env[i] = ft_strdup(curr->key);
 		curr = curr->next;
 		i++;
 	}
@@ -132,21 +109,10 @@ void	print_sort_env(void)
 {
 	int		i;
 
-	if (g_data.old_env == 0)
-	{
-		printf("Invalid environment variable\n");
-		return ;
-	}
 	i = 0;
-	while (g_data.old_env[i])
+	while (g_data.env[i])
 	{
-		printf("declare -x %s\n", g_data.old_env[i]);
+		printf("declare -x %s\n", g_data.env[i]);
 		i++;
-	}
-	i = 0;
-	while (g_data.new_env[i])
-	{
-		printf("declare -x %s\n", g_data.old_env[i]);
-		i++;	
 	}
 }
