@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/16 16:52:32 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/16 13:27:39 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char		*ft_strtrim(char *str)
 	if (!result)
 		return (NULL);
 	ft_strlcpy(result, (char *)(str + begin), end + 1);
+	//free(str);
 	return (result);
 }
 
@@ -320,4 +321,19 @@ char			*ft_strchr(const char *s, int c)
 		i++;
 	}
 	return ((char *)(s + i));
+}
+
+int		ft_isalpha(int c)
+{
+	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int		ft_isalnum(int c)
+{
+	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
+	|| ('0' <= c && c <= '9'))
+			return (1);
+	return (0);
 }

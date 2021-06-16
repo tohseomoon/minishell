@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 11:39:29 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/16 15:01:26 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,9 @@ char				*ft_strchr(const char *s, int c);
 char				*find_key(char *str);
 char				*find_value(char *str);
 void				ft_unset(t_cmd *curr);
+int					ft_isalpha(int c);
+int					ft_isalnum(int c);
+void				ft_pwd(void);
+void				ft_cd(t_cmd *curr);
 
 #endif
