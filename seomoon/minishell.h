@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 11:39:29 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/16 22:10:20 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct		s_data
 t_data				g_data;
 
 void				exit_shell(char *message);
-void				parse_command(char *command);
+int					parse_command(char *command);
 int					handle_single_quote(t_cmd *curr, char *command);
 int					handle_double_quote(t_cmd *curr, char *command);
 int					handle_symbol(t_cmd *curr, char *command);
@@ -120,5 +120,6 @@ char				*ft_strchr(const char *s, int c);
 char				*find_key(char *str);
 char				*find_value(char *str);
 void				ft_unset(t_cmd *curr);
+int					check_command_error(char **argv, char *command, int i);
 
 #endif
