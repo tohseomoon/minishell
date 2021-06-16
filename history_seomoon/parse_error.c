@@ -6,13 +6,18 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 20:00:33 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/15 21:26:54 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void		print_error()
+{
+	printf("error");
+	free_all();
 
+}
 
 void		check_command_error(char **argv)
 {
@@ -27,7 +32,6 @@ void		check_command_error(char **argv)
 			if (argv[i][j] == "<" || argv[i][j] == ">" || argv[i][j] == ">>")
 			{
 				if (!argv[i][j + 1])
-					exit_shell("");
 			}
 			else if (argv[i][j] == '|')
 			{
