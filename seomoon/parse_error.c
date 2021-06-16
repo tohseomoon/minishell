@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/16 22:32:32 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 01:36:23 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int			print_syntax_error(char *message)
 {
 	printf("bash: syntax error near unexpected token %s\n", message);
+	g_data.return_value = 258;
 	//free_all();
 	return (1);
 }
