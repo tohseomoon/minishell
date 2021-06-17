@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 15:35:57 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/17 15:44:54 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 # define S_QUOTE '\''
 # define D_QUOTE '\"'
+# define B_QUOTE '`'
 # define ESCAPE  '\\'
 
 typedef struct		s_env
@@ -69,7 +70,7 @@ typedef struct		s_data
 t_data				g_data;
 
 void				exit_shell(char *message);
-void				parse_command(char *command);
+int					parse_command(char *command);
 int					handle_single_quote(t_cmd *curr, char *command);
 int					handle_double_quote(t_cmd *curr, char *command);
 int					handle_symbol(t_cmd *curr, char *command);
@@ -124,5 +125,8 @@ int					ft_isalpha(int c);
 int					ft_isalnum(int c);
 void				ft_pwd(void);
 void				ft_cd(t_cmd *curr);
+int					check_command_error(char **argv, char *command, int i);
+int					handle_parse_error(int quote);
+
 
 #endif
