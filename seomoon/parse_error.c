@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 02:47:50 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 15:34:13 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int			handle_parse_error(int quote)
 		printf("minishell: single quotes not properly closed\n");
 	else if (quote == D_QUOTE)
 		printf("minishell: double quotes not properly closed\n");
+	else if (quote == B_QUOTE)
+		printf("minishell: back quotes not properly closed\n");
 	//free_all();
 	return (-1);
 }
