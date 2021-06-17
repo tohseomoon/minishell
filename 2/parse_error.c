@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 15:34:13 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/17 16:13:22 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			handle_syntax_error(char *message)
 {
-	printf("bash: syntax error near unexpected token %s\n", message);
+	printf("minishell: syntax error near unexpected token %s\n", message);
 	g_data.return_value = 258;
 	//free_all();
 	return (1);

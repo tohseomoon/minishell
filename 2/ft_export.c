@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:15 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 15:35:03 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/17 16:12:58 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		check_keys(char **keys)
 	{
 		if (!key_isallowed(keys[i]))
 		{
-			printf("bash: export: `%s': not a valid identifier\n", keys[i]);
+			printf("minishell: export: `%s': not a valid identifier\n", keys[i]);
 			g_data.return_value = 1;
 			return (0);
 		}

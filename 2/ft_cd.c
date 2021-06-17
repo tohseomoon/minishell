@@ -66,7 +66,7 @@ void	ft_cd(t_cmd *curr)
 	}
 	else
 	{
-		printf("bash: cd: %s: No such file or directory\n", curr->argv[1]);
+		printf("minishell: %s: %s\n", curr->argv[1], strerror(errno));
 		g_data.return_value = 1;
 	}
 }

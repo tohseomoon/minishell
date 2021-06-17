@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:15:53 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 14:32:08 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/17 16:06:20 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ int				find_cmd_absolute_path(t_cmd *curr)
 	ret = stat(curr->argv[0], &buf);
 	if (ret == -1)
 	{
-		printf("bash: %s: No such file or directory\n", curr->argv[0]);
+		printf("minishell: %s: %s\n", curr->argv[0], strerror(errno));
+		g_data.return_value = 127;
 		return (0);
 	}
 	else
 	{
 		if (S_ISDIR(buf.st_mode))
 		{
-			printf("bash: %s: is a directory\n", curr->argv[0]);
+			printf("minishell: %s: %s\n", curr->argv[0], strerror(errno));
+			g_data.return_value = 126;
 			return (0);
 		}
 	}

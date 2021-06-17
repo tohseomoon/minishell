@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 15:34:58 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/17 16:06:35 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 			dup2(curr->fd_out, 1);
 		if (execve(curr->argv[0], curr->argv, envp) == -1)
 		{
-			printf("bash: %s: %s\n", curr->argv[0], strerror(errno));
+			printf("minishell: %s: %s\n", curr->argv[0], strerror(errno));
 			exit(1);
 		}
 	}
@@ -94,7 +94,13 @@ void	execute_command(char **envp)
 	{
 		pipe(curr->pipe);
 		if ((i = redirection_open_file(curr)) > 0)
-			printf("bash: %s: No such file or directory\n", curr->argv[i + 1]);
+		{
+			printf("minishell: %s: %s\n", curr->argv[i], strerror(errno));
+			if (errno == 13)
+				g_data.return_value = 126;
+			else if (errno == 2)
+				g_data.return_value = 127;
+		}
 		else if (check_shell_builtin_fork(curr))
 			builtin_cmd_fork(curr);
 		else if (check_shell_builtin(curr))
@@ -107,7 +113,10 @@ void	execute_command(char **envp)
 		else if (find_cmd_path(curr))
 			execute_cmd_path(curr, envp);
 		else
-			printf("bash : %s: command not found\n", curr->argv[0]);
+		{
+			printf("minishell : %s: command not found\n", curr->argv[0]);
+			g_data.return_value = 127;
+		}
 		close_file(curr);
 		curr = curr->next;
 	}
