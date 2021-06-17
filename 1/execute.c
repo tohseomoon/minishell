@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/15 18:05:04 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/17 15:34:58 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,20 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 
 void		close_file(t_cmd *curr)
 {
+
 	if (curr->fd_in != 0)
 		close(curr->fd_in);
 	if (curr->fd_out != 1)
 		close(curr->fd_out);
-	if (curr->prev != 0)
-		close(curr->prev->pipe[0]);
+	if (curr->next == 0)
+	{
+		while (curr)
+		{
+			close(curr->pipe[0]);
+			close(curr->pipe[1]);
+			curr = curr->prev;
+		}
+	}
 }
 
 void	execute_command(char **envp)
@@ -100,7 +108,7 @@ void	execute_command(char **envp)
 			execute_cmd_path(curr, envp);
 		else
 			printf("bash : %s: command not found\n", curr->argv[0]);
-		//close_file(curr);
+		close_file(curr);
 		curr = curr->next;
 	}
 }

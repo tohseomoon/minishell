@@ -26,7 +26,10 @@ void		ft_unset(t_cmd *curr)
 		while (curr_env->next)
 		{
 			if (!ft_strcmp(curr_env->next->key, curr->argv[i]))
+			{
 				remove_env(curr->argv[i], curr_env);
+				break ;
+			}
 			curr_env = curr_env->next;
 		}
 		i++;
