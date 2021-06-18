@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 15:35:07 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 16:12:29 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ char		*ft_strdup(const char *s1)
 	int		str_len;
 	char	*str;
 
+	if (s1 == 0)
+		return (0);
 	str_len = ft_strlen(s1);
 	str = (char *)malloc(sizeof(char) * (str_len + 1));
 	if (str == 0)
@@ -334,5 +336,19 @@ int		ft_isalnum(int c)
 	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
 	|| ('0' <= c && c <= '9'))
 			return (1);
+	return (0);
+}
+
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
 	return (0);
 }

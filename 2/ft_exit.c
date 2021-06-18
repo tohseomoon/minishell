@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 16:18:03 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 16:04:16 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,13 @@ void						ft_exit(t_cmd *curr)
 	int					exit_flag;
 
 	exit_flag = 1;
-	if (curr->argc == 1)
+	if (curr->argc == 1 && curr->prev == 0)
 	{
 		printf("exit\n");
-		num = 0;
+		num = g_data.return_value;
 	}
+	else if (curr->argc == 1 && curr->prev != 0)
+		num = g_data.return_value;
 	else if (ft_is_exit_num(curr->argv[1]))
 		num = exit_print_return_msg(curr, &exit_flag);
 	else
@@ -113,10 +115,7 @@ void						ft_exit(t_cmd *curr)
 		printf("minishell: exit: %s: numeric argument required\n", curr->argv[1]);
 	}
 	if (curr->prev == 0 && exit_flag == 1)
-	{
-		while(1);
 		exit(num);
-	}
 	else
 		g_data.return_value = num;
 }

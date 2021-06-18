@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 19:27:08 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 14:48:16 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void		check_pipe(t_cmd *curr)
 		else if (curr->prev != 0 && curr->next == 0)
 			dup2(curr->prev->pipe[0], 0);
 	}
+	if (curr->fd_in != 0 && curr->heredoc != 1)
+		dup2(curr->fd_in, 0);
+	if (curr->fd_out != 1)
+		dup2(curr->fd_out, 1);
 }
 
 void		execute_cmd_path(t_cmd *curr, char **envp)
@@ -43,10 +47,6 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 	if (pid == 0)
 	{
 		check_pipe(curr);
-		if (curr->fd_in != 0 && curr->heredoc != 1)
-			dup2(curr->fd_in, 0);
-		if (curr->fd_out != 1)
-			dup2(curr->fd_out, 1);
 		if (execve(curr->argv[0], curr->argv, envp) == -1)
 		{
 			printf("minishell: %s: %s\n", curr->argv[0], strerror(errno));
@@ -59,10 +59,7 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 		close(curr->pipe[1]);
 		g_data.return_value = WEXITSTATUS(status);
 		if (curr->heredoc == 1)
-		{
 			curr->heredoc = 0;
-			close(curr->heredoc_pipe[0]);
-		}
 	}
 }
 
@@ -79,8 +76,42 @@ void		close_file(t_cmd *curr)
 		{
 			close(curr->pipe[0]);
 			close(curr->pipe[1]);
+			if (curr->heredoc_pipe[0] != 0)
+				close(curr->heredoc_pipe[0]);
+			if (curr->heredoc_pipe[1] != 0)
+				close(curr->heredoc_pipe[1]);
 			curr = curr->prev;
 		}
+	}
+}
+
+void	check_commad(t_cmd *curr, char **envp)
+{
+	int		i;
+
+	if ((i = redirection_open_file(curr)) > 0)
+	{
+		printf("minishell: %s: %s\n", curr->argv[i], strerror(errno));
+		if (errno == 13)
+			g_data.return_value = 126;
+		else if (errno == 2)
+			g_data.return_value = 127;
+	}
+	else if (check_shell_builtin_fork(curr))
+		builtin_cmd_fork(curr);
+	else if (check_shell_builtin(curr))
+		builtin_cmd(curr);
+	else if (curr->argv[0][0] == '/' || curr->argv[0][0] == '.')
+	{
+		if (find_cmd_absolute_path(curr))
+			execute_cmd_path(curr, envp);
+	}
+	else if (find_cmd_path(curr))
+		execute_cmd_path(curr, envp);
+	else
+	{
+		printf("minishell : %s: command not found\n", curr->argv[0]);
+		g_data.return_value = 127;
 	}
 }
 
@@ -93,30 +124,7 @@ void	execute_command(char **envp)
 	while (curr)
 	{
 		pipe(curr->pipe);
-		if ((i = redirection_open_file(curr)) > 0)
-		{
-			printf("minishell: %s: %s\n", curr->argv[i], strerror(errno));
-			if (errno == 13)
-				g_data.return_value = 126;
-			else if (errno == 2)
-				g_data.return_value = 127;
-		}
-		else if (check_shell_builtin_fork(curr))
-			builtin_cmd_fork(curr);
-		else if (check_shell_builtin(curr))
-			builtin_cmd(curr);
-		else if (curr->argv[0][0] == '/')
-		{
-			if (find_cmd_absolute_path(curr))
-				execute_cmd_path(curr, envp);
-		}
-		else if (find_cmd_path(curr))
-			execute_cmd_path(curr, envp);
-		else
-		{
-			printf("minishell : %s: command not found\n", curr->argv[0]);
-			g_data.return_value = 127;
-		}
+		check_commad(curr, envp);	
 		close_file(curr);
 		curr = curr->next;
 	}

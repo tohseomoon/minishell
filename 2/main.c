@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 03:05:41 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:05:23 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void			init(char **envp)
 	if (!g_data.cmd_head || !g_data.env_head)
 		exit_shell("Cannot allocate memory");
 	parse_env(envp);
-	g_data.path = parse_path();
 	//아래 부터 추가
 }
 

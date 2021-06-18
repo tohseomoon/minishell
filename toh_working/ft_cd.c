@@ -41,17 +41,21 @@ static int		change_directory(char *command)
 	return (result);
 }
 
-static void	add_env(t_env *curr, char *key, char *value)
+static void	add_env(char *key, char *value)
 {
 	t_env	*tmp;
-	
+	t_env	*curr;
+
+	curr = g_data.env_head->next;
+	while (curr->next)
+		curr = curr->next;
 	tmp = (t_env *)malloc(sizeof(t_env));
 	if (tmp == 0)
 		printf("Error_allocate\n");
-	tmp->next = 0;
 	curr->next = tmp;
 	curr->key = ft_strdup(key);
 	curr->value = ft_strdup(value);
+	curr->next = 0;
 }
 
 static void		update_pwd(char *key, char *new_value)
@@ -73,7 +77,7 @@ static void		update_pwd(char *key, char *new_value)
 		curr = curr->next;
 	}
 	if (flag == 0)
-		add_env(curr, key, new_value);
+		add_env(key, new_value);
 }
 
 void	ft_cd(t_cmd *curr)

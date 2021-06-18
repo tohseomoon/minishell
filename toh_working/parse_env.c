@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 20:13:45 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 15:49:51 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ char			*find_value(char *str)
 	return (result);
 }
 
+static int			check_oldpwd(t_env *tmp, int i, char **envp)
+{
+	tmp->key = find_key(envp[i]);
+	if (!ft_strcmp(tmp->key, "OLDPWD"))
+	{
+		free (tmp->key);
+		i++;
+		tmp->key = find_key(envp[i]);
+	}
+	return (i);
+}
+
 int					parse_env(char **envp)
 {
 	int		i;
@@ -49,42 +61,14 @@ int					parse_env(char **envp)
 	{
 		tmp = (t_env *)malloc(sizeof(t_env));
 		if (tmp == 0)
-			return (0);
-		tmp->key = find_key(envp[i]);
-		tmp->value = find_value(envp[i]);
+			printf("alloccata");
 		tmp->equal = 1;
 		tmp->next = 0;
+		i = check_oldpwd(tmp, i, envp);
+		tmp->value = find_value(envp[i]);
 		curr->next = tmp;
 		curr = curr->next;
 		i++;
 	}
 	return (1);
-}
-
-static char			*find_path(void)
-{
-	t_env	*curr;
-	char	*path;
-
-	path = 0;
-	curr = g_data.env_head->next;
-	while (curr)
-	{
-		if (!ft_strcmp(curr->key, "PATH"))
-			path = ft_strdup(curr->value);
-		curr = curr->next;
-	}
-	return (path);
-}
-
-char				**parse_path(void)
-{
-	char	*path;
-	char	**split_path;
-
-	path = find_path();
-	split_path = ft_split(path, ':');
-	if (path != 0)
-		free(path);
-	return (split_path);
 }

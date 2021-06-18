@@ -6,36 +6,34 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:15:53 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 20:14:43 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 15:42:00 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		*find_directory(t_cmd *curr)
+static char		*find_directory(t_cmd *curr, int i)
 {
 	DIR				*dp;
 	struct dirent	*entry;
 	char			*directory;
-	int				i;
 
 	g_data.path = parse_path();
-	i = 0;
 	directory = 0;
 	if (g_data.path == 0)
 		return (0);
-	while (g_data.path[i])
+	while (g_data.path[++i])
 	{
 		dp = opendir(g_data.path[i]);
-		if (dp == 0)
-			return (0);
-		while ((entry = readdir(dp)) != 0)
+		if (dp != 0)
 		{
-			if (!ft_strcmp(entry->d_name, curr->argv[0]))
-				directory = ft_strdup(g_data.path[i]);
+			while ((entry = readdir(dp)) != 0)
+			{
+				if (!ft_strcmp(entry->d_name, curr->argv[0]))
+					directory = ft_strdup(g_data.path[i]);
+			}
+			closedir(dp);
 		}
-		closedir(dp);
-		i++;
 	}
 	free(g_data.path);
 	return (directory);
@@ -45,7 +43,7 @@ int				find_cmd_path(t_cmd *curr)
 {
 	char			*directory;
 
-	directory = find_directory(curr);
+	directory = find_directory(curr, -1);
 	if (directory == 0)
 		return (0);
 	directory = ft_strjoin_free_s1(&directory, "/");

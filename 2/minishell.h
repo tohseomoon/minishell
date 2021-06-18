@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 15:44:54 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:05:56 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define STDOUT	1
 # define END 0
 # define PIPE 1
-# define BUFFER_SIZE 1024
 
 # define S_QUOTE '\''
 # define D_QUOTE '\"'
@@ -127,6 +126,10 @@ void				ft_pwd(void);
 void				ft_cd(t_cmd *curr);
 int					check_command_error(char **argv, char *command, int i);
 int					handle_parse_error(int quote);
-
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					add_path(t_env *curr, char *str);
+int					key_isallowed(char *str);
+void				creat_add_env(t_cmd *curr, t_env *env_curr, t_env *tmp, int i);
+void				del_redirections(t_cmd *curr);
 
 #endif

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void		remove_env(char *str, t_env *curr)
+void		remove_env(t_env *curr)
 {
 	t_env	*tmp;
 
@@ -27,7 +27,7 @@ void		ft_unset(t_cmd *curr)
 		{
 			if (!ft_strcmp(curr_env->next->key, curr->argv[i]))
 			{
-				remove_env(curr->argv[i], curr_env);
+				remove_env(curr_env);
 				break ;
 			}
 			curr_env = curr_env->next;
