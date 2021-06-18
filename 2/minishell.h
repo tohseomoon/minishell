@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/18 16:05:56 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 16:47:53 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ int					add_path(t_env *curr, char *str);
 int					key_isallowed(char *str);
 void				creat_add_env(t_cmd *curr, t_env *env_curr, t_env *tmp, int i);
 void				del_redirections(t_cmd *curr);
+void				handler(int signo);
 
 #endif

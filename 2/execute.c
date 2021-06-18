@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/18 16:04:20 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 16:49:02 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 	pid_t	pid;
 	int		status;
 
+	g_data.running = 1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -57,9 +58,11 @@ void		execute_cmd_path(t_cmd *curr, char **envp)
 	{
 		waitpid(pid, &status, 0);
 		close(curr->pipe[1]);
-		g_data.return_value = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			g_data.return_value = WEXITSTATUS(status);
 		if (curr->heredoc == 1)
 			curr->heredoc = 0;
+		g_data.running = 0;
 	}
 }
 

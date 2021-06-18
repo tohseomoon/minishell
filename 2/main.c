@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/18 16:05:23 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/18 16:47:44 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void			init(char **envp)
 		exit_shell("Cannot allocate memory");
 	parse_env(envp);
 	//아래 부터 추가
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 }
 
 int				main(int argc, char **argv, char **envp)
