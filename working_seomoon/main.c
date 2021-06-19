@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 03:05:41 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:09:42 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void			print_command()
 void			init(char **envp)
 {
 	ft_memset(&g_data, 0, sizeof(t_data));
-	g_data.cmd_head = malloc(sizeof(t_cmd));
 	g_data.env_head = malloc(sizeof(t_env));
+	g_data.cmd_head = malloc(sizeof(t_cmd));
 	if (!g_data.cmd_head || !g_data.env_head)
 		exit_shell("Cannot allocate memory");
 	parse_env(envp);
@@ -61,9 +61,13 @@ int				main(int argc, char **argv, char **envp)
 			break ;
 		add_history(command);
 		if (parse_command(command) == 0)
+		{
+			free(command);
+			free_cmd_list();
 			continue ;
+		}
 		execute_command(envp);
-		//free(command);
-		//free_all();
+		free(command);
+		free_cmd_list();
 	}
 }

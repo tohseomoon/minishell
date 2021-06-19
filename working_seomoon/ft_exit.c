@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 15:35:01 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/19 20:06:29 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,11 @@ void						ft_exit(t_cmd *curr)
 		printf("bash: exit: %s: numeric argument required\n", curr->argv[1]);
 	}
 	if (curr->prev == 0 && exit_flag == 1)
+	{
+		free_env();
+		while (1);
 		exit(num);
+	}
 	else
 		g_data.return_value = num;
 }

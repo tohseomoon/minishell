@@ -6,29 +6,11 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 20:40:44 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/15 21:24:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:16:07 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void		free_cmd(t_cmd *cmd)
-{
-	int		i;
-
-	i = 0;
-	while (i < cmd->argc)
-	{
-		free(cmd->argv[i]);
-		i++;
-	}
-}
-
-void		free_env(t_env *env)
-{
-	free(env->key);
-	free(env->value);
-}
 
 void		free_path()
 {
@@ -43,35 +25,51 @@ void		free_path()
 	free(g_data.path);
 }
 
-void		free_all()
+void		free_cmd(t_cmd *cmd)
 {
-	t_cmd	*curr_cmd;
-	t_cmd	*tmp_cmd;
+	int		i;
+
+	i = 0;
+	while (cmd->argv[i])
+	{
+		free(cmd->argv[i]);
+		i++;
+	}
+	free(cmd->argv);
+}
+
+void		free_env()
+{
 	t_env	*curr_env;
 	t_env	*tmp_env;
 
-	curr_cmd = g_data.cmd_head->next;
 	curr_env = g_data.env_head->next;
-	while (curr_cmd)
-	{
-		free_cmd(curr_cmd);
-		tmp_cmd = curr_cmd;
-		curr_cmd = curr_cmd->next;
-		free(tmp_cmd);
-	}
-	free(g_data.cmd_head);
 	while (curr_env)
 	{
-		free_env(curr_env);
 		tmp_env = curr_env;
 		curr_env = curr_env->next;
+		free(tmp_env->key);
+		free(tmp_env->value);
 		free(tmp_env);
 	}
-	free(g_data.env_head);
+	free(g_data.cmd_head);
 	free_path();
 }
 
+void		free_cmd_list()
+{
+	t_cmd	*curr_cmd;
+	t_cmd	*tmp_cmd;
+
+	curr_cmd = g_data.cmd_head->next;
+	while (curr_cmd)
+	{
+		tmp_cmd = curr_cmd;
+		curr_cmd = curr_cmd->next;
+		free_cmd(tmp_cmd);
+	}
+}
+
 /*
- 	old_env, new_env;
 	replace_env(), replace_backquote() 메모리 누수 확인;
 */

@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 16:03:42 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:18:43 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			replace_env(t_cmd *curr, char *command)
 		i++;
 	}
 	key[i] = '\0';
-	// 메모리 누수 가능성 있음
+	free(curr->argv[curr->index]);
 	curr->argv[curr->index] = find_env_value(key);
 	free(key);
 	return (len + 1);
@@ -75,6 +75,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 	while (i < len)
 		cmd[i++] = *(command++);
 	cmd[i] = '\0';
+	free(curr->argv[curr->index]);
 	curr->argv[curr->index] = ft_strdup(cmd); // execute_cmd(cmd);
 	free(cmd);
 	return (len + 2);

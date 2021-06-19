@@ -1,1 +1,2 @@
-gcc *.c -I. -g3 -fsanitize=address -lreadline
+gcc *.c -g -I. -lreadline
+#gcc *.c -g3 -fsanitize=address -I. -lreadline

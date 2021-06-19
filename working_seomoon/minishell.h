@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 15:44:54 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 20:06:24 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ void				ft_pwd(void);
 void				ft_cd(t_cmd *curr);
 int					check_command_error(char **argv, char *command, int i);
 int					handle_parse_error(int quote);
+void				free_cmd_list();
+void				free_env();
 
 
 #endif

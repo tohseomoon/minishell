@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/18 16:47:44 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/19 21:28:21 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,13 @@ int				main(int argc, char **argv, char **envp)
 			break ;
 		add_history(command);
 		if (parse_command(command) == 0)
+		{
+			free(command);
+			free_cmd_list();
 			continue ;
+		}
 		execute_command(envp);
-		//free(command);
-		//free_all();
+		free(command);
+		free_cmd_list();
 	}
 }
