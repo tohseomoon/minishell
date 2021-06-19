@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 21:56:31 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 22:08:23 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int				main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		command = readline("[minishell]$ ");
-		if (!command)
-			break ;
+		if (!command || ft_strlen(command) == 0)
+			continue ;
 		add_history(command);
 		if (parse_command(command) == 0)
 		{
