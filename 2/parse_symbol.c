@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_symbol.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 21:58:05 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 01:31:58 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*find_env_value(char *key)
 			return (curr->value);
 		curr = curr->next;
 	}
-	exit_shell("cannot find matching value. ");
+	exit_shell();
 	return (NULL);
 }
 

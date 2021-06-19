@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 22:08:23 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 01:41:44 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ int				main(int argc, char **argv, char **envp)
 	{
 		command = readline("[minishell]$ ");
 		if (!command || ft_strlen(command) == 0)
+		{
+			free(command);
 			continue ;
+		}
 		add_history(command);
 		if (parse_command(command) == 0)
 		{

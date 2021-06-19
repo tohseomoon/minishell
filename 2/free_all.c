@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 20:40:44 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 21:16:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 01:30:12 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		free_path()
+void		free_path(void)
 {
 	int		i;
 
@@ -53,7 +53,6 @@ void		free_env()
 		free(tmp_env);
 	}
 	free(g_data.cmd_head);
-	free_path();
 }
 
 void		free_cmd_list()

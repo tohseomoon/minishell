@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 21:58:29 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 01:30:06 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,6 @@ void				del_redirections(t_cmd *curr);
 void				handler(int signo);
 void				free_cmd_list(void);
 void				free_env(void);
+void				free_path(void);
 
 #endif

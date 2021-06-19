@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:15:53 by toh               #+#    #+#             */
-/*   Updated: 2021/06/18 16:04:18 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/20 01:29:23 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char		*find_directory(t_cmd *curr, int i)
 			closedir(dp);
 		}
 	}
-	free(g_data.path);
+	free_path();
 	return (directory);
 }
 
