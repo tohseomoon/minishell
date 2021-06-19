@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/18 16:04:16 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/19 21:29:50 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ void						ft_exit(t_cmd *curr)
 		printf("minishell: exit: %s: numeric argument required\n", curr->argv[1]);
 	}
 	if (curr->prev == 0 && exit_flag == 1)
+	{
+		free_env();
 		exit(num);
+	}
 	else
 		g_data.return_value = num;
 }
