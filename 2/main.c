@@ -6,15 +6,17 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/19 21:28:21 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:56:31 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			exit_shell(char *message) //temporary
+void			exit_shell(void)
 {
-	printf("%s\n", message);
+	free_cmd_list();
+	free_env();
+	printf("minishell: Cannot allocate memory\n");
 	exit(1);
 }
 
@@ -43,7 +45,7 @@ void			init(char **envp)
 	g_data.cmd_head = malloc(sizeof(t_cmd));
 	g_data.env_head = malloc(sizeof(t_env));
 	if (!g_data.cmd_head || !g_data.env_head)
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	parse_env(envp);
 	//아래 부터 추가
 	signal(SIGINT, handler);

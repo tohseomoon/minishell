@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 03:33:51 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:58:05 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			replace_env(t_cmd *curr, char *command)
 		len++;
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	i = 0;
 	while (i < len)
 	{
@@ -70,7 +70,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 		return (handle_parse_error(B_QUOTE));
 	cmd = malloc(sizeof(char) * (len + 1));
 	if (!cmd)
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	i = 0;
 	while (i < len)
 		cmd[i++] = *(command++);

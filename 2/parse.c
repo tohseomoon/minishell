@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 03:35:02 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:57:10 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			push_arg(t_cmd *curr, char *command)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	i = 0;
 	while (*command && !is_seperator(*command))
 	{
@@ -111,7 +111,7 @@ int			parse_command(char *command)
 
 	g_data.cmd_head->next = malloc(sizeof(t_cmd));
 	if (!g_data.cmd_head->next)
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	curr = g_data.cmd_head->next;
 	ft_memset(curr, 0, sizeof(t_cmd));
 	curr->fd_out = 1;
@@ -122,7 +122,7 @@ int			parse_command(char *command)
 		curr->argc = count_words(command);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		if (!curr->argv)
-			exit_shell("Cannot allocate memory");
+			exit_shell();
 		i = split_command(curr, command);
 		if (i < 0)
 			return (0);
@@ -133,7 +133,7 @@ int			parse_command(char *command)
 			tmp = curr;
 			curr->next = malloc(sizeof(t_cmd));
 			if (!curr->next)
-				exit_shell("Cannot allocate memory");
+				exit_shell();
 			curr = curr->next;
 			ft_memset(curr, 0, sizeof(t_cmd));
 			curr->prev = tmp;

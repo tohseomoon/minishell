@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/17 02:47:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/19 21:57:45 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			push_arg_quote(t_cmd *curr, char *command, char quote)
 		len++;
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
-		exit_shell("Cannot allocate memory");
+		exit_shell();
 	i = 0;
 	while (*command && *command != quote)
 	{
