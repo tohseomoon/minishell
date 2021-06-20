@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 13:23:30 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 15:51:48 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,16 @@ int				main(int argc, char **argv, char **envp)
 		command = readline("[minishell]$ ");
 		if (!command || ft_strlen(command) == 0)
 		{
-			free(command);
+			//free(command);
 			continue ;
 		}
 		add_history(command);
 		if (parse_command(command) == 0)
 		{
-			free(command);
-			free_cmd_list();
+			//free_cmd_list();
 			continue ;
 		}
 		execute_command(envp);
-		free_cmd_list(); //free here
+		//free_cmd_list();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 13:23:51 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 16:13:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int			replace_env(t_cmd *curr, char *command)
 	int		i;
 	int		len;
 	char	*key;
+	char	*value;
 
 	command++;
 	len = 0;
@@ -44,14 +45,15 @@ int			replace_env(t_cmd *curr, char *command)
 	if (!key)
 		exit_shell();
 	i = 0;
-	while (i < len)
+	while (i < len && command[i] != '/')
 	{
 		key[i] = command[i];
 		i++;
 	}
 	key[i] = '\0';
 	// 메모리 누수 가능성 있음
-	curr->argv[curr->index] = ft_strdup(find_env_value(key));
+	value = ft_strdup(find_env_value(key));
+	curr->argv[curr->index] = ft_strjoin_free_s1(&value, command + i);
 	free(key);
 	return (len + 1);
 }

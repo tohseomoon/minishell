@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 20:40:44 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 13:12:42 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 13:40:40 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void		free_env()
 		free(tmp_env);
 	}
 	free(g_data.env_head);
+	free(g_data.cmd_head);
 }
 
 void		free_cmd_list()
