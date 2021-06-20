@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 16:13:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 16:36:05 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int			replace_env(t_cmd *curr, char *command)
 	while (command[len] && !is_space(command[len]) &&
 			command[len] != D_QUOTE)
 		len++;
+	if (len == 0)
+		return (-1);
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
 		exit_shell();
@@ -95,7 +97,12 @@ int			handle_symbol(t_cmd *curr, char *command)
 
 	i = 0;
 	if (command[i] == '$')
-		i += replace_env(curr, command);
+	{
+		result = replace_env(curr, command);
+		if (result < 0)
+			return (i + push_arg(curr, command));
+		i += result;
+	}
 	else if (command[i] == '`')
 	{
 		result = replace_back_quote(curr, command);
