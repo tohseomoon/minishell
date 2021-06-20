@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 20:34:43 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 20:40:23 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int			count_words(char *str)
 			count++;
 		i++;
 	}
-	printf("count: %d\n", count);
 	return (count);
 }
 
@@ -42,7 +41,7 @@ int			push_arg(t_cmd *curr, char *command)
 	if (!curr->argv[curr->index])
 		exit_shell();
 	i = 0;
-	while (*command && !is_seperator(*command))
+	while (*command && !is_space(*command))
 	{
 		curr->argv[curr->index][i] = *command;
 		i++;
