@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:39:24 by toh               #+#    #+#             */
-/*   Updated: 2021/06/20 01:32:49 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/20 12:33:41 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char		*ft_strtrim(char *str)
 	if (!result)
 		return (NULL);
 	ft_strlcpy(result, (char *)(str + begin), end + 1);
+	free(str);
 	return (result);
 }
 

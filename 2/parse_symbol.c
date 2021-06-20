@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 12:28:19 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 13:23:51 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			replace_env(t_cmd *curr, char *command)
 	}
 	key[i] = '\0';
 	// 메모리 누수 가능성 있음
-	curr->argv[curr->index] = find_env_value(key);
+	curr->argv[curr->index] = ft_strdup(find_env_value(key));
 	free(key);
 	return (len + 1);
 }
@@ -82,7 +82,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 
 int			replace_path_home(t_cmd *curr)
 {
-	curr->argv[curr->index] = find_env_value("HOME");
+	curr->argv[curr->index] = ft_strdup(find_env_value("HOME"));
 	return (ft_strlen("~"));
 }
 
