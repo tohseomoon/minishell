@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 01:31:58 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/20 12:28:19 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*find_env_value(char *key)
 			return (curr->value);
 		curr = curr->next;
 	}
-	exit_shell();
+	//exit_shell("Cannot find matching value");
 	return (NULL);
 }
 

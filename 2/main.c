@@ -6,13 +6,13 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 01:41:44 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/20 12:29:00 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			exit_shell(void)
+void			exit_shell()
 {
 	free_cmd_list();
 	free_env();
