@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 15:53:37 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 20:34:43 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int			count_words(char *str)
 	count = 0;
 	while (str[i] && !is_command_end(str[i]))
 	{
-		if (!is_seperator(str[i]) &&
-				(is_seperator(str[i + 1]) || str[i + 1] == '\0'))
+		if (!is_space(str[i]) &&
+				(is_space(str[i + 1]) || str[i + 1] == '\0'))
 			count++;
 		i++;
 	}
+	printf("count: %d\n", count);
 	return (count);
 }
 
@@ -75,6 +76,8 @@ int			split_command(t_cmd *curr, char *command)
 				return (result);
 			i += result;
 		}
+		else if (command[i] == ESCAPE)
+			i += handle_escape(curr, command + i, 0);
 		else if (is_symbol(command[i]) || command[i] == '~')
 		{
 			result = handle_symbol(curr, command + i);

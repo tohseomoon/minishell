@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 16:30:48 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/20 17:24:32 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ void				free_cmd_list(void);
 void				free_env(void);
 void				free_path(void);
 int			push_arg(t_cmd *curr, char *command);
+int			handle_escape(t_cmd *curr, char *command, int quote);
 
 #endif
