@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 18:00:25 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 20:06:10 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int			count_words(char *str)
 int					push_arg(t_cmd *curr, char *command)
 {
 	int				i;
+	int				j;
 	int				len;
 
 	len = 0;
@@ -43,19 +44,21 @@ int					push_arg(t_cmd *curr, char *command)
 	if (!curr->argv[curr->index])
 		exit_shell();
 	i = 0;
+	j = 0;
 	while (command[i] && !is_space(command[i]))
 	{
-		curr->argv[curr->index][i] = command[i];
+		curr->argv[curr->index][j] = command[i];
 		i++;
+		j++;
 	}
-	curr->argv[curr->index][i] = '\0';
+	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (i);
 }
 
 int					is_operator(char c)
 {
-	if (c == ESCAPE || c == S_QUOTE || c == D_QUOTE || is_symbol(c) || c == '~')
+	if (c == S_QUOTE || c == D_QUOTE || is_symbol(c) || c == '~')
 		return (1);
 	return (0);
 }
@@ -65,9 +68,7 @@ int					handle_operator(t_cmd *curr, char *command, int i)
 	int				result;
 
 	result = 0;
-	if (command[i] == ESCAPE)
-		result = handle_escape(curr, command + i, 0);
-	else if (command[i] == S_QUOTE || command[i] == D_QUOTE)
+	if (command[i] == S_QUOTE || command[i] == D_QUOTE)
 		result = handle_quote(curr, command, i);
 	else if (is_symbol(command[i]) || command[i] == '~')
 		result = handle_symbol(curr, command + i);
