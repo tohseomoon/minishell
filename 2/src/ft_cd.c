@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:06:26 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:10:11 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 14:12:37 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void		add_env(char *key, char *value)
 	if (tmp == 0)
 		exit_shell();
 	curr->next = tmp;
+	curr = curr->next;
 	curr->key = ft_strdup(key);
 	curr->value = ft_strdup(value);
 	curr->next = 0;
