@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 13:57:57 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 16:29:21 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int		            redirection_open_file(t_cmd *curr);
 void				print_env(void);
 void				free_data();
 void				print_cmd();
+void				print_command();
 
 //shell_builtin_fork.c
 int					check_shell_builtin_fork(t_cmd *curr);

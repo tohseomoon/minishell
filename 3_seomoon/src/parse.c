@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:04:58 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 16:35:07 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ static int			split_command(t_cmd *curr, char *command)
 
 	i = 0;
 	curr->index = 0;
-	while (command[i] && !is_command_end(command[i]) && i < 10)
+	while (command[i] && !is_command_end(command[i]))
 	{
-		printf("1: %d\n", i);
-		if (is_operator(command[i]))
+		if (is_space(command[i]))
+			i++;
+		else if (is_operator(command[i]))
 		{
 			result = handle_operator(curr, command, i);
 			if (result < 0)
@@ -93,10 +94,6 @@ static int			split_command(t_cmd *curr, char *command)
 		}
 		else
 			i += push_arg(curr, command + i);
-		printf("2: %d\n", i);
-		while (is_space(command[i]))
-			i++;
-		printf("3: %d\n", i);
 	}
 	curr->argv[curr->index] = NULL;
 	return (i);
@@ -141,14 +138,13 @@ int					parse_command(char *command)
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		if (!curr->argv)
 			exit_shell();
-		i = split_command(curr, command + i);
-		if (i < 0)
-			return (0);
+		i += split_command(curr, command + i);
 		if (command[i] == '|')
 		{
 			if (check_command_error(curr->argv, command, i))
 				return (0);
 			add_new_cmd(curr);
+			curr = curr->next;
 			i++;
 		}
 	}
