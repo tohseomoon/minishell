@@ -44,6 +44,8 @@ void			builtin_cmd_fork(t_cmd *curr)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_data.return_value = WEXITSTATUS(status);
 		close(curr->pipe[1]);
 	}
 }
