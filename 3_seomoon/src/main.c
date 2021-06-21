@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 13:07:58 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 16:04:44 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ void			init(char **envp)
 	if (!g_data.cmd_head || !g_data.env_head)
 		exit_shell();
 	parse_env(envp);
-	//아래 부터 추가
+	/*
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
+	*/
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -64,17 +65,18 @@ int				main(int argc, char **argv, char **envp)
 		command = readline("[minishell]$ ");
 		if (!command || ft_strlen(command) == 0)
 		{
-			//free(command);
+			free(command);
 			continue ;
 		}
 		add_history(command);
 		if (parse_command(command) == 0)
 		{
-			//free_cmd_list();
+			free_cmd_list();
 			continue ;
 		}
 		print_command();
+		free(command);
 		execute_command(envp);
-		//free_cmd_list();
+		free_cmd_list();
 	}
 }
