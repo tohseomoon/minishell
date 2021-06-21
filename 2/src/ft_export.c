@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:15 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:09:10 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 15:52:36 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static void				add_env(t_cmd *curr, t_env *env_curr, int i)
 		creat_add_env(curr, tmp, i);
 	tmp->next = 0;
 	env_curr->next = tmp;
-	env_curr = env_curr->next;
 }
 
 void					ft_export(t_cmd *curr)
@@ -98,7 +97,10 @@ void					ft_export(t_cmd *curr)
 	while (curr->argv[i])
 	{
 		if (!change_value(curr->argv[i]))
+		{
 			add_env(curr, env_curr, i);
+			env_curr = env_curr->next;
+		}
 		i++;
 	}
 }
