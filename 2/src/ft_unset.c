@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:11:12 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 15:53:02 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 21:13:19 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		remove_env(t_env *curr)
 	tmp = 0;
 }
 
-static int				check_keys(char **keys)
+static int		check_keys(char **keys)
 {
 	int		i;
 

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_others.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 21:15:58 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 21:16:48 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void		*ft_memset(void *b, int c, size_t len)
 {
 	size_t	i;
 
@@ -13,7 +25,7 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-int		get_len(long n)
+int			get_len(long n)
 {
 	int	len;
 
@@ -33,7 +45,7 @@ int		get_len(long n)
 	return (len);
 }
 
-char	*ft_itoa(int n)
+char		*ft_itoa(int n)
 {
 	int		len;
 	char	*nbr;

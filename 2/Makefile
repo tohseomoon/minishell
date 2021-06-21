@@ -35,7 +35,6 @@ SRCS =  src/execute.c \
 		src/utils_split.c \
 		src/utils_strcheck.c \
 		src/utils_strcpy.c \
-		src/setting.c
 
 OBJS = $(SRCS:.c=.o)
 

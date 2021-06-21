@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 13:22:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 21:15:28 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int			handle_syntax_error(char *message)
 {
 	printf("minishell: syntax error near unexpected token %s\n", message);
 	g_data.return_value = 258;
-	//free_all();
 	return (1);
 }
 
@@ -28,7 +27,6 @@ int			handle_parse_error(int quote)
 		printf("minishell: double quotes not properly closed\n");
 	else if (quote == B_QUOTE)
 		printf("minishell: back quotes not properly closed\n");
-	//free_all();
 	return (-1);
 }
 
