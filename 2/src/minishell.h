@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 15:52:44 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 16:43:07 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int					handle_escape(t_cmd *curr, char *command, int quote);
 int					handle_single_quote(t_cmd *curr, char *command);
 int					handle_double_quote(t_cmd *curr, char *command);
 int					handle_quote(t_cmd *curr, char *command, int i);
+int					check_remain_character(t_cmd *curr, char *command);
 
 //parse_symbol.c
 int					handle_symbol(t_cmd *curr, char *command);
