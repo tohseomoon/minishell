@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 11:17:50 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 11:18:08 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int		cnt_redirections(t_cmd *curr)
@@ -61,11 +73,11 @@ static char		**creat_new_argv(t_cmd *curr)
 	return (new_argv);
 }
 
-void		del_redirections(t_cmd *curr)
+void			del_redirections(t_cmd *curr)
 {
 	char	**new_argv;
 	int		cnt;
-	
+
 	cnt = cnt_redirections(curr);
 	if (cnt == 0 || cnt == -1)
 		return ;

@@ -30,8 +30,12 @@ SRCS =  src/execute.c \
 		src/redirection_utils.c \
 		src/shell_builtin_fork.c \
 		src/shell_builtin_fun.c \
-		src/utils.c \
-		src/signal.c
+		src/signal.c \
+		src/utils_others.c \
+		src/utils_split.c \
+		src/utils_strcheck.c \
+		src/utils_strcpy.c \
+		src/utils_strcut.c
 
 OBJS = $(SRCS:.c=.o)
 

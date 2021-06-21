@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 11:06:26 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 11:10:11 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char		*find_env_value(char *key)
 {
 	t_env	*curr;
-	
+
 	curr = g_data.env_head->next;
 	while (curr)
 	{
@@ -40,7 +52,7 @@ static int		change_directory(char *command, int *flag)
 	return (result);
 }
 
-static void	add_env(char *key, char *value)
+static void		add_env(char *key, char *value)
 {
 	t_env	*tmp;
 	t_env	*curr;
@@ -79,7 +91,7 @@ static void		update_pwd(char *key, char *new_value)
 		add_env(key, new_value);
 }
 
-void	ft_cd(t_cmd *curr)
+void			ft_cd(t_cmd *curr)
 {
 	char	*buf;
 	int		result;

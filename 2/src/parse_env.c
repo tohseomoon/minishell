@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/18 16:06:11 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:15:16 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ char			*find_value(char *str)
 	return (result);
 }
 
-static int			check_oldpwd(t_env *tmp, int i, char **envp)
+static int		check_oldpwd(t_env *tmp, int i, char **envp)
 {
 	tmp->key = find_key(envp[i]);
 	if (!ft_strcmp(tmp->key, "OLDPWD"))
 	{
-		free (tmp->key);
+		free(tmp->key);
 		i++;
 		tmp->key = find_key(envp[i]);
 	}
 	return (i);
 }
 
-int					parse_env(char **envp)
+int				parse_env(char **envp)
 {
 	int		i;
 	t_env	*curr;

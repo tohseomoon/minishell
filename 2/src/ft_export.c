@@ -6,20 +6,20 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:15 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 10:11:18 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:09:10 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	return_free_key(char **key, int ret)
+static int				return_free_key(char **key, int ret)
 {
 	free(*key);
 	*key = 0;
 	return (ret);
 }
 
-static int			change_value(char *str)
+static int				change_value(char *str)
 {
 	t_env	*curr;
 	char	*key;
@@ -53,7 +53,8 @@ static int				check_keys(char **keys)
 	{
 		if (!key_isallowed(keys[i]))
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", keys[i]);
+			printf("minishell: export: `%s': not a valid identifier\n",
+					keys[i]);
 			g_data.return_value = 1;
 			return (i);
 		}
@@ -63,10 +64,10 @@ static int				check_keys(char **keys)
 	return (1);
 }
 
-static void			add_env(t_cmd *curr, t_env *env_curr, int i)
+static void				add_env(t_cmd *curr, t_env *env_curr, int i)
 {
 	t_env	*tmp;
-	
+
 	tmp = (t_env *)malloc(sizeof(t_env));
 	if (tmp == 0)
 		exit_shell();
@@ -85,7 +86,7 @@ static void			add_env(t_cmd *curr, t_env *env_curr, int i)
 	env_curr = env_curr->next;
 }
 
-void			ft_export(t_cmd *curr)
+void					ft_export(t_cmd *curr)
 {
 	t_env	*env_curr;
 	int		i;
@@ -94,7 +95,7 @@ void			ft_export(t_cmd *curr)
 	while (env_curr->next)
 		env_curr = env_curr->next;
 	i = check_keys(curr->argv);
-	while(curr->argv[i])
+	while (curr->argv[i])
 	{
 		if (!change_value(curr->argv[i]))
 			add_env(curr, env_curr, i);

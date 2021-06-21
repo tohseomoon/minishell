@@ -6,11 +6,9 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:37 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 10:07:35 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:10:57 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 #include "minishell.h"
 
@@ -28,7 +26,7 @@ static int		count_env(t_env *curr)
 	return (cnt);
 }
 
-static char	*join_env_string(t_env *curr)
+static char		*join_env_string(t_env *curr)
 {
 	char	*str;
 	char	equal[3];
@@ -54,7 +52,7 @@ static char	*join_env_string(t_env *curr)
 	return (str);
 }
 
-static void	sort_env_arr(char **env)
+static void		sort_env_arr(char **env)
 {
 	char	*tmp;
 	int		i;
@@ -78,7 +76,7 @@ static void	sort_env_arr(char **env)
 	}
 }
 
-char	**arr_env_string(void)
+char			**arr_env_string(void)
 {
 	char	**env;
 	t_env	*curr;
@@ -105,7 +103,7 @@ char	**arr_env_string(void)
 	return (env);
 }
 
-void	print_sort_env(void)
+void			print_sort_env(void)
 {
 	int		i;
 

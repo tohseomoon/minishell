@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 11:11:12 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 11:11:22 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void		remove_env(t_env *curr)
@@ -14,7 +26,7 @@ static void		remove_env(t_env *curr)
 	tmp = 0;
 }
 
-void		ft_unset(t_cmd *curr)
+void			ft_unset(t_cmd *curr)
 {
 	t_env	*curr_env;
 	int		i;

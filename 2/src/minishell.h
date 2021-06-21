@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 10:53:29 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 12:04:36 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@
 # include <errno.h>
 # include <string.h>
 # include <sys/stat.h>
-# include <stdio.h> //check
-
-# define STDIN	0
-# define STDOUT	1
-# define END 0
-# define PIPE 1
+# include <stdio.h>
 
 # define S_QUOTE '\''
 # define D_QUOTE '\"'
@@ -178,23 +173,29 @@ void				builtin_cmd(t_cmd *curr);
 void				handler(int signo);
 
 
-//util?
+//utils_strcpy.c
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dest, const char *src, size_t destsize);
 char				*ft_strdup(const char *s1);
 char				*ft_strldup(const char *s1, int n);
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
+
+//utils_strcheck.c
 int					ft_strcmp(char *s1, char *s2);
-char				*ft_strjoin_free_s1(char **s1, char *s2);
-int					ft_strchr_index(const char *s, int c);
-char				*ft_strtrim(char *str);
-void				*ft_memset(void *b, int c, size_t len);
-char				**ft_split(char const *s, char c);
-char				*ft_itoa(int n);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strchr(const char *s, int c);
 int					ft_isalpha(int c);
 int					ft_isalnum(int c);
-int					ft_strncmp(const char *s1, const char *s2, size_t n);
+
+//utils_others
+void				ft_putchar_fd(char c, int fd);
+void				ft_putstr_fd(char *s, int fd);
+void				*ft_memset(void *b, int c, size_t len);
+char				*ft_itoa(int n);
+
+//utils_split
+char				*ft_strjoin_free_s1(char **s1, char *s2);
+int					ft_strchr_index(const char *s, int c);
+char				*ft_strtrim(char *str);
+char				**ft_split(char const *s, char c);
 
 #endif

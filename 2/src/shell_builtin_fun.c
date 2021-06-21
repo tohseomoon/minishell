@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:48:18 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 10:16:33 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:35:00 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int				check_shell_builtin(t_cmd *curr)
 	return (0);
 }
 
-static int				check_exit(void)
+static int		check_exit(void)
 {
 	t_cmd	*curr;
 
@@ -44,7 +44,10 @@ static int				check_exit(void)
 void			builtin_cmd(t_cmd *curr)
 {
 	if (check_exit())
+	{
+		g_data.return_value = 0;
 		return ;
+	}
 	if (ft_strcmp("exit", curr->argv[0]) == 0)
 		ft_exit(curr);
 	else if (ft_strcmp("export", curr->argv[0]) == 0)
@@ -54,4 +57,3 @@ void			builtin_cmd(t_cmd *curr)
 	else if (ft_strcmp("cd", curr->argv[0]) == 0)
 		ft_cd(curr);
 }
-

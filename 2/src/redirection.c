@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:11:32 by toh               #+#    #+#             */
-/*   Updated: 2021/06/18 16:06:34 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:15:58 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ static void		left_redirection(t_cmd *curr, int i)
 static void		right_redirection(t_cmd *curr, int i)
 {
 	if (curr->argv[i][1] == 0)
-		curr->fd_out = open(curr->argv[i + 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		curr->fd_out = open(curr->argv[i + 1],
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (curr->argv[i][1] == '>')
-		curr->fd_out = open(curr->argv[i + 1], O_WRONLY | O_APPEND | O_CREAT, 0644);
+		curr->fd_out = open(curr->argv[i + 1],
+				O_WRONLY | O_APPEND | O_CREAT, 0644);
 }
 
 int				redirection_open_file(t_cmd *curr)

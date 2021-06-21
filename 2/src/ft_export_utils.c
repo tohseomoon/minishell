@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 11:16:49 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 11:17:28 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		key_isallowed(char *str)
+int			key_isallowed(char *str)
 {
 	int		i;
 
@@ -16,7 +28,7 @@ int		key_isallowed(char *str)
 	return (1);
 }
 
-int		add_path(t_env *curr, char *str)
+int			add_path(t_env *curr, char *str)
 {
 	char	*value;
 	char	*add_path;
@@ -39,10 +51,10 @@ int		add_path(t_env *curr, char *str)
 	return (0);
 }
 
-static int		create_path(t_env *tmp, char *str)
+static int	create_path(t_env *tmp, char *str)
 {
 	char	*value;
-	
+
 	value = find_value(str);
 	if (!ft_strncmp(value, "$PATH:", 6))
 	{
@@ -55,7 +67,7 @@ static int		create_path(t_env *tmp, char *str)
 	return (0);
 }
 
-void	creat_add_env(t_cmd *curr, t_env *tmp, int i)
+void		creat_add_env(t_cmd *curr, t_env *tmp, int i)
 {
 	tmp->key = find_key(curr->argv[i]);
 	if (!ft_strcmp(tmp->key, "PATH"))

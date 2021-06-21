@@ -6,13 +6,13 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 10:00:59 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 11:37:25 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		check_pipe(t_cmd *curr)
+void			check_pipe(t_cmd *curr)
 {
 	if (curr->heredoc == 1)
 	{
@@ -68,7 +68,6 @@ static void		execute_cmd_path(t_cmd *curr, char **envp)
 
 static void		close_file(t_cmd *curr)
 {
-
 	if (curr->fd_in != 0)
 		close(curr->fd_in);
 	if (curr->fd_out != 1)
@@ -88,7 +87,7 @@ static void		close_file(t_cmd *curr)
 	}
 }
 
-static void	check_commad(t_cmd *curr, char **envp)
+static void		check_commad(t_cmd *curr, char **envp)
 {
 	int		i;
 
@@ -100,10 +99,10 @@ static void	check_commad(t_cmd *curr, char **envp)
 		else if (errno == 2)
 			g_data.return_value = 127;
 	}
-	else if (check_shell_builtin_fork(curr))
-		builtin_cmd_fork(curr);
 	else if (check_shell_builtin(curr))
 		builtin_cmd(curr);
+	else if (check_shell_builtin_fork(curr))
+		builtin_cmd_fork(curr);
 	else if (curr->argv[0][0] == '/' || curr->argv[0][0] == '.')
 	{
 		if (find_cmd_absolute_path(curr))
@@ -118,7 +117,7 @@ static void	check_commad(t_cmd *curr, char **envp)
 	}
 }
 
-void	execute_command(char **envp)
+void			execute_command(char **envp)
 {
 	t_cmd	*curr;
 
@@ -126,7 +125,7 @@ void	execute_command(char **envp)
 	while (curr)
 	{
 		pipe(curr->pipe);
-		check_commad(curr, envp);	
+		check_commad(curr, envp);
 		close_file(curr);
 		curr = curr->next;
 	}

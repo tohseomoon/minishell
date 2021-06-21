@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/20 15:52:23 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 11:32:56 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ static int					exit_print_return_msg(t_cmd *curr, int *exit_flag)
 	printf("exit\n");
 	if (num == 256)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", curr->argv[1]);
+		printf("minishell: exit: %s: numeric argument required\n",
+				curr->argv[1]);
 		num = 255;
 	}
 	else if (num != 256 && curr->argc > 2)
@@ -99,11 +100,9 @@ void						ft_exit(t_cmd *curr)
 	int					exit_flag;
 
 	exit_flag = 1;
+	num = g_data.return_value;
 	if (curr->argc == 1 && curr->prev == 0)
-	{
 		printf("exit\n");
-		num = g_data.return_value;
-	}
 	else if (curr->argc == 1 && curr->prev != 0)
 		num = g_data.return_value;
 	else if (ft_is_exit_num(curr->argv[1]))
@@ -111,14 +110,16 @@ void						ft_exit(t_cmd *curr)
 	else
 	{
 		num = 255;
-		printf("exit\n");
-		printf("minishell: exit: %s: numeric argument required\n", curr->argv[1]);
+		printf("exit\nminishell: exit: %s: numeric argument required\n",
+				curr->argv[1]);
 	}
 	if (curr->prev == 0 && exit_flag == 1)
 	{
 		//free_env();
 		exit(num);
 	}
+	else if (curr->prev != 0 && curr->next == 0)
+		g_data.return_value = 0;
 	else
 		g_data.return_value = num;
 }
