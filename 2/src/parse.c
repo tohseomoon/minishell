@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:35:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 17:17:31 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int					parse_command(char *command)
 	i = 0;
 	while (command[i] != '\0')
 	{
-		curr->argc = count_words(command);
+		curr->argc = count_words(command + i);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		if (!curr->argv)
 			exit_shell();
