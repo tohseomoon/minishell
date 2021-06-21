@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-void		ft_putchar_fd(char c, int fd)
-{
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
-}
-
-void		ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-		ft_putchar_fd(*s++, fd);
-}
-
 void	*ft_memset(void *b, int c, size_t len)
 {
 	size_t	i;
@@ -74,4 +59,26 @@ char	*ft_itoa(int n)
 		len--;
 	}
 	return (nbr);
+}
+
+char		*ft_strtrim(char *str)
+{
+	int		begin;
+	int		end;
+	char	*result;
+
+	if (!str)
+		return (NULL);
+	begin = 0;
+	while (str[begin] && is_space(str[begin]))
+		begin++;
+	end = ft_strlen(str + begin);
+	if (end)
+		while (str[begin + end - 1] && is_space(str[begin + end - 1]))
+			end--;
+	result = malloc(sizeof(char) * (end + 1));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, (char *)(str + begin), end + 1);
+	return (result);
 }
