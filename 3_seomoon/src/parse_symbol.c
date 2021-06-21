@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 13:28:13 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 13:58:25 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int			replace_env(t_cmd *curr, char *command)
 		i++;
 	}
 	key[i] = '\0';
+	printf("key: %s\n", key);
 	curr->argv[curr->index] = ft_strdup(find_env_value(key));
 	free(key);
 	return (len + 1);
@@ -113,5 +114,6 @@ int			handle_symbol(t_cmd *curr, char *command)
 	}
 	else if (command[i] == '~')
 		i += replace_path_home(curr);
+	i += check_remain_character(curr, command + i);
 	return (i);
 }
