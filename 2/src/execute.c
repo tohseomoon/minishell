@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 21:23:52 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 21:34:15 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static void		check_commad(t_cmd *curr, char **envp, int i)
 		execute_cmd_path(curr, envp);
 	else
 	{
-		printf("minishell : %s: command not found\n", curr->argv[0]);
+		printf("minishell: %s: command not found\n", curr->argv[0]);
 		g_data.return_value = 127;
 	}
 }
