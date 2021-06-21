@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 20:40:44 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 10:03:27 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 13:40:43 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,15 @@ void		free_env()
 
 void		free_cmd_list()
 {
-	t_cmd	*curr_cmd;
-	t_cmd	*tmp_cmd;
+	t_cmd	*curr;
+	t_cmd	*tmp;
 
-	curr_cmd = g_data.cmd_head->next;
-	while (curr_cmd)
+	curr = g_data.cmd_head->next;
+	while (curr)
 	{
-		tmp_cmd = curr_cmd;
-		curr_cmd = curr_cmd->next;
-		free_cmd(tmp_cmd);
+		tmp = curr->next;
+		free_cmd(curr);
+		free(curr);
+		curr = tmp;
 	}
 }
-
-/*
-	replace_env(), replace_backquote() 메모리 누수 확인;
-*/
