@@ -6,20 +6,18 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 13:10:34 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 13:34:52 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int					check_remain_charactor_after_quote
-	(t_cmd *curr, char *command)
+int					check_remain_character(t_cmd *curr, char *command)
 {
 	int				i;
 	int				len;
 	char			*remain_str;
 
-	command++;
 	i = 0;
 	if (command[i] == 0 || is_space(command[i]))
 	{
@@ -38,6 +36,7 @@ int					check_remain_charactor_after_quote
 		i++;
 	}
 	remain_str[i] = '\0';
+	printf("%s\n", remain_str);
 	curr->argv[curr->index] = ft_strjoin_free_s1(&(curr->argv[curr->index]), remain_str);
 	curr->index++;
 	return (i);
@@ -138,6 +137,6 @@ int			handle_quote(t_cmd *curr, char *command, int i)
 		if (result < 0)
 			return (result);
 	}
-	curr->index++;
+	result += check_remain_character(curr, command + i + result);
 	return (result);
 }
