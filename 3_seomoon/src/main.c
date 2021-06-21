@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:35:13 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 17:51:43 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int				main(int argc, char **argv, char **envp)
 		add_history(command);
 		if (parse_command(command) == 0)
 		{
+			free(command);
 			free_cmd_list();
 			continue ;
 		}

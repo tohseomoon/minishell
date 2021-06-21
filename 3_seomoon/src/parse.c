@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:43:04 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 18:00:25 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,17 +128,24 @@ t_cmd				*init_cmd(void)
 int					parse_command(char *command)
 {
 	int				i;
+	int				result;
 	t_cmd			*curr;
 
 	curr = init_cmd();
 	i = 0;
 	while (command[i] != '\0')
 	{
-		curr->argc = count_words(command);
+		curr->argc = count_words(command + i);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		if (!curr->argv)
 			exit_shell();
-		i += split_command(curr, command + i);
+		result = split_command(curr, command + i);
+		if (result < 0)
+		{
+			curr->argv[curr->index] = NULL;
+			return (0);
+		}
+		i += result;
 		if (command[i] == '|')
 		{
 			if (check_command_error(curr->argv, command, i))
