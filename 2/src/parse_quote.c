@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:42:33 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 18:06:25 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int					check_remain_character(t_cmd *curr, char *command)
 		i++;
 	}
 	remain_str[i] = '\0';
-	printf("%s\n", remain_str);
 	curr->argv[curr->index] = ft_strjoin_free_s1(&(curr->argv[curr->index]), remain_str);
 	curr->index++;
 	return (i);
@@ -96,9 +95,10 @@ int			handle_single_quote(t_cmd *curr, char *command)
 		i += push_arg_quote(curr, command, S_QUOTE);
 	if (command[i] != S_QUOTE)
 		return (handle_parse_error(S_QUOTE));
+	if (i == 0)
+		curr->argv[curr->index] = ft_strdup("");
 	return (i + 2);
 }
-
 
 int			handle_double_quote(t_cmd *curr, char *command)
 {
@@ -117,6 +117,8 @@ int			handle_double_quote(t_cmd *curr, char *command)
 	}
 	if (command[i] != D_QUOTE)
 		return (handle_parse_error(D_QUOTE));
+	if (i == 0)
+		curr->argv[curr->index] = ft_strdup("");
 	return (i + 2);
 }
 
