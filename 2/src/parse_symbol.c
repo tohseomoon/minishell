@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 17:00:37 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 22:23:35 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ static int			replace_env(t_cmd *curr, char *command)
 	char	*key;
 
 	command++;
+	if (*command == D_QUOTE)
+	{
+		curr->argv[curr->index] = ft_strdup("$");
+		return (1);
+	}
 	len = 0;
 	while (is_letter(command[len]) || command[len] == '?')
 		len++;
@@ -113,6 +118,8 @@ int			handle_symbol(t_cmd *curr, char *command)
 	}
 	else if (command[i] == '~')
 		i += replace_path_home(curr);
+	if (command[i] == S_QUOTE || command[i] == D_QUOTE)
+		return (i);
 	i += check_remain_character(curr, command + i);
 	return (i);
 }
