@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 16:43:07 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 20:14:20 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,15 +189,13 @@ int					ft_isalpha(int c);
 int					ft_isalnum(int c);
 
 //utils_others
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_itoa(int n);
+char				*ft_strtrim(char *str);
 
 //utils_split
 char				*ft_strjoin_free_s1(char **s1, char *s2);
 int					ft_strchr_index(const char *s, int c);
-char				*ft_strtrim(char *str);
 char				**ft_split(char const *s, char c);
 
 #endif
