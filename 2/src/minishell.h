@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 10:14:34 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 10:53:29 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ void				ft_unset(t_cmd *curr);
 void				heredoc(t_cmd *curr, int i, int fd);
 void				heredoc_cmd(t_cmd *curr, int i);
 
+//main.c
+void				exit_shell(void);
+
 //perse_check.c
 int					is_space(char c);
 int					is_seperator(char c);
@@ -136,18 +139,46 @@ int					check_redirection_error(char **argv);
 int					check_pipe_error(char *command, int i);
 int					check_command_error(char **argv, char *command, int i);
 
+//parse_path.c
+char				**parse_path(void);
 
-
-
-
-
-void				exit_shell(void);
-int					parse_command(char *command);
+//parse_quote.c
+int					check_remain_charactor_after_quote(t_cmd *curr, char *command);
+int					handle_escape(t_cmd *curr, char *command, int quote);
 int					handle_single_quote(t_cmd *curr, char *command);
 int					handle_double_quote(t_cmd *curr, char *command);
+
+//parse_symbol.c
 int					handle_symbol(t_cmd *curr, char *command);
 
+//parse.c
+int					push_arg(t_cmd *curr, char *command);
+int					parse_command(char *command);
+
+//redirection_utils.c
+void				del_redirections(t_cmd *curr);
+
+//redirection.c
+int		            redirection_open_file(t_cmd *curr);
+
+//setting.c // 나중에 삭제
 void				print_env(void);
+void				free_data();
+void				print_cmd();
+
+//shell_builtin_fork.c
+int					check_shell_builtin_fork(t_cmd *curr);
+void				builtin_cmd_fork(t_cmd *curr);
+
+//shell_builtin_fun.c
+int					check_shell_builtin(t_cmd *curr);
+void				builtin_cmd(t_cmd *curr);
+
+//signal.c
+void				handler(int signo);
+
+
+//util?
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dest, const char *src, size_t destsize);
 char				*ft_strdup(const char *s1);
@@ -161,30 +192,9 @@ char				*ft_strtrim(char *str);
 void				*ft_memset(void *b, int c, size_t len);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
-int					parse_env(char **envp);
-char				**parse_path(void);
-
-int		            redirection_open_file(t_cmd *curr);
-
-void				free_data();
-
-void				print_cmd();
-void				builtin_cmd_fork(t_cmd *curr);
-void				builtin_cmd(t_cmd *curr);
-int					check_shell_builtin_fork(t_cmd *curr);
-int					check_shell_builtin(t_cmd *curr);
-
-char				**arr_new_env_string(void);
 char				*ft_strchr(const char *s, int c);
-
 int					ft_isalpha(int c);
 int					ft_isalnum(int c);
-
-int					check_command_error(char **argv, char *command, int i);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-void				del_redirections(t_cmd *curr);
-void				handler(int signo);
-int			push_arg(t_cmd *curr, char *command);
-int			handle_escape(t_cmd *curr, char *command, int quote);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 10:21:12 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 10:52:56 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			check_remain_charactor_after_quote(t_cmd *curr, char *command)
 	return (i);
 }
 
-int			push_arg_quote(t_cmd *curr, char *command, char quote)
+static int			push_arg_quote(t_cmd *curr, char *command, char quote)
 {
 	int		i;
 	int		len;

@@ -6,13 +6,13 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 16:36:05 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 10:43:31 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		*find_env_value(char *key)
+static char		*find_env_value(char *key)
 {
 	t_env	*curr;
 
@@ -29,7 +29,7 @@ char		*find_env_value(char *key)
 	return (NULL);
 }
 
-int			replace_env(t_cmd *curr, char *command)
+static int			replace_env(t_cmd *curr, char *command)
 {
 	int		i;
 	int		len;
@@ -60,7 +60,7 @@ int			replace_env(t_cmd *curr, char *command)
 	return (len + 1);
 }
 
-int			replace_back_quote(t_cmd *curr, char *command)
+static int			replace_back_quote(t_cmd *curr, char *command)
 {
 	int		i;
 	int		len;
@@ -84,7 +84,7 @@ int			replace_back_quote(t_cmd *curr, char *command)
 	return (len + 2);
 }
 
-int			replace_path_home(t_cmd *curr)
+static int			replace_path_home(t_cmd *curr)
 {
 	curr->argv[curr->index] = ft_strdup(find_env_value("HOME"));
 	return (ft_strlen("~"));

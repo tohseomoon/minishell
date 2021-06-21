@@ -6,13 +6,13 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 20:40:23 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/21 10:45:32 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			count_words(char *str)
+static int			count_words(char *str)
 {
 	int		i;
 	int		count;
@@ -52,7 +52,7 @@ int			push_arg(t_cmd *curr, char *command)
 	return (i);
 }
 
-int			split_command(t_cmd *curr, char *command)
+static int			split_command(t_cmd *curr, char *command)
 {
 	int		i;
 	int		result;
