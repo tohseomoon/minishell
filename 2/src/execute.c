@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:37:25 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 21:34:15 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,9 @@ static void		close_file(t_cmd *curr)
 	}
 }
 
-static void		check_commad(t_cmd *curr, char **envp)
+static void		check_commad(t_cmd *curr, char **envp, int i)
 {
-	int		i;
-
+	i = 0;
 	if ((i = redirection_open_file(curr)) > 0)
 	{
 		printf("minishell: %s: %s\n", curr->argv[i], strerror(errno));
@@ -112,7 +111,7 @@ static void		check_commad(t_cmd *curr, char **envp)
 		execute_cmd_path(curr, envp);
 	else
 	{
-		printf("minishell : %s: command not found\n", curr->argv[0]);
+		printf("minishell: %s: command not found\n", curr->argv[0]);
 		g_data.return_value = 127;
 	}
 }
@@ -120,12 +119,14 @@ static void		check_commad(t_cmd *curr, char **envp)
 void			execute_command(char **envp)
 {
 	t_cmd	*curr;
+	int		i;
 
 	curr = g_data.cmd_head->next;
+	i = 0;
 	while (curr)
 	{
 		pipe(curr->pipe);
-		check_commad(curr, envp);
+		check_commad(curr, envp, i);
 		close_file(curr);
 		curr = curr->next;
 	}

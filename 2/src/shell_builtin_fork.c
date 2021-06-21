@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_builtin_fork.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 21:18:31 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 21:18:50 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int				check_shell_builtin_fork(t_cmd *curr)
@@ -21,7 +33,7 @@ static void		find_builtin_cmd(t_cmd *curr)
 		ft_env();
 	else if (ft_strcmp("pwd", curr->argv[0]) == 0)
 		ft_pwd();
-		else if (ft_strcmp("export", curr->argv[0]) == 0)
+	else if (ft_strcmp("export", curr->argv[0]) == 0)
 		ft_export_fork();
 }
 

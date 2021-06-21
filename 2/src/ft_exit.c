@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 17:16:45 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 21:09:27 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static int					exit_print_return_msg(t_cmd *curr, int *exit_flag)
 	int					num;
 
 	num = creat_return_value(curr->argv[1]);
-	//printf("exit\n");
 	if (num == 256)
 	{
 		printf("exit\nminishell: exit: %s: numeric argument required\n",
@@ -115,7 +114,7 @@ void						ft_exit(t_cmd *curr)
 	}
 	if (curr->prev == 0 && exit_flag == 1)
 	{
-		//free_env();
+		free_all();
 		exit(num);
 	}
 	else

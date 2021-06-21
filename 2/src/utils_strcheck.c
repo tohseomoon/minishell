@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_strcheck.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/21 21:15:53 by toh               #+#    #+#             */
+/*   Updated: 2021/06/21 21:18:17 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int			ft_strcmp(char *s1, char *s2)
@@ -15,7 +27,7 @@ int			ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int			ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
@@ -29,7 +41,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char			*ft_strchr(const char *s, int c)
+char		*ft_strchr(const char *s, int c)
 {
 	int		i;
 
@@ -43,17 +55,17 @@ char			*ft_strchr(const char *s, int c)
 	return ((char *)(s + i));
 }
 
-int		ft_isalpha(int c)
+int			ft_isalpha(int c)
 {
 	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
 		return (1);
 	return (0);
 }
 
-int		ft_isalnum(int c)
+int			ft_isalnum(int c)
 {
 	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
 	|| ('0' <= c && c <= '9'))
-			return (1);
+		return (1);
 	return (0);
 }
