@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 10:45:32 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 12:56:19 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 static int			count_words(char *str)
 {
-	int		i;
-	int		count;
+	int				i;
+	int				count;
 
 	i = 0;
+	while (is_space(str[i]))
+		i++;
 	count = 0;
 	while (str[i] && !is_command_end(str[i]))
 	{
@@ -29,10 +31,10 @@ static int			count_words(char *str)
 	return (count);
 }
 
-int			push_arg(t_cmd *curr, char *command)
+int					push_arg(t_cmd *curr, char *command)
 {
-	int		i;
-	int		len;
+	int				i;
+	int				len;
 
 	len = 0;
 	while (command[len] && !is_seperator(command[len]))
@@ -54,23 +56,16 @@ int			push_arg(t_cmd *curr, char *command)
 
 static int			split_command(t_cmd *curr, char *command)
 {
-	int		i;
-	int		result;
+	int				i;
+	int				result;
 
 	i = 0;
 	curr->index = 0;
 	while (command[i] && !is_command_end(command[i]))
 	{
-		if (command[i] == S_QUOTE)
+		if (command[i] == S_QUOTE || command[i] == D_QUOTE)
 		{
-			result = handle_single_quote(curr, command + i);
-			if (result < 0)
-				return (result);
-			i += result;
-		}
-		else if (command[i] == D_QUOTE)
-		{
-			result = handle_double_quote(curr, command + i);
+			result = handle_quote(curr, command, i);
 			if (result < 0)
 				return (result);
 			i += result;
@@ -93,23 +88,23 @@ static int			split_command(t_cmd *curr, char *command)
 	return (i);
 }
 
-/*
-void		add_command(t_cmd *curr)
+void				add_new_cmd(t_cmd *curr)
 {
-	t_cmd	*tmp;
+	t_cmd			*tmp;
 
 	tmp = curr;
 	curr->next = malloc(sizeof(t_cmd));
+	if (!curr->next)
+		exit_shell();
 	curr = curr->next;
+	ft_memset(curr, 0, sizeof(t_cmd));
 	curr->prev = tmp;
+	curr->fd_out = 1;
 }
-*/
 
-int			parse_command(char *command)
+t_cmd				*init_cmd(void)
 {
-	int		i;
-	t_cmd	*curr;
-	t_cmd	*tmp;
+	t_cmd			*curr;
 
 	g_data.cmd_head->next = malloc(sizeof(t_cmd));
 	if (!g_data.cmd_head->next)
@@ -117,10 +112,18 @@ int			parse_command(char *command)
 	curr = g_data.cmd_head->next;
 	ft_memset(curr, 0, sizeof(t_cmd));
 	curr->fd_out = 1;
+	return (curr);
+}
+
+int					parse_command(char *command)
+{
+	int				i;
+	t_cmd			*curr;
+
+	curr = init_cmd();
 	i = 0;
 	while (command[i] != '\0')
 	{
-		command = ft_strtrim(command + i);
 		curr->argc = count_words(command);
 		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
 		if (!curr->argv)
@@ -132,20 +135,11 @@ int			parse_command(char *command)
 		{
 			if (check_command_error(curr->argv, command, i))
 				return (0);
-			tmp = curr;
-			curr->next = malloc(sizeof(t_cmd));
-			if (!curr->next)
-				exit_shell();
-			curr = curr->next;
-			ft_memset(curr, 0, sizeof(t_cmd));
-			curr->prev = tmp;
-			curr->fd_out = 1;
+			add_new_cmd(curr);
 			i++;
 		}
 	}
 	if (check_command_error(curr->argv, command, i))
 		return (0);
-	//free(command);
-	curr->next = NULL;
 	return (1);
 }
