@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 16:45:31 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/21 17:16:45 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,6 @@ void						ft_exit(t_cmd *curr)
 		//free_env();
 		exit(num);
 	}
-	else if (curr->prev != 0 && curr->next == 0)
-		g_data.return_value = 0;
 	else
 		g_data.return_value = num;
 }
