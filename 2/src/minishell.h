@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 21:24:26 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 11:15:39 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int					parse_env(char **env);
 char				*find_key(char *str);
 char				*find_value(char *str);
 
-int					handle_syntax_error(char *message);
+int					handle_syntax_error(char *filename);
 int					handle_parse_error(int quote);
 int					check_redirection_error(char **argv);
 int					check_pipe_error(char *command, int i);

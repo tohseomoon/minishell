@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 21:22:09 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 11:22:32 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,22 @@ void			init(char **envp)
 	signal(SIGQUIT, handler);
 }
 
+static int		check_command(char *command)
+{
+	if (!command)
+	{
+		printf("exit\n");
+		free_all();
+		exit(0);
+	}
+	else if (ft_strlen(command) == 0)
+	{
+		free(command);
+		return (1);
+	}
+	return (0);
+}
+
 int				main(int argc, char **argv, char **envp)
 {
 	char		*command;
@@ -61,16 +77,8 @@ int				main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		command = readline("[minishell]$ ");
-		if (!command)
-		{
-			printf("exit\n");
-			exit(0);
-		}
-		if (ft_strlen(command) == 0)
-		{
-			free(command);
+		if (check_command(command))
 			continue ;
-		}
 		add_history(command);
 		if (parse_command(command) == 0)
 		{

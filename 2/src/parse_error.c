@@ -6,18 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 21:15:28 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 11:19:03 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int			handle_syntax_error(char *message)
-{
-	printf("minishell: syntax error near unexpected token %s\n", message);
-	g_data.return_value = 258;
-	return (1);
-}
 
 int			handle_parse_error(int quote)
 {
@@ -28,6 +21,28 @@ int			handle_parse_error(int quote)
 	else if (quote == B_QUOTE)
 		printf("minishell: back quotes not properly closed\n");
 	return (-1);
+}
+
+int			handle_syntax_error(char *filename)
+{
+	if (filename == 0)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+	else if (filename[0] == '#')
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+	else if (filename[0] == '&' || filename[0] == '|' || filename[0] == ';' ||
+	filename[0] == '>' || filename[0] == '<')
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n",
+		filename);
+		return (1);
+	}
+	return (0);
 }
 
 int			check_redirection_error(char **argv)
@@ -43,8 +58,11 @@ int			check_redirection_error(char **argv)
 					ft_strcmp(argv[i], ">") == 0 ||
 					ft_strcmp(argv[i], ">>") == 0 ||
 					ft_strcmp(argv[i], "<<") == 0)
-				&& argv[i + 1] == 0)
-			return (handle_syntax_error("`newline'"));
+				&& handle_syntax_error(argv[i + 1]))
+		{
+			g_data.return_value = 258;
+			return (1);
+		}
 		i++;
 	}
 	return (0);
