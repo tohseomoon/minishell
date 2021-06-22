@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 21:39:42 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 12:16:24 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int			count_words(char *str)
 	while (str[i] && !is_command_end(str[i]))
 	{
 		if (!is_space(str[i]) &&
-				(is_space(str[i + 1]) || str[i + 1] == '\0'))
+				(is_space(str[i + 1]) || is_command_end(str[i + 1])))
 			count++;
 		i++;
 	}
@@ -47,6 +47,11 @@ int					push_arg(t_cmd *curr, char *command)
 	j = 0;
 	while (command[i] && !is_space(command[i]))
 	{
+		if (command[i] == '|')
+		{
+			handle_syntax_error("`|'");
+			return (-1);
+		}
 		curr->argv[curr->index][j] = command[i];
 		i++;
 		j++;
@@ -94,7 +99,12 @@ static int			split_command(t_cmd *curr, char *command)
 			i += result;
 		}
 		else
-			i += push_arg(curr, command + i);
+		{
+			result = push_arg(curr, command + i);
+			if (result < 0)
+				return (result);
+			i += result;
+		}
 	}
 	curr->argv[curr->index] = NULL;
 	return (i);

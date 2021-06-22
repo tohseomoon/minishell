@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/20 13:22:00 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 11:48:50 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int			check_pipe_error(char *command, int i)
 	if (command[i + 1] == '|')
 		return (handle_syntax_error("`||'"));
 	else if (i == 0 || command[i + 1] == 0)
+		return (handle_syntax_error("`|'"));
+	else if (!is_space(command[i - 1]) || !is_space(command[i + 1]))
 		return (handle_syntax_error("`|'"));
 	return (0);
 }
