@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 14:00:46 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 14:04:43 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			handle_syntax_error(char *filename)
 		filename);
 		return (1);
 	}
-	else
+	else if (filename[0] == '`')
 	{
 		printf("minishell: syntax error near unexpected token %s\n", filename);
 		return (1);
