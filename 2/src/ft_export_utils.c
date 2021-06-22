@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:16:49 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:17:28 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 15:15:50 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int			add_path(t_env *curr, char *str)
 		add_path = ft_strdup(&(value[5]));
 		if (add_path == 0)
 			exit_shell();
-		curr->value = ft_strjoin_free_s1(&curr->value, add_path);
+		if (curr->value != 0)
+			curr->value = ft_strjoin_free_s1(&curr->value, add_path);
+		else
+			curr->value = ft_strdup(add_path);
 		if (curr->value == 0)
 			exit_shell();
 		free(value);

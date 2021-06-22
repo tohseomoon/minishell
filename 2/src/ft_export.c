@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:43:15 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 19:21:38 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 14:56:37 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int				check_keys(char **keys)
 			printf("minishell: export: `%s': not a valid identifier\n",
 					keys[i]);
 			g_data.return_value = 1;
-			return (i);
+			return (i + 1);
 		}
 		i++;
 	}

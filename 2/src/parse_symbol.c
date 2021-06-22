@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 14:46:16 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 15:06:19 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int			replace_back_quote(t_cmd *curr, char *command)
 
 static int			replace_path_home(t_cmd *curr)
 {
-	curr->argv[curr->index] = ft_strdup(find_env_value("HOME"));
+	curr->argv[curr->index] = find_env_value(ft_strdup("HOME"));
 	return (ft_strlen("~"));
 }
 

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 12:36:53 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:05:19 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int		check_command(char *command)
 	{
 		printf("exit\n");
 		free_all();
-		exit(0);
+		exit(g_data.return_value);
 	}
 	else if (ft_strlen(command) == 0)
 	{
