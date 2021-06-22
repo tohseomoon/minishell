@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 14:38:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 16:26:56 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,19 @@ int					handle_quote(t_cmd *curr, char *command, int i)
 	{
 		result = handle_single_quote(curr, command + i);
 		if (result < 0)
+		{
+			curr->index++;
 			return (result);
+		}
 	}
 	else if (command[i] == D_QUOTE)
 	{
 		result = handle_double_quote(curr, command + i);
 		if (result < 0)
+		{
+			curr->index++;
 			return (result);
+		}
 	}
 	result += check_remain_character(curr, command + i + result);
 	return (result);
