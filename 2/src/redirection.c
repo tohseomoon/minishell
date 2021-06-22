@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:11:32 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:15:58 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 12:23:21 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				redirection_open_file(t_cmd *curr)
 		else if (curr->argv[i][0] == '>')
 			right_redirection(curr, i);
 		if (curr->fd_out < 0 || curr->fd_in < 0)
-			return (i);
+			return (i + 1);
 		i++;
 	}
 	del_redirections(curr);
