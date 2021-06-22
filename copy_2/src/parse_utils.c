@@ -1,43 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_check.c                                      :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 14:00:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 13:42:09 by seomoon          ###   ########.fr       */
+/*   Created: 2021/06/22 13:23:33 by seomoon           #+#    #+#             */
+/*   Updated: 2021/06/22 14:24:01 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			is_seperator(char c)
+int					is_space(char c)
 {
-	if (c == S_QUOTE || c == D_QUOTE)
-		return (1);
-	else if (is_space(c))
+	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
 
-int			is_command_end(char c)
+int					is_letter(char c)
 {
-	if (c == '\0' || c == '|')
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+			|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
 }
 
-int			is_symbol(char c)
+int					get_command_len(char *command)
 {
-	if (c == '$' || c == '`')
-		return (1);
-	return (0);
-}
+	int				len;
 
-int			is_operator(char c)
-{
-	if (c == S_QUOTE || c == D_QUOTE || is_symbol(c) || c == '~')
-		return (1);
-	return (0);
+	len = 0;
+	while (command[len] && !is_space(command[len]))
+		len++;
+	return (len);
 }
