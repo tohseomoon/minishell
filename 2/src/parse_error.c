@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 14:04:43 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 16:17:42 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,15 @@ int			check_redirection_error(char **argv)
 	i = 0;
 	while (argv[i])
 	{
+		if (!ft_strncmp(argv[i], ">>", 2) && ft_strlen(argv[i]) != 2)
+			return (handle_syntax_error(">>"));
+		else if (!ft_strncmp(argv[i], "<<", 2) && ft_strlen(argv[i]) != 2)
+			return (handle_syntax_error("<<"));
 		if ((ft_strcmp(argv[i], "<") == 0 ||
-					ft_strcmp(argv[i], ">") == 0 ||
-					ft_strcmp(argv[i], ">>") == 0 ||
-					ft_strcmp(argv[i], "<<") == 0)
-				&& handle_syntax_error(argv[i + 1]))
+				ft_strcmp(argv[i], ">") == 0 ||
+				ft_strcmp(argv[i], ">>") == 0 ||
+				ft_strcmp(argv[i], "<<") == 0)
+			&& handle_syntax_error(argv[i + 1]))
 		{
 			g_data.return_value = 258;
 			return (1);
