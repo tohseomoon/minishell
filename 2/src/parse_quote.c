@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 13:25:29 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 14:38:07 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int					check_remain_character(t_cmd *curr, char *command)
 	remain_str[i] = '\0';
 	curr->argv[curr->index] =
 		ft_strjoin_free_s1(&(curr->argv[curr->index]), remain_str);
+	free(remain_str);
 	curr->index++;
 	return (i);
 }
