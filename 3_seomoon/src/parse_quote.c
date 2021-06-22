@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 22:00:52 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 12:48:13 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ static int			push_arg_quote(t_cmd *curr, char *command, char quote)
 	int		len;
 
 	len = 0;
+	printf("command: %s\n", command);
 	while (command[len] && command[len] != quote)
 		len++;
+	printf("len: %d\n", len);
 	curr->argv[curr->index] = malloc(sizeof(char) * (len + 1));
 	if (!curr->argv[curr->index])
 		exit_shell();
@@ -59,12 +61,13 @@ static int			push_arg_quote(t_cmd *curr, char *command, char quote)
 	{
 		if (command[i] == ESCAPE)
 			i++;
+		printf("command[%d]: %c\n", i, command[i]);
 		curr->argv[curr->index][j] = command[i];
 		j++;
 		i++;
 	}
 	curr->argv[curr->index][j] = '\0';
-	return (j);
+	return (i);
 }
 
 int			handle_escape(t_cmd *curr, char *command, int quote)

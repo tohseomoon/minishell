@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 12:16:24 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 12:48:49 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int					push_arg(t_cmd *curr, char *command)
 	}
 	curr->argv[curr->index][j] = '\0';
 	curr->index++;
-	return (j);
+	return (i);
 }
 
 int					is_operator(char c)
