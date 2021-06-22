@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 14:23:29 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:36:53 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int					is_symbol(char c);
 int					is_operator(char c);
 int					is_letter(char c);
 int					get_command_len(char *command);
-void				init_argv(t_cmd *curr, char *command, int i);
+int					init_argv(t_cmd *curr, char *command, int i);
 void				add_new_cmd(t_cmd *curr);
 t_cmd				*init_cmd(void);
 
