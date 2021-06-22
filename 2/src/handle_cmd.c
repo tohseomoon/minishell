@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 14:16:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 15:36:34 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:45:06 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int			count_words(char *str)
 	return (count);
 }
 
-int				init_argv(t_cmd *curr, char *command, int i)
+int					init_argv(t_cmd *curr, char *command, int i)
 {
 	curr->argc = count_words(command + i);
 	curr->argv = malloc(sizeof(char *) * (curr->argc + 1));

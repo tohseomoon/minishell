@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 15:37:14 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:44:43 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,15 @@ int					return_error(t_cmd *curr)
 	return (0);
 }
 
-int					parse_command(char *command)
+int					parse_command(char *command, t_cmd *curr)
 {
 	int				i;
 	int				result;
-	t_cmd			*curr;
 
-	curr = init_cmd();
 	i = 0;
 	while (command[i] != '\0')
 	{
-		result = init_argv(curr, command, i);
-		if (result == 0)
+		if (init_argv(curr, command, i) == 0)
 			return (return_error(curr));
 		result = split_command(curr, command + i);
 		if (result < 0)

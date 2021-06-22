@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 15:36:53 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:45:34 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int					check_remain_character(t_cmd *curr, char *command);
 int					handle_symbol(t_cmd *curr, char *command);
 
 int					push_arg(t_cmd *curr, char *command);
-int					parse_command(char *command);
+int					parse_command(char *command, t_cmd *curr);
 
 void				del_redirections(t_cmd *curr);
 

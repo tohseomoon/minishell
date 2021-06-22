@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 15:05:19 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/22 15:44:33 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int		check_command(char *command)
 int				main(int argc, char **argv, char **envp)
 {
 	char		*command;
+	t_cmd		*curr;
 
 	if (argc != 1 || argv[1] != 0)
 		return (1);
@@ -80,7 +81,8 @@ int				main(int argc, char **argv, char **envp)
 		if (check_command(command))
 			continue ;
 		add_history(command);
-		if (parse_command(command) == 0)
+		curr = init_cmd();
+		if (parse_command(command, curr) == 0)
 		{
 			free(command);
 			free_cmd_list();
