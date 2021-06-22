@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:04:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 13:39:12 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 14:46:16 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char			*find_env_value(char *key)
 		if (ft_strcmp(curr->key, key) == 0)
 		{
 			free(key);
-			return (curr->value);
+			return (ft_strdup(curr->value));
 		}
 		curr = curr->next;
 	}
@@ -60,7 +60,7 @@ static int			replace_env(t_cmd *curr, char *command)
 		i++;
 	}
 	key[i] = '\0';
-	curr->argv[curr->index] = ft_strdup(find_env_value(key));
+	curr->argv[curr->index] = find_env_value(key);
 	return (len + 1);
 }
 
