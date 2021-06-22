@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/21 22:00:52 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 12:49:16 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int			push_arg_quote(t_cmd *curr, char *command, char quote)
 		i++;
 	}
 	curr->argv[curr->index][j] = '\0';
-	return (j);
+	return (i);
 }
 
 int			handle_escape(t_cmd *curr, char *command, int quote)
