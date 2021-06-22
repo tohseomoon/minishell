@@ -6,7 +6,7 @@
 #    By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/22 11:23:36 by toh               #+#    #+#              #
-#    Updated: 2021/06/22 11:23:38 by toh              ###   ########.fr        #
+#    Updated: 2021/06/22 14:22:35 by seomoon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRCS =  src/execute.c \
 		src/parse_path.c \
 		src/parse_quote.c \
 		src/parse_symbol.c \
+		src/parse_utils.c \
+		src/handle_cmd.c \
 		src/redirection.c \
 		src/redirection_utils.c \
 		src/shell_builtin_fork.c \

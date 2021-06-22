@@ -6,30 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:25:32 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 12:49:25 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 14:23:42 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int			count_words(char *str)
-{
-	int				i;
-	int				count;
-
-	i = 0;
-	while (is_space(str[i]))
-		i++;
-	count = 0;
-	while (str[i] && !is_command_end(str[i]))
-	{
-		if (!is_space(str[i]) &&
-				(is_space(str[i + 1]) || is_command_end(str[i + 1])))
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 int					push_arg(t_cmd *curr, char *command)
 {
@@ -52,20 +33,11 @@ int					push_arg(t_cmd *curr, char *command)
 			handle_syntax_error("`|'");
 			return (-1);
 		}
-		curr->argv[curr->index][j] = command[i];
-		i++;
-		j++;
+		curr->argv[curr->index][j++] = command[i++];
 	}
 	curr->argv[curr->index][j] = '\0';
 	curr->index++;
 	return (i);
-}
-
-int					is_operator(char c)
-{
-	if (c == S_QUOTE || c == D_QUOTE || is_symbol(c) || c == '~')
-		return (1);
-	return (0);
 }
 
 int					handle_operator(t_cmd *curr, char *command, int i)
@@ -86,7 +58,6 @@ static int			split_command(t_cmd *curr, char *command)
 	int				result;
 
 	i = 0;
-	curr->index = 0;
 	while (command[i] && !is_command_end(command[i]))
 	{
 		if (is_space(command[i]))
@@ -110,30 +81,10 @@ static int			split_command(t_cmd *curr, char *command)
 	return (i);
 }
 
-void				add_new_cmd(t_cmd *curr)
+int					return_error(t_cmd *curr)
 {
-	t_cmd			*new;
-
-	new = malloc(sizeof(t_cmd));
-	if (!new)
-		exit_shell();
-	ft_memset(new, 0, sizeof(t_cmd));
-	new->prev = curr;
-	new->fd_out = 1;
-	curr->next = new;
-}
-
-t_cmd				*init_cmd(void)
-{
-	t_cmd			*curr;
-
-	g_data.cmd_head->next = malloc(sizeof(t_cmd));
-	if (!g_data.cmd_head->next)
-		exit_shell();
-	curr = g_data.cmd_head->next;
-	ft_memset(curr, 0, sizeof(t_cmd));
-	curr->fd_out = 1;
-	return (curr);
+	curr->argv[curr->index] = NULL;
+	return (0);
 }
 
 int					parse_command(char *command)
@@ -146,16 +97,10 @@ int					parse_command(char *command)
 	i = 0;
 	while (command[i] != '\0')
 	{
-		curr->argc = count_words(command + i);
-		curr->argv = malloc(sizeof(char *) * (curr->argc + 1));
-		if (!curr->argv)
-			exit_shell();
+		init_argv(curr, command, i);
 		result = split_command(curr, command + i);
 		if (result < 0)
-		{
-			curr->argv[curr->index] = NULL;
-			return (0);
-		}
+			return (return_error(curr));
 		i += result;
 		if (command[i] == '|')
 		{
