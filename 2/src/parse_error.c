@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:42:47 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/22 12:37:45 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/22 14:04:43 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int			handle_syntax_error(char *filename)
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n",
 		filename);
+		return (1);
+	}
+	else if (filename[0] == '`')
+	{
+		printf("minishell: syntax error near unexpected token %s\n", filename);
 		return (1);
 	}
 	return (0);
@@ -86,7 +91,10 @@ int			check_command_error(char **argv, char *command, int i)
 	else if (command[i] == '|')
 	{
 		if (check_redirection_error(argv) || check_pipe_error(command, i))
+		{
+			g_data.return_value = 258;
 			return (1);
+		}
 	}
 	return (0);
 }
