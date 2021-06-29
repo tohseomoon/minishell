@@ -1,2 +1,2 @@
-#gcc src/*.c -I. -g3 -fsanitize=address -lreadline
-gcc src/*.c -I. -lncurses
+gcc src/*.c -I. -g3 -fsanitize=address -lncurses
+#gcc src/*.c -I. -lncurses

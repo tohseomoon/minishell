@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 11:01:42 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 12:22:07 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int				main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		show_prompt(&g_data);
-
 		if (parce_token() == -1)
 		{
 			free_token();

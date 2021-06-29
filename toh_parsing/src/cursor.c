@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 08:38:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 11:09:39 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 12:51:58 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,54 @@ void		init_cursor(t_data *g)
 	set_cursor(&g->start.col, &g->start.row);
 }
 
-void handle_keycode(t_data *g, int keycode)
+int			ft_isprint(int c)
+{
+	if (c >= 32 && c < 127)
+		return (1);
+	return (0);
+}
+
+char		*add_char_to_str(char *str, char c)
+{
+	int		i;
+	char	*result;
+
+	if (!str)
+	{
+		result = malloc(sizeof(char) * 2);
+		result[0] = c;
+		result[1] = '\0';
+	}
+	else
+	{
+		result = malloc(sizeof(char) * (ft_strlen(str) + 2));
+		if (!result)
+			return (NULL);
+		i = 0;
+		while (str[i])
+		{
+			result[i] = str[i];
+			i++;
+		}
+		result[i++] = c;
+		result[i] = '\0';
+		free(str);
+	}
+	return (result);
+}
+
+void		handle_keycode(t_data *g, int keycode)
 {
 	if (keycode == ARROW_UP)
 		press_up(g);
 	else if (keycode == ARROW_DOWN)
 		press_down(g);
+	else
+	{
+		if (ft_isprint(keycode))
+		{
+			g->command = add_char_to_str(g->command, (char)keycode);
+			write(STDOUT_FILENO, &keycode, 1);
+		}
+	}
 }
