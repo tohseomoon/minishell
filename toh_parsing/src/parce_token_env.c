@@ -40,11 +40,32 @@ static void	make_env_value_str(t_token_util *utils)
 	join_tmp_str(utils, value);
 }
 
-void		env_str(t_token_util *utils)
+void		quote_env_str(t_token_util *utils)
 {
 	make_tmp_str(utils);
 	(utils->str)++;
 	if (*(utils->str) == ' ' || *(utils->str) == 0 || *(utils->str) == '|' || *(utils->str) == ';' || is_quotes(*(utils->str)))
+		join_tmp_str(utils, ft_strdup("$"));
+	else if (*(utils->str) == '$')
+	{
+		join_tmp_str(utils, ft_itoa(getpid()));
+		utils->str++;
+	}
+	else if (*(utils->str) == '?')
+	{
+		join_tmp_str(utils, ft_itoa(g_data.return_value));
+		utils->str++;
+	}
+	else
+		make_env_value_str(utils);
+	utils->cnt = 0;
+}
+
+void		env_str(t_token_util *utils)
+{
+	make_tmp_str(utils);
+	(utils->str)++;
+	if (*(utils->str) == ' ' || *(utils->str) == 0 || *(utils->str) == '|' || *(utils->str) == ';')
 		join_tmp_str(utils, ft_strdup("$"));
 	else if (*(utils->str) == '$')
 	{

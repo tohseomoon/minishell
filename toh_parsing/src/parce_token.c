@@ -10,10 +10,12 @@ static void	init_token_utils(t_token_util *utils)
 
 static int		free_return(t_token_util *utils)
 {
+
 	if (utils->cmd != 0)
 		free(utils->cmd);
 	if (utils->tmp != 0)
 		free(utils->tmp);
+
 	free(g_data.command);
 	return (-1);
 }
@@ -29,11 +31,13 @@ static int		check_token(t_token_util *utils, int result, int *flag)
 		symbol_str(utils, *(utils->str));
 		utils->str--;
 	}
-	else if (*(utils->str) == '$')
+	else if (*(utils->str) == '$' && ft_strncmp(utils->str, "$PATH:", 6) != 0)
 	{
 		env_str(utils);
 		*flag = 1;
 	}
+	else if (ft_strncmp(utils->str, "$PATH:", 6) == 0)
+		utils->cnt++;
 	if (result == -1)
 		return (-1);
 	return (0);
@@ -42,16 +46,15 @@ static int		check_token(t_token_util *utils, int result, int *flag)
 int		parce_token(void)
 {
 	t_token_util	utils;
-	int				check;
 	int				flag;
 
+	if (g_data.command == 0)
+		return (-1);
 	flag = 0;
-	check = 0;
 	init_token_utils(&utils);
 	while (*(utils.str))
 	{
-		check = check_token(&utils, 0, &flag);
-		if (check == -1)
+		if(check_token(&utils, 0, &flag) == -1)
 			return (free_return(&utils));
 		if (*(utils.str) == 0)
 			break ;

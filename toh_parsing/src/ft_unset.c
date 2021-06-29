@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:11:12 by toh               #+#    #+#             */
-/*   Updated: 2021/06/23 21:19:54 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 18:31:54 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		remove_env(t_env *curr)
 
 static int		check_keys(char **keys, int i)
 {
-	if (!key_isallowed(keys[i]))
+	if (!key_isallowed(keys[i]) || ft_strchr(keys[i], '='))
 	{
 		printf("minishell: unset: `%s': not a valid identifier\n",
 				keys[i]);

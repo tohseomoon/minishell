@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 12:22:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/29 19:44:22 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ int				main(int argc, char **argv, char **envp)
 		if (parce_token() == -1)
 		{
 			free_token();
+			g_data.command = 0;
 			continue ;
 		}
 		if (parce_cmd() == -1)
 		{
 			free_token();
 			free_cmd_list();
+			g_data.command = 0;
 			continue ;
 		}
 		execute_command(envp);

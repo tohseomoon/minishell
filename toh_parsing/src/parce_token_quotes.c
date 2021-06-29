@@ -66,7 +66,7 @@ static int		double_quote_str(t_token_util *utils, char quote, char **quote_str)
 		}
 		if (*(utils->str) == '$' && *((utils->str) - 1) != '\\')
 		{
-			env_str(utils);
+			quote_env_str(utils);
 			(utils->str)--;
 			(utils->cnt)--;
 		}

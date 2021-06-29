@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 11:13:25 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 18:39:12 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int					check_token_error(t_token *token);
 int					parce_cmd(void);
 
 char				*change_env_str(char *str);
+void				quote_env_str(t_token_util *utils);
 void				env_str(t_token_util *utils);
 
 void				make_tmp_str(t_token_util *utils);
