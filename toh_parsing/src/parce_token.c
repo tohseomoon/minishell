@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	init_token_utils(t_token_util *utils)
+static void	init_token_utils(t_token_util *utils)
 {
 	utils->str = g_data.command;
 	utils->cmd = 0;
@@ -8,7 +8,7 @@ void	init_token_utils(t_token_util *utils)
 	utils->tmp = 0;
 }
 
-int		free_return(t_token_util *utils)
+static int		free_return(t_token_util *utils)
 {
 	if (utils->cmd != 0)
 		free(utils->cmd);
@@ -18,7 +18,7 @@ int		free_return(t_token_util *utils)
 	return (-1);
 }
 
-int		check_token(t_token_util *utils, int result, int *flag)
+static int		check_token(t_token_util *utils, int result, int *flag)
 {
 	if (is_quotes(*(utils->str)))
 		result = quote_str(utils, *(utils->str));

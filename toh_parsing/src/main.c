@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/28 14:22:46 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 11:01:42 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,7 @@ void			exit_shell(void)
 	exit(1);
 }
 
-void			print_command(void)
-{
-	int			i;
-	t_cmd		*curr;
-
-	i = 0;
-	curr = g_data.cmd_head->next;
-	while (curr)
-	{
-		i = 0;
-		while (i < curr->argc)
-		{
-			printf("argv[%d]: %s\n", i, curr->argv[i]);
-			i++;
-		}
-		curr = curr->next;
-	}
-}
-
-void			init(char **envp)
+void			init_data(char **envp)
 {
 	ft_memset(&g_data, 0, sizeof(t_data));
 	g_data.cmd_head = malloc(sizeof(t_cmd));
@@ -49,24 +30,25 @@ void			init(char **envp)
 	if (!g_data.cmd_head || !g_data.env_head || !g_data.token_head)
 		exit_shell();
 	parse_env(envp);
+	g_data.home = change_env_str("HOME");
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
+	tcgetattr(STDIN_FILENO, &g_data.term.save_term);
 }
 
-static int		check_command(char *command)
+void			show_prompt(t_data *g)
 {
-	if (!command)
+	init_term(&g->term);
+	while (1)
 	{
-		printf("exit\n");
-		free_all();
-		exit(g_data.return_value);
+		write(STDOUT_FILENO, "[minishell]$ ", 13);
+		if (main_term(g) == 0)
+		{
+			reset_history(g);
+			break ;
+		}
 	}
-	else if (ft_strlen(command) == 0)
-	{
-		free(command);
-		return (1);
-	}
-	return (0);
+	tcsetattr(STDIN_FILENO, TCSANOW, &g->term.save_term);
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -75,13 +57,11 @@ int				main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1] != 0)
 		return (1);
-	init(envp);
+	init_data(envp);
 	while (1)
 	{
-		g_data.command = readline("[minishell]$ ");
-		if (check_command(g_data.command))
-			continue ;
-		add_history(g_data.command);
+		show_prompt(&g_data);
+
 		if (parce_token() == -1)
 		{
 			free_token();

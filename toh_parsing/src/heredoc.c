@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:44:26 by toh               #+#    #+#             */
-/*   Updated: 2021/06/17 15:35:05 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 10:33:19 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	heredoc(t_cmd *curr, int i, int fd)
 	char	*line;
 	int		tmp;
 
-	while ((line = readline("> ")))
+	while (get_next_line(0, &line))
 	{
+		write(1, "> ", 2);
 		tmp = ft_strcmp(line, curr->argv[i + 1]);
 		if (tmp == 0)
 			break ;

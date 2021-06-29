@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 21:15:58 by toh               #+#    #+#             */
-/*   Updated: 2021/06/28 13:49:05 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 11:04:25 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,33 @@ char		*ft_itoa(int n)
 		len--;
 	}
 	return (nbr);
+}
+
+int	ft_putchar(int c)
+{
+	return (write(1, &c, 1));
+}
+
+int		ft_isdigit(int c)
+{
+	if ('0' <= c && c <= '9')
+		return (1);
+	return (0);
+}
+
+int		ft_strchr_index(const char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] != (unsigned char)c)
+	{
+		if (s[i] == 0)
+			return (0);
+		i++;
+	}
+	i++;
+	return (i);
 }
 
 void	print_cmd(void)

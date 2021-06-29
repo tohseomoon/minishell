@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/28 14:21:33 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 11:13:25 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <fcntl.h>
 # include <dirent.h>
 # include <errno.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <stdio.h>
+# include <sys/ioctl.h>
+# include <termios.h>
+# include <termcap.h>
+# include <term.h>
+# include <curses.h>
 
 # define S_QUOTE '\''
 # define D_QUOTE '\"'
 # define B_QUOTE '`'
 # define ESCAPE  '\\'
+# define COL	0
+# define ROW	1
+# define BUFFER_SIZE 1024
+# define ARROW_UP 4283163
+# define ARROW_DOWN 4348699
 
 typedef struct		s_env
 {
@@ -69,16 +77,45 @@ typedef struct		s_cmd
 	struct s_cmd	*prev;
 }					t_cmd;
 
+typedef struct			s_term
+{
+	struct termios		new_term;
+	struct termios		save_term;
+	char				*cm;
+	char				*ce;
+}						t_term;
+
+typedef struct		s_pos
+{
+	int				col;
+	int				row;
+}					t_pos;
+
+typedef struct		s_hist
+{
+	char			*command;
+	int				flag;
+	struct s_hist	*prev;
+	struct s_hist	*next;
+}					t_hist;
+
 typedef struct		s_data
 {
+	char			*command;
 	struct s_cmd	*cmd_head;
 	struct s_env	*env_head;
 	struct s_token	*token_head;
 	char			**path;
 	char			**env;
-	char			*command;
+	char			*home;
 	int				return_value;
 	int				running;
+	t_pos			curr;
+	t_pos			start;
+	t_pos			max;
+	t_hist			*h_head;
+	int				h_flag;
+	t_term			term;
 }					t_data;
 
 t_data				g_data;
@@ -89,6 +126,7 @@ void				execute_command(char **envp);
 int					find_cmd_path(t_cmd *curr);
 int					find_cmd_absolute_path(t_cmd *curr);
 
+void				free_token(void);
 void				free_cmd_list(void);
 void				free_all(void);
 void				free_path(void);
@@ -121,41 +159,35 @@ void				heredoc_cmd(t_cmd *curr, int i);
 
 void				exit_shell(void);
 
-int					is_space(char c);
-int					is_seperator(char c);
-int					is_command_end(char c);
-int					is_symbol(char c);
-int					is_operator(char c);
-int					is_letter(char c);
-int					get_command_len(char *command);
-int					init_argv(t_cmd *curr, char *command, int i);
-void				add_new_cmd(t_cmd *curr);
-t_cmd				*init_cmd(void);
+int					check_redirection_token_error(t_token *token);
+int					check_token_error(t_token *token);
+
+int					parce_cmd(void);
+
+char				*change_env_str(char *str);
+void				env_str(t_token_util *utils);
+
+void				make_tmp_str(t_token_util *utils);
+void				join_tmp_str(t_token_util *utils, char *str);
+void				check_join_cmd(t_token_util *utils);
+void				nomal_str(t_token_util *utils);
+
+int					quote_str(t_token_util *utils, char quote);
+
+void				symbol_str(t_token_util *utils, char symbol);
+
+t_token				*new_token(char *str, int flag);
+int					is_pass_char(char c);
+int					is_symbols(char c);
+int					is_quotes(char c);
+
+int					parce_token(void);
 
 int					parse_env(char **env);
 char				*find_key(char *str);
 char				*find_value(char *str);
 
-int					handle_syntax_error(char *filename);
-int					handle_parse_error(int quote);
-int					check_redirection_error(char **argv);
-int					check_pipe_error(char *command, int i);
-int					check_command_error(char **argv, char *command, int i);
-
 char				**parse_path(void);
-
-int					check_remain_charactor_after_quote(t_cmd *curr,
-		char *command);
-int					handle_escape(t_cmd *curr, char *command, int quote);
-int					handle_single_quote(t_cmd *curr, char *command);
-int					handle_double_quote(t_cmd *curr, char *command);
-int					handle_quote(t_cmd *curr, char *command, int i);
-int					check_remain_character(t_cmd *curr, char *command);
-
-int					handle_symbol(t_cmd *curr, char *command);
-
-int					push_arg(t_cmd *curr, char *command);
-int					parse_command(char *command, t_cmd *curr);
 
 void				del_redirections(t_cmd *curr);
 
@@ -182,40 +214,28 @@ int					ft_isalnum(int c);
 
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_itoa(int n);
-char				*ft_strtrim(char *str);
+int					ft_putchar(int c);
 
 char				*ft_strjoin_free_s1(char **s1, char *s2);
 int					ft_strchr_index(const char *s, int c);
 char				**ft_split(char const *s, char c);
 
+void				init_term(t_term *term);
+int					main_term(t_data *g);
+
+int					get_next_line(int fd, char **line);
+int					ft_isdigit(int c);
+int					ft_atoi(const char *str);
+void				set_cursor(int *col, int *row);
+t_hist				*push_front_history(char *command, t_hist *old_head, int flag);
+void				handle_keycode(t_data *g, int keycode);
+void				press_up(t_data *g);
+void				press_down(t_data *g);
+void				reset_history(t_data *g);
+
+
 //임시임시
 void	print_cmd(void);
-void	is_continuous_quotes(char *command, int *i);
-//토큰토큰
 void	print_token(void);
-int		parce_token(void);
-void		env_str(t_token_util *utils);
-void		make_env_str(t_token_util *utils, char *str);
-char		*change_env_str(char *str);
-void		symbol_str(t_token_util *utils, char symbol);
-void	init_token_utils(t_token_util *utils);
-int		quote_str(t_token_util *utils, char quote);
-void	nomal_str(t_token_util *utils);
-void	check_join_cmd(t_token_util *utils);
-t_token	*new_token(char *str, int flag);
-int			handle_quotes_error(int quote);
-int			is_pass_char(char c);
-int			is_symbols(char c);
-int			is_quotes(char c);
-void	free_token(void);
-
-//cmd
-int		check_redirection_token_error(t_token *token);
-int		check_token_error(t_token *token);
-
-void		join_tmp_str(t_token_util *utils, char *str);
-void	make_tmp_str(t_token_util *utils);
-
-int		parce_cmd(void);
 
 #endif

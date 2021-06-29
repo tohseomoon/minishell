@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-int		check_token_error_msg(char *str)
+static int		check_token_error_msg(char *str)
 {
 	g_data.return_value = 258;
 	printf("minishell: syntax error near unexpected token `%s'\n", str);
 	return (0);
 }
 
-int		check_next_token_error(char *str, int flag)
+static int		check_next_token_error(char *str, int flag)
 {
 	int		len;
 

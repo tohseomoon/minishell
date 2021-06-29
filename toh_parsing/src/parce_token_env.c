@@ -19,7 +19,7 @@ char		*change_env_str(char *str)
 	return (value);
 }
 
-void	make_env_value_str(t_token_util *utils)
+static void	make_env_value_str(t_token_util *utils)
 {
 	char	*value;
 	char	*key;

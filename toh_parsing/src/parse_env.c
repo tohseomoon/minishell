@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:39:21 by toh               #+#    #+#             */
-/*   Updated: 2021/06/21 11:15:16 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/28 16:48:42 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				parse_env(char **envp)
 	{
 		tmp = (t_env *)malloc(sizeof(t_env));
 		if (tmp == 0)
-			printf("alloccata");
+			exit_shell();
 		tmp->equal = 1;
 		tmp->next = 0;
 		i = check_oldpwd(tmp, i, envp);

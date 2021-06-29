@@ -34,7 +34,10 @@ t_token	*new_token(char *str, int flag)
 	if (tmp == 0)
 		exit_shell();
 	ft_memset(tmp, 0, sizeof(t_token));
-	tmp->str = ft_strdup(str);
+	if (!ft_strcmp(str, "~"))
+		tmp->str = ft_strdup(g_data.home);
+	else
+		tmp->str = ft_strdup(str);
 	tmp->flag = flag;
 	tmp->next = 0;
 	tmp->prev = curr;
