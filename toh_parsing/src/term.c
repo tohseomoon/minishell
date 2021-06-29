@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 06:31:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 11:02:18 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/29 13:01:38 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,13 @@ int				main_term(t_data *g)
 	keycode = 0;
 	while (read(STDIN_FILENO, &keycode, sizeof(int)) > 0)
 	{
-		handle_keycode(g, keycode);
+		if (keycode == '\n')
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			return (0);
+		}
+		else
+			handle_keycode(g, keycode);
 		keycode = 0;
 	}
 	return (0);
