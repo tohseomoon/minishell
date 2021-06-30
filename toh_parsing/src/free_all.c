@@ -6,13 +6,13 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 20:40:44 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/28 16:50:33 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 13:34:49 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_token(void)
+void			free_token(void)
 {
 	t_token *curr;
 	t_token *tmp;

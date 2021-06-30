@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_cmd_token_error.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 13:43:56 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:43:57 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int		check_token_error_msg(char *str)
@@ -9,7 +21,7 @@ static int		check_token_error_msg(char *str)
 
 static int		check_next_token_error(char *str, int flag)
 {
-	int		len;
+	int			len;
 
 	len = ft_strlen(str);
 	if (str[0] == '>' && len > 1 && flag == 1)
@@ -31,9 +43,9 @@ static int		check_next_token_error(char *str, int flag)
 	return (1);
 }
 
-int		check_redirection_token_error(t_token *token)
+int				check_redirection_token_error(t_token *token)
 {
-	int		len;
+	int			len;
 
 	len = ft_strlen(token->str);
 	if (token->str[0] == '>' && len > 3)
@@ -51,12 +63,12 @@ int		check_redirection_token_error(t_token *token)
 	return (1);
 }
 
-int		check_prev_token_error(t_token *token, int len)
+int				check_prev_token_error(t_token *token, int len)
 {
 	if (token->str[0] == '|' && len == 1 && token->prev == 0)
 		return (check_token_error_msg("|"));
 	else if (token->str[0] == '|' && len > 1 && token->prev == 0)
-		return (check_token_error_msg("||"));	
+		return (check_token_error_msg("||"));
 	else if (token->str[0] == ';' && len == 1 && token->prev == 0)
 		return (check_token_error_msg(";"));
 	else if (token->str[0] == ';' && len > 1 && token->prev == 0)
@@ -64,9 +76,9 @@ int		check_prev_token_error(t_token *token, int len)
 	return (1);
 }
 
-int		check_token_error(t_token *token)
+int				check_token_error(t_token *token)
 {
-	int		len;
+	int			len;
 
 	len = ft_strlen(token->str);
 	if (token->prev == 0)

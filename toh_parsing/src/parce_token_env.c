@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_token_env.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 13:41:34 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:41:36 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char		*change_env_str(char *str)
@@ -23,10 +35,11 @@ static void	make_env_value_str(t_token_util *utils)
 {
 	char	*value;
 	char	*key;
-	
+
 	key = 0;
 	value = 0;
-	while (*(utils->str) && *(utils->str) != ' ' && *(utils->str) != '$' && *(utils->str) != '/' && !is_quotes(*(utils->str)))
+	while (*(utils->str) && *(utils->str) != ' ' && *(utils->str) != '$'
+	&& *(utils->str) != '/' && !is_quotes(*(utils->str)))
 	{
 		(utils->str)++;
 		(utils->cnt)++;
@@ -44,7 +57,8 @@ void		quote_env_str(t_token_util *utils)
 {
 	make_tmp_str(utils);
 	(utils->str)++;
-	if (*(utils->str) == ' ' || *(utils->str) == 0 || *(utils->str) == '|' || *(utils->str) == ';' || is_quotes(*(utils->str)))
+	if (*(utils->str) == ' ' || *(utils->str) == 0 ||
+	*(utils->str) == '|' || *(utils->str) == ';' || is_quotes(*(utils->str)))
 		join_tmp_str(utils, ft_strdup("$"));
 	else if (*(utils->str) == '$')
 	{
@@ -65,7 +79,8 @@ void		env_str(t_token_util *utils)
 {
 	make_tmp_str(utils);
 	(utils->str)++;
-	if (*(utils->str) == ' ' || *(utils->str) == 0 || *(utils->str) == '|' || *(utils->str) == ';')
+	if (*(utils->str) == ' ' || *(utils->str) == 0 ||
+	*(utils->str) == '|' || *(utils->str) == ';')
 		join_tmp_str(utils, ft_strdup("$"));
 	else if (*(utils->str) == '$')
 	{

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:43:42 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 13:49:59 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,9 @@ void				ft_echo(t_cmd *curr);
 
 void				ft_env(t_cmd *cmd);
 
-void				ft_exit(t_cmd *curr);
+int					exit_print_return_msg(t_cmd *curr, int *exit_flag);
+
+void				ft_exit(t_cmd *curr, int flag);
 
 char				**arr_env_string(void);
 void				print_sort_env(void);

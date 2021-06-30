@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 12:55:52 by toh               #+#    #+#             */
-/*   Updated: 2021/06/23 23:57:45 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 13:35:12 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,76 +28,20 @@ static int					ft_is_exit_num(char *str)
 	return (1);
 }
 
-static unsigned long long	creat_ull_number(char *str, int *minus)
+void						run_exit(int flag, int num)
 {
-	unsigned long long	num;
-	int					i;
-
-	i = 0;
-	num = 0;
-	*minus = 0;
-	if (str[0] == '+')
-		i++;
-	else if (str[0] == '-')
+	if (flag == 1)
 	{
-		i++;
-		*minus = 1;
+		free_all();
+		exit(num);
 	}
-	while (str[i])
-	{
-		num = num * 10 + str[i] - '0';
-		i++;
-	}
-	return (num);
+	else
+		g_data.return_value = num;
 }
 
-static int					creat_return_value(char *str)
-{
-	unsigned long long	num;
-	int					minus;
-	int					cnt;
-
-	cnt = 0;
-	while (str[cnt])
-		cnt++;
-	if (cnt > 21)
-		return (256);
-	num = creat_ull_number(str, &minus);
-	if (num > 9223372036854775807 && minus == 0)
-		return (256);
-	else if (num - 1 > 9223372036854775807 && minus == 1)
-		return (256);
-	num %= 256;
-	if (minus == 1 && num != 0)
-		num = 256 - num;
-	return (num);
-}
-
-static int					exit_print_return_msg(t_cmd *curr, int *exit_flag)
+void						ft_exit(t_cmd *curr, int flag)
 {
 	int					num;
-
-	num = creat_return_value(curr->argv[1]);
-	*exit_flag = 1;
-	if (num == 256)
-	{
-		printf("minishell: exit: %s: numeric argument required\n",
-				curr->argv[1]);
-		num = 255;
-	}
-	else if (num != 256 && curr->argc > 2)
-	{
-		printf("minishell: exit: too many arguments\n");
-		num = 1;
-		*exit_flag = 0;
-	}
-	return (num);
-}
-
-void						ft_exit(t_cmd *curr)
-{
-	int					num;
-	int					exit_flag;
 
 	if (curr->type == 1)
 		return ;
@@ -105,23 +49,17 @@ void						ft_exit(t_cmd *curr)
 	if (curr->prev == 0 || curr->prev->type == 0)
 		printf("exit\n");
 	if (curr->argc == 1)
-		exit_flag = 1;	
+		flag = 1;
 	else if (ft_is_exit_num(curr->argv[1]))
-		num = exit_print_return_msg(curr, &exit_flag);
+		num = exit_print_return_msg(curr, &flag);
 	else
 	{
 		num = 255;
-		exit_flag = 1;
+		flag = 1;
 		printf("minishell: exit: %s: numeric argument required\n",
 				curr->argv[1]);
 	}
 	if (curr->prev != 0 && curr->prev->type == 1)
-		exit_flag = 0;
-	if (exit_flag == 1)
-	{
-		free_all();
-		exit(num);
-	}
-	else
-		g_data.return_value = num;
+		flag = 0;
+	run_exit(flag, num);
 }

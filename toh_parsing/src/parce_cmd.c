@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_cmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 13:40:35 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:40:36 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void				add_new_cmd(t_cmd *curr)
+static void		add_new_cmd(t_cmd *curr)
 {
-	t_cmd			*new;
+	t_cmd		*new;
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
@@ -15,10 +27,10 @@ static void				add_new_cmd(t_cmd *curr)
 	curr->next = new;
 }
 
-static	void		allocate_argv(t_token *t_curr, t_cmd *c_curr)
+static void		allocate_argv(t_token *t_curr, t_cmd *c_curr)
 {
 	t_token		*start;
-	
+
 	start = t_curr;
 	c_curr->argc = 0;
 	while (start)
@@ -81,7 +93,7 @@ static int		check_cmd(t_token *t_curr, t_cmd *c_curr)
 	return (0);
 }
 
-int		parce_cmd(void)
+int				parce_cmd(void)
 {
 	t_token		*t_curr;
 	t_cmd		*c_curr;
@@ -90,7 +102,7 @@ int		parce_cmd(void)
 	c_curr = g_data.cmd_head;
 	t_curr = g_data.token_head->next;
 	if (check_cmd(t_curr, c_curr) == -1)
-		return (-1);	
+		return (-1);
 	free_token();
 	return (0);
 }

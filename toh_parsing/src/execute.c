@@ -6,39 +6,11 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:01:17 by toh               #+#    #+#             */
-/*   Updated: 2021/06/28 13:03:27 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 13:34:33 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void			check_pipe(t_cmd *curr)
-{
-	if (curr->heredoc == 1)
-	{
-		dup2(curr->heredoc_pipe[0], 0);
-		if (curr->next != 0 && curr->prev == 0)
-			dup2(curr->pipe[1], 1);
-	}
-	else if (curr->type == 1)
-	{
-		if (curr->prev == 0)
-			dup2(curr->pipe[1], 1);
-		else if (curr->prev->type == 0 && curr->next != 0)
-			dup2(curr->pipe[1], 1);
-		else if (curr->next != 0 && curr->prev != 0 && curr->prev->type == 1)
-		{
-			dup2(curr->prev->pipe[0], 0);
-			dup2(curr->pipe[1], 1);
-		}
-	}
-	else if (curr->prev != 0 && curr->prev->type == 1)
-		dup2(curr->prev->pipe[0], 0);
-	if (curr->fd_in != 0 && curr->heredoc != 1)
-		dup2(curr->fd_in, 0);
-	if (curr->fd_out != 1)
-		dup2(curr->fd_out, 1);
-}
 
 static void		execute_cmd_path(t_cmd *curr, char **envp)
 {
@@ -89,16 +61,21 @@ static void		close_file(t_cmd *curr)
 	}
 }
 
+static void		check_errno(void)
+{
+	if (errno == 13)
+		g_data.return_value = 126;
+	else if (errno == 2)
+		g_data.return_value = 1;
+}
+
 static void		check_commad(t_cmd *curr, char **envp, int i)
 {
 	i = 0;
 	if ((i = redirection_open_file(curr)) > 0)
 	{
 		printf("minishell: %s: %s\n", curr->argv[i], strerror(errno));
-		if (errno == 13)
-			g_data.return_value = 126;
-		else if (errno == 2)
-			g_data.return_value = 1;
+		check_errno();
 	}
 	else if (curr->argc == 0)
 		return ;
