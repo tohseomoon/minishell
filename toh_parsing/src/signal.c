@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:16:18 by toh               #+#    #+#             */
-/*   Updated: 2021/06/28 14:23:43 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 13:37:05 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void	handler(int signo)
 		}
 		else
 		{
-			g_data.return_value = 1;
 			write(1, "\n[minishell]$ ", 14);
+			if (g_data.command)
+				free(g_data.command);
+			g_data.command = 0;
+			g_data.return_value = 1;
 		}
 	}
 	else if (signo == SIGQUIT)

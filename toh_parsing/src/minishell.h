@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:21:07 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 13:43:42 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define ARROW_UP 4283163
 # define ARROW_DOWN 4348699
 # define BACKSPACE 127
+# define CTRL_D	4
 
 typedef struct		s_env
 {

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 08:38:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:05:44 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 13:44:15 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,22 @@ void		press_backspace(t_data *g)
 	g->command = remove_last_char(g->command);
 }
 
+void		press_eof(t_data *g)
+{
+	if (!g->command)
+	{
+		printf("exit\n");
+		tcsetattr(STDIN_FILENO, TCSANOW, &g->term.save_term);
+		exit(0);
+	}
+}
+
 void		handle_keycode(t_data *g, int keycode)
 {
 	if (keycode == BACKSPACE)
 		press_backspace(g);
+	else if (keycode == CTRL_D)
+		press_eof(g);
 	else if (keycode == ARROW_UP)
 		press_up(g);
 	else if (keycode == ARROW_DOWN)
