@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:49:59 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 14:04:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ typedef struct		s_cmd
 	struct s_cmd	*prev;
 }					t_cmd;
 
-typedef struct			s_term
+typedef struct		s_term
 {
-	struct termios		new_term;
-	struct termios		save_term;
-	char				*cm;
-	char				*ce;
-}						t_term;
+	struct termios	new_term;
+	struct termios	save_term;
+	char			*cm;
+	char			*ce;
+}					t_term;
 
 typedef struct		s_pos
 {
@@ -233,16 +233,16 @@ int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
 void				init_cursor(t_data *g);
 void				set_cursor(int *col, int *row);
-t_hist				*push_front_history(char *command, t_hist *old_head, int flag);
+t_hist				*push_front_history(\
+						char *command, t_hist *old_head, int flag);
 void				handle_keycode(t_data *g, int keycode);
 void				press_up(t_data *g);
 void				press_down(t_data *g);
 void				save_history(t_data *g);
 void				reset_history(t_data *g);
 
-
 //임시임시
-void	print_cmd(void);
-void	print_token(void);
+void				print_cmd(void);
+void				print_token(void);
 
 #endif

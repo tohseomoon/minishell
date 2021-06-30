@@ -6,7 +6,7 @@
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 04:48:23 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:27:45 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 14:05:11 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ void		reset_history(t_data *g)
 
 	if (g->h_head == 0)
 		return ;
-	while (g->h_head->prev) //head를 list 맨 앞으로 이동시키기
+	while (g->h_head->prev)
 		g->h_head = g->h_head->prev;
 	tmp = g->h_head->next;
-	if (g->h_head->flag == 0) //flag == 0일 때는 history free
+	if (g->h_head->flag == 0)
 	{
 		remove_history(g->h_head);
 		g->h_head = tmp;
 	}
-	g->h_flag = 0; //h_flag ?
+	g->h_flag = 0;
 }
 
-t_hist	*push_front_history(char *command, t_hist *old_head, int flag)
+t_hist		*push_front_history(char *command, t_hist *old_head, int flag)
 {
 	t_hist	*new;
 

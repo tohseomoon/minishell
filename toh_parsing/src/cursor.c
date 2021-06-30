@@ -6,11 +6,31 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 08:38:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:44:15 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 14:15:08 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void		move_cursor(t_data *g)
+{
+	t_pos	pos;
+	int		len;
+
+	if (g->command != 0)
+		len = ft_strlen(g->command);
+	else
+		len = 0;
+	set_cursor(&pos.col, &pos.row);
+	pos.col -= len;
+	if (pos.col < 0)
+	{
+		pos.row--;
+		pos.col = g->max.col + pos.col;
+	}
+	tputs(tgoto(g->term.cm, pos.col, pos.row), 1, ft_putchar);
+	tputs(tgetstr("ce", NULL), 1, ft_putchar);
+}
 
 int			get_nbr_len(int n)
 {
@@ -27,7 +47,7 @@ int			get_nbr_len(int n)
 
 void		get_current_cursor(char buff[255])
 {
-	int		ret;
+	int			ret;
 
 	write(STDIN_FILENO, "\033[6n", 4);
 	ret = read(STDIN_FILENO, buff, 254);
@@ -71,113 +91,4 @@ void		init_cursor(t_data *g)
 	g->max.col = win.ws_col;
 	g->max.row = win.ws_row;
 	set_cursor(&g->start.col, &g->start.row);
-}
-
-int			ft_isprint(int c)
-{
-	if (c >= 32 && c < 127)
-		return (1);
-	return (0);
-}
-
-char		*add_char_to_str(char *str, char c)
-{
-	int		i;
-	char	*result;
-
-	if (!str)
-	{
-		result = malloc(sizeof(char) * 2);
-		result[0] = c;
-		result[1] = '\0';
-	}
-	else
-	{
-		result = malloc(sizeof(char) * (ft_strlen(str) + 2));
-		if (!result)
-			return (NULL);
-		i = 0;
-		while (str[i])
-		{
-			result[i] = str[i];
-			i++;
-		}
-		result[i++] = c;
-		result[i] = '\0';
-		free(str);
-	}
-	return (result);
-}
-
-char		*remove_last_char(char *str)
-{
-	int		i;
-	int		len;
-	char	*result;
-
-	if (!str || ft_strlen(str) == 0)
-		return (NULL);
-	len = ft_strlen(str);
-	if (!(result = malloc(sizeof(char) * (len + 1))))
-		exit_shell();
-	i = 0;
-	while (i < len - 1)
-	{
-		result[i] = str[i];
-		i++;
-	}
-	result[len - 1] = '\0';
-	free(str);
-	return (result);
-}
-
-void		press_backspace(t_data *g)
-{
-	int		col;
-	int		row;
-
-	set_cursor(&col, &row);
-	//command가 없거나 커서가 start 지점에 있을 때
-	if (!g->command || (g->start.row >= row && g->start.col >= col))
-		return ;
-	col--;
-	//줄바꿈 (필요한가?)
-	if (col < 0)
-	{
-		row--;
-		col = g->max.col;
-	}
-	tputs(tgoto(g->term.cm, col, row), 1, ft_putchar);
-	tputs(g->term.ce, 1, ft_putchar);
-	g->command = remove_last_char(g->command);
-}
-
-void		press_eof(t_data *g)
-{
-	if (!g->command)
-	{
-		printf("exit\n");
-		tcsetattr(STDIN_FILENO, TCSANOW, &g->term.save_term);
-		exit(0);
-	}
-}
-
-void		handle_keycode(t_data *g, int keycode)
-{
-	if (keycode == BACKSPACE)
-		press_backspace(g);
-	else if (keycode == CTRL_D)
-		press_eof(g);
-	else if (keycode == ARROW_UP)
-		press_up(g);
-	else if (keycode == ARROW_DOWN)
-		press_down(g);
-	else
-	{
-		if (ft_isprint(keycode))
-		{
-			g->command = add_char_to_str(g->command, (char)keycode);
-			write(STDOUT_FILENO, &keycode, 1);
-		}
-	}
 }

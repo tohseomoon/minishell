@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 13:41:05 by toh               #+#    #+#             */
-/*   Updated: 2021/06/30 13:47:25 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 14:02:22 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int					parce_token(void)
 	nomal_str(&utils);
 	free(g_data.command);
 	if (g_data.token_head->next == 0)
-	return (-1);
+		return (-1);
 	return (0);
 }

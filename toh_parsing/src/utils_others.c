@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 21:15:58 by toh               #+#    #+#             */
-/*   Updated: 2021/06/30 13:39:21 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 14:00:35 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		*ft_memset(void *b, int c, size_t len)
 
 int			get_len(long n)
 {
-	int	len;
+	int		len;
 
 	len = 0;
 	if (n == 0)
@@ -73,17 +73,11 @@ char		*ft_itoa(int n)
 	return (nbr);
 }
 
-int	ft_putchar(int c)
+void		print_cmd(void)
 {
-	return (write(1, &c, 1));
-}
-
-
-void	print_cmd(void)
-{
-	t_cmd 	*curr;
+	t_cmd	*curr;
 	int		i;
-	
+
 	curr = g_data.cmd_head->next;
 	while (curr)
 	{
@@ -110,10 +104,10 @@ void	print_cmd(void)
 	}
 }
 
-void	print_token(void)
+void		print_token(void)
 {
 	t_token *curr;
-	
+
 	curr = g_data.token_head->next;
 	while (curr)
 	{

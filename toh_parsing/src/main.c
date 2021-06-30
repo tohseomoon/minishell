@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 13:57:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 13:20:29 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 14:13:28 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ void			init_data(char **envp)
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	tcgetattr(STDIN_FILENO, &g_data.term.save_term);
-}
-
-void			show_prompt(t_data *g)
-{
-	init_term(&g->term);
-	while (1)
-	{
-		write(STDOUT_FILENO, "[minishell]$ ", 13);
-		if (main_term(g) == 0)
-		{
-			reset_history(g);
-			break ;
-		}
-	}
-	tcsetattr(STDIN_FILENO, TCSANOW, &g->term.save_term);
-	save_history(&g_data);
 }
 
 int				main(int argc, char **argv, char **envp)
