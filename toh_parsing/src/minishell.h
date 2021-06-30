@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 12:50:51 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 13:21:07 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,7 @@ t_hist				*push_front_history(char *command, t_hist *old_head, int flag);
 void				handle_keycode(t_data *g, int keycode);
 void				press_up(t_data *g);
 void				press_down(t_data *g);
+void				save_history(t_data *g);
 void				reset_history(t_data *g);
 
 

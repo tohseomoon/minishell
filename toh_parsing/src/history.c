@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_history.c                                   :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seomoon <seomoon@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 04:48:23 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/23 06:57:52 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 13:27:45 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_hist	*push_front_history(char *command, t_hist *old_head, int flag)
 	new->prev = NULL;
 	new->next = old_head;
 	new->flag = flag;
-	if (old_head == NULL)
+	if (old_head != NULL)
 		old_head->prev = new;
 	return (new);
 }
