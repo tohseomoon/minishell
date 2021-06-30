@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 08:38:45 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 18:16:12 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 12:37:56 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,54 @@ char		*add_char_to_str(char *str, char c)
 	return (result);
 }
 
+char		*remove_last_char(char *str)
+{
+	int		i;
+	int		len;
+	char	*result;
+
+	if (!str || ft_strlen(str) == 0)
+		return (NULL);
+	len = ft_strlen(str);
+	if (!(result = malloc(sizeof(char) * (len + 1))))
+		exit_shell();
+	i = 0;
+	while (i < len - 1)
+	{
+		result[i] = str[i];
+		i++;
+	}
+	result[len - 1] = '\0';
+	free(str);
+	return (result);
+}
+
+void		press_backspace(t_data *g)
+{
+	int		col;
+	int		row;
+
+	set_cursor(&col, &row);
+	//command가 없거나 커서가 start 지점에 있을 때
+	if (!g->command || (g->start.row >= row && g->start.col >= col))
+		return ;
+	col--;
+	//줄바꿈 (필요한가?)
+	if (col < 0)
+	{
+		row--;
+		col = g->max.col;
+	}
+	tputs(tgoto(g->term.cm, col, row), 1, ft_putchar);
+	tputs(g->term.ce, 1, ft_putchar);
+	g->command = remove_last_char(g->command);
+}
+
 void		handle_keycode(t_data *g, int keycode)
 {
-	if (keycode == ARROW_UP)
+	if (keycode == BACKSPACE)
+		press_backspace(g);
+	else if (keycode == ARROW_UP)
 		press_up(g);
 	else if (keycode == ARROW_DOWN)
 		press_down(g);

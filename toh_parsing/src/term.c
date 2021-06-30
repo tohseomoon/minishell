@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 06:31:28 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 13:01:38 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 12:51:03 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				main_term(t_data *g)
 {
 	int			keycode;
 
+	init_cursor(g);
 	set_cursor(&g->curr.col, &g->curr.row);
 	keycode = 0;
 	while (read(STDIN_FILENO, &keycode, sizeof(int)) > 0)

@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/29 18:39:12 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 12:50:51 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define BUFFER_SIZE 1024
 # define ARROW_UP 4283163
 # define ARROW_DOWN 4348699
+# define BACKSPACE 127
 
 typedef struct		s_env
 {
@@ -227,6 +228,7 @@ int					main_term(t_data *g);
 int					get_next_line(int fd, char **line);
 int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
+void				init_cursor(t_data *g);
 void				set_cursor(int *col, int *row);
 t_hist				*push_front_history(char *command, t_hist *old_head, int flag);
 void				handle_keycode(t_data *g, int keycode);
