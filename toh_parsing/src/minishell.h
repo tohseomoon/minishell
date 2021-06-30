@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 20:28:55 by seomoon           #+#    #+#             */
-/*   Updated: 2021/06/30 14:04:03 by seomoon          ###   ########.fr       */
+/*   Updated: 2021/06/30 14:55:21 by seomoon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void				builtin_cmd(t_cmd *curr);
 
 void				handler(int signo);
 
+int					get_next_line(int fd, char **line);
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dest, const char *src, size_t destsize);
 char				*ft_strdup(const char *s1);
@@ -225,12 +226,15 @@ char				*ft_strjoin_free_s1(char **s1, char *s2);
 int					ft_strchr_index(const char *s, int c);
 char				**ft_split(char const *s, char c);
 
+void				clear_prompt(t_data *g);
+void				show_prompt(t_data *g);
+
 void				init_term(t_term *term);
 int					main_term(t_data *g);
 
-int					get_next_line(int fd, char **line);
 int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
+void				move_cursor(t_data *g);
 void				init_cursor(t_data *g);
 void				set_cursor(int *col, int *row);
 t_hist				*push_front_history(\
@@ -238,6 +242,9 @@ t_hist				*push_front_history(\
 void				handle_keycode(t_data *g, int keycode);
 void				press_up(t_data *g);
 void				press_down(t_data *g);
+int					ft_isprint(int c);
+char				*add_char_to_str(char *str, char c);
+char				*remove_last_char(char *str);
 void				save_history(t_data *g);
 void				reset_history(t_data *g);
 
