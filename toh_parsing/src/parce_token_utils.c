@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_token_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 13:40:46 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:40:47 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int			is_quotes(char c)
@@ -21,13 +33,12 @@ int			is_pass_char(char c)
 	return (0);
 }
 
-t_token	*new_token(char *str, int flag)
+t_token		*new_token(char *str, int flag)
 {
-	t_token *tmp;
-	t_token *curr;
-	
-	curr = g_data.token_head;
+	t_token		*tmp;
+	t_token		*curr;
 
+	curr = g_data.token_head;
 	while (curr->next)
 		curr = curr->next;
 	tmp = malloc(sizeof(t_token));

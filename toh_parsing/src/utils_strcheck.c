@@ -6,7 +6,7 @@
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 21:15:53 by toh               #+#    #+#             */
-/*   Updated: 2021/06/28 14:21:23 by toh              ###   ########.fr       */
+/*   Updated: 2021/06/30 13:39:38 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ char		*ft_strchr(const char *s, int c)
 	return ((char *)(s + i));
 }
 
-int			ft_isalpha(int c)
+int			ft_strchr_index(const char *s, int c)
 {
-	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
-		return (1);
-	return (0);
-}
+	int		i;
 
-int			ft_isalnum(int c)
-{
-	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
-	|| ('0' <= c && c <= '9'))
-		return (1);
-	return (0);
+	i = 0;
+	while (s[i] != (unsigned char)c)
+	{
+		if (s[i] == 0)
+			return (0);
+		i++;
+	}
+	i++;
+	return (i);
 }

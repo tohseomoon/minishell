@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   utils_is_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 14:46:23 by toh               #+#    #+#             */
-/*   Updated: 2021/06/30 13:35:22 by toh              ###   ########.fr       */
+/*   Created: 2021/06/30 13:11:44 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:28:45 by toh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(void)
+int			ft_isdigit(int c)
 {
-	char	*buf;
+	if ('0' <= c && c <= '9')
+		return (1);
+	return (0);
+}
 
-	buf = 0;
-	buf = getcwd(buf, 0);
-	if (buf == 0)
-	{
-		printf("getcwd: cannot access parent");
-		printf(" directories: No such file or directory\n");
-	}
-	else
-		printf("%s\n", buf);
-	free(buf);
-	g_data.return_value = 0;
+int			ft_isalpha(int c)
+{
+	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int			ft_isalnum(int c)
+{
+	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
+	|| ('0' <= c && c <= '9'))
+		return (1);
+	return (0);
 }

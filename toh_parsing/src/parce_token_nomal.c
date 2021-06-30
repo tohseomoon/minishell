@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_token_nomal.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toh <toh@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 13:42:56 by toh               #+#    #+#             */
+/*   Updated: 2021/06/30 13:42:57 by toh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void		join_tmp_str(t_token_util *utils, char *str)
@@ -15,7 +27,7 @@ void		join_tmp_str(t_token_util *utils, char *str)
 	}
 }
 
-void	check_join_cmd(t_token_util *utils)
+void		check_join_cmd(t_token_util *utils)
 {
 	if (utils->cmd != 0)
 	{
@@ -31,7 +43,7 @@ void	check_join_cmd(t_token_util *utils)
 	utils->cnt = 0;
 }
 
-void	make_tmp_str(t_token_util *utils)
+void		make_tmp_str(t_token_util *utils)
 {
 	char	*nomal;
 
@@ -49,7 +61,7 @@ void	make_tmp_str(t_token_util *utils)
 	utils->cnt = 0;
 }
 
-void	nomal_str(t_token_util *utils)
+void		nomal_str(t_token_util *utils)
 {
 	make_tmp_str(utils);
 	check_join_cmd(utils);
@@ -57,6 +69,6 @@ void	nomal_str(t_token_util *utils)
 	{
 		new_token(utils->cmd, 1);
 		free(utils->cmd);
-		utils->cmd = 0;	
+		utils->cmd = 0;
 	}
 }
